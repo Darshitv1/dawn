@@ -1,0 +1,13 @@
+.page-width .my_video_url {
+  width: 100%;
+  height: 500px;
+  border-radius: 10px;
+  margin: 16px 0;
+}
+
+.page-width video {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  margin: 16px 0;
+}

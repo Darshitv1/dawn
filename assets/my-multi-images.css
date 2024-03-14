@@ -1,0 +1,78 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+b,
+i,
+li,
+strong,
+em,
+a,
+link {
+  color: inherit;
+}
+.main {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  position: relative;
+  margin: 16px 0;
+}
+
+.main .main_image_div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 10px;
+}
+
+.main .main_image_div .multiple_images img {
+  width: 100%;
+  height: 100%;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.main .grid-col-1 .multiple_images {
+  width: calc(100% - 10px);
+}
+.main .grid-col-2 .multiple_images {
+  width: calc(50% - 10px);
+}
+.main .grid-col-3 .multiple_images {
+  width: calc(33.34% - 10px);
+}
+.main .grid-col-4 .multiple_images {
+  width: calc(25% - 10px);
+}
+.grid-col-5 .swiper-slide {
+  width: calc(20% - 10px);
+}
+.grid-col-6 .swiper-slide {
+  width: calc(16.67% - 10px);
+}
+.grid-col-7 .swiper-slide {
+  width: calc(14.29% - 10px);
+}
+.grid-col-8 .swiper-slide {
+  width: calc(12.5% - 10px);
+}
+.grid-col-9 .swiper-slide {
+  width: calc(11.11% - 10px);
+}
+.grid-col-10 .swiper-slide {
+  width: calc(10% - 10px);
+}
+
+@media screen and (max-width: 767px) {
+  .main .moible-grid-col-one .multiple_images {
+    width: calc(100% - 10px);
+  }
+  .main .moible-grid-col-two .multiple_images {
+    width: calc(50% - 10px);
+  }
+}

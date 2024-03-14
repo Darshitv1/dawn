@@ -1,0 +1,95 @@
+{{ 'my-slider.css' | asset_url | stylesheet_tag }}
+{{ 'my-multi-images.css' | asset_url | stylesheet_tag }}
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'my-multi-images.css' | asset_url | stylesheet_tag }}  {% endcomment %}
+
+<div class="xyz" style="height: 580px;" data-grid="{{ section.settings.images_desktop }}">
+  <div class="{% if section.settings.select == 'slider' %} swiper mySwiper {% else %} main {% endif %}">
+    <div class="main_image_div grid-col-{{ section.settings.images_desktop }} moible-grid-col-{{ section.settings.images_mobile }} swiper-wrapper">
+      {% for blocks in section.blocks %}
+        <div class="multiple_images swiper-slide">
+          <img
+            src="{{ blocks.settings.slider_images | image_url: width: blocks.settings.image.width }}"
+            width="blocks.settings.image.width"
+            height="blocks.settings.image.height"
+            alt="blocks.settings.image.alt"
+          >
+        </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.select == 'slider' %}
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination xyz_ab"></div>
+    {% endif %}
+  </div>
+</div>
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'my-slider.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "my-slider",
+  "settings": [
+    {
+      "type": "range",
+      "id": "images_desktop",
+      "label": "Images per grid for desktop",
+      "default": 1,
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "type": "select",
+      "id": "images_mobile",
+      "label": "Images per grid for mobile",
+      "options": [
+        {
+          "value": "one",
+          "label": "1"
+        },
+        {
+          "value": "two",
+          "label": "2"
+        }
+      ],
+      "default": "two"
+    },
+    {
+      "type": "radio",
+      "id": "select",
+      "label": "Select Any",
+      "options": [
+        {
+          "value": "slider",
+          "label": "Slider"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "slider"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Image Picker",
+      "type": "image",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "slider_images",
+          "label": "Add Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-slider"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+{{ 'my-multi-images.css' | asset_url | stylesheet_tag }}
+<div class="page-width">
+  <div class="main">
+    <div class="text">
+      {{ section.settings.textbox }}
+    </div>
+    <div class="main_image_div grid-col-{{ section.settings.image_range }}">
+      {% for blocks in section.blocks %}
+        <div class="multiple_images">
+          <img
+            src="{{ blocks.settings.images | image_url: width: blocks.settings.image.width }}"
+            width="blocks.settings.image.width"
+            height="blocks.settings.image.height"
+            alt="blocks.settings.image.alt"
+          >
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "my-multi-images",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "textbox",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "image_range",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Images Per Content Area",
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Image",
+      "type": "image",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "images",
+          "label": "Add Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-multi-images"
+    }
+  ]
+}
+{% endschema %}

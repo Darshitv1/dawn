@@ -1,0 +1,24 @@
+{{ 'my-video.css' | asset_url | stylesheet_tag }}
+<div class="page-width">
+  {{
+    section.settings.my_video
+    | video_tag: image_size: 'large', controls: true, autoplay: false, loop: false, muted: true, preload: true
+  }}
+</div>
+{% schema %}
+{
+  "name": "my-video",
+  "settings": [
+    {
+      "type": "video",
+      "id": "my_video",
+      "label": "A Shopify Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-video"
+    }
+  ]
+}
+{% endschema %}

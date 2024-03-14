@@ -1,0 +1,258 @@
+{{ 'my-header.css' | asset_url | stylesheet_tag }}
+<div id="StickyHeaderWrap" style="height: 159px;">
+  <header id="SiteHeader" class="site-header" data-sticky="true" data-overlay="false">
+    <div class="width">
+      <div class="header-layout header-layout--center" data-logo-align="center">
+        <div class="site-nav small--hide">
+          <a href="/search" class="site-nav__link site-nav__link--icon js-search-header search_icon_old">
+            <div class="search_icon">
+              {% render 'my-search-icon' %}
+            </div>
+          </a>
+          <button type="button" class="hamburger_icon">
+            {% render 'my-hamburger' %}
+          </button>
+          <div id="NavDrawer" class="drawer drawer--left drawer--is-open">
+            <div class="drawer__contents">
+              <div class="drawer__fixed-header">
+                <div class="drawer__header appear-animation appear-delay-1">
+                  <div class="drawer__close">
+                    <button type="button" class="drawer__close-button js-drawer-close">
+                      {% render 'my-close-button' %}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="drawer_scrollable">
+                <ul class="mobile-nav" role="navigation">
+                  {% for link in section.settings.navigation.links %}
+                    <li class="mobile-nav__item">
+                      <a href="{{ link.url }}" class="mobile-nav__link mobile-nav__link--top-level">{{ link.title }}</a>
+                      {% if link.links.size > 0 %}
+                        <button type="button" class="collapsible-trigger-main-down btn_down_main">
+                          <span
+                            class="collapsible-trigger__icon collapsible-trigger__icon--circle collapsible-trigger__icon--open"
+                          >
+                            {%- render 'my-down-arrow' -%}
+                          </span>
+                        </button>
+                        {% comment %}
+                          <button type="button" class="collapsible-trigger-main-up">
+                            <span
+                              class="collapsible-trigger__icon collapsible-trigger__icon--circle collapsible-trigger__icon--open"
+                            >
+                              {%- render 'my-up-arrow' -%}
+                            </span>
+                          </button>
+                        {% endcomment %}
+                        <div
+                          id="Linklist"
+                          class="mobile-nav__sublist display_class"
+                          style="height: 100%; overflow: scroll;"
+                        >
+                          <div class="collapsible-content__inner">
+                            <ul class="mobile-nav__sublist content_of_list">
+                              {% for child_link in link.links %}
+                                <li class="mobile-nav__item">
+                                  <div class="mobile-nav__child-item">
+                                    <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                                    {% if child_link.links.size > 0 %}
+                                      <button type="button" class="accordion collapsible-trigger-down btn_down">
+                                        <span
+                                          class="collapsible-trigger__icon collapsible-trigger__icon--circle collapsible-trigger__icon--open"
+                                        >
+                                          {%- render 'my-down-arrow' -%}
+                                        </span>
+                                      </button>
+                                    {% endif %}
+                                    {% comment %}
+                                      <button type="button" class="collapsible-trigger-up">
+                                        <span
+                                          class="collapsible-trigger__icon collapsible-trigger__icon--circle collapsible-trigger__icon--open"
+                                        >
+                                          {%- render 'my-up-arrow' -%}
+                                        </span>
+                                      </button>
+                                    {% endcomment %}
+
+                                    <div
+                                      id="Sublinklist"
+                                      class="panel mobile-nav__sublist collapsible-content collapsible-content--all is-open"
+                                      style="height: 100%;"
+                                    >
+                                      <div class="collapsible-content__inner">
+                                        {% if child_link.links.size > 0 %}
+                                          <ul class="mobile-nav__grandchildlist ">
+                                            {% for grandchild_link in child_link.links %}
+                                              <li class="mobile-nav__item">
+                                                <a class="mobile-nav__link" href="{{ grandchild_link.url }}">
+                                                  {{- grandchild_link.title -}}
+                                                </a>
+                                              </li>
+                                            {% endfor %}
+                                          </ul>
+                                        {% endif %}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h1 class="site-header__logo">
+          <span class="visually-hidden">DENNIS LINGO</span><a class="td_none" href="/" itemprop="url">DENNIS LINGO</a>
+        </h1>
+        <div class="header-item header-item--icons">
+          <div class="site-nav">
+            <div class="site-nav__icons">
+              <a
+                class="padx"
+                title="Chat with us on WhatsApp"
+                href="https://wa.me/+919611719302?text=https://www.dennislingo.com/%0a%0aHi! I need some help."
+                target="_blank"
+                id="whatsappWebsiteWidget"
+                class="site-nav__link site-nav__link--icon site-nav-whatsapp"
+              >
+                <img
+                  src="//www.dennislingo.com/cdn/shop/t/64/assets/wa-logo-120.png?v=82217370300706482931691153194"
+                  alt="whatsapp"
+                  width="25px"
+                  height="25px"
+                >
+              </a>
+              <div class="header--icon padx">
+                <div
+                  class="user_icon"
+                  id="kp-login-button-header-logo"
+                >
+                  {% render 'my-user-icon' %}
+                </div>
+                <div class="search_icon_new">
+                  {% render 'my-search-icon' %}
+                </div>
+              </div>
+              <div class="padx">
+                <a
+                  href="/cart"
+                  class="site-nav__link site-nav__link--icon js-drawer-open-cart"
+                  aria-controls="CartDrawer"
+                  data-icon="bag-minimal"
+                >
+                  <span class="cart-link">
+                    {% render 'my-bag-icon' %}
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <ul class="header-nav dropdown">
+          {% for link in section.settings.navigation.links %}
+            <li class="menu-link dropbtn">
+              <a href="{{ link.url }}" class="header-a">{{ link.title }}</a>
+              {% if link.links.size > 0 %}
+                <div class="megamenu" id="megameni-id">
+                  <div class="content_of_image_list">
+                    {% for blocks in section.blocks %}
+                      {% if blocks.settings.for_image contains link.title %}
+                        <div class="content_of_image">
+                          <img
+                            src="{{ blocks.settings.images | image_url: width: blocks.settings.image.width }}"
+                            width="blocks.settings.image.width"
+                            height="blocks.settings.image.height"
+                            alt="blocks.settings.image.alt"
+                          >
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                    <ul class="dropdown-child conten_of_list">
+                      {% for child_link in link.links %}
+                        <li class="menu-link-child">
+                          <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                          {% if child_link.links.size > 0 %}
+                            <ul class="dropdown-grandchild">
+                              {% for grandchild_link in child_link.links %}
+                                <li class="menu-link-grand">
+                                  <a href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </header>
+</div>
+
+<script src="{{ 'my-header.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "my-new-header",
+  "tag": "header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Width",
+      "min": 20,
+      "max": 300,
+      "default": 100,
+      "step": 5
+    },
+    {
+      "type": "link_list",
+      "id": "navigation",
+      "label": "Navigation Menu"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Image",
+      "type": "image",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "for_image",
+          "label": "Enter Menu Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "images",
+          "label": "Add Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-new-header"
+    }
+  ]
+}
+{% endschema %}

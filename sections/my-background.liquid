@@ -1,0 +1,81 @@
+{{ 'my-background.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width">
+  <div class="my_bg" style="background: {{ section.settings.bg_color }} !important">
+    <div class="banner_bg"></div>
+    <div class="{{ section.settings.v_alignment }} {{ section.settings.h_alignment }}">
+      <div class="bg_title" style="color: {{section.settings.text_color }} !important">
+        {{ section.settings.title }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "my-background",
+  "settings": [
+    {
+      "type": "color_background",
+      "id": "bg_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Text Box"
+    },
+    {
+      "type": "select",
+      "id": "v_alignment",
+      "label": "Vertical Alignment",
+      "options": [
+        {
+          "value": "bg_top",
+          "label": "Top"
+        },
+        {
+          "value": "bg_center",
+          "label": "Center"
+        },
+        {
+          "value": "bg_bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "bg_center"
+    },
+    {
+      "type": "select",
+      "id": "h_alignment",
+      "label": "Horizontal Alignment",
+      "options": [
+        {
+          "value": "bg_left",
+          "label": "Left"
+        },
+        {
+          "value": "bg_center",
+          "label": "Center"
+        },
+        {
+          "value": "bg_right",
+          "label": "Right"
+        }
+      ],
+      "default": "bg_center"
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-background"
+    }
+  ]
+}
+{% endschema %}

@@ -2,6 +2,26 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "my_footer_39dyCT": {
+      "type": "my-footer",
+      "blocks": {
+        "footer_WH9Y6A": {
+          "type": "footer",
+          "settings": {
+            "footer_menu": "custom-footer-menu"
+          }
+        }
+      },
+      "block_order": [
+        "footer_WH9Y6A"
+      ],
+      "settings": {
+        "footer_logo_text": "<strong>DENNIS LINGO<\/strong>",
+        "paragraph": "Dennis Lingo crafts perfectly fitted shirts for the man who makes his style statement with elegance and sophistication. Consistently one of the bestsellers on Amazon and Flipkart for the past few years, Dennis Lingo shirts are available in a range of essential &amp; trending colours, and only in the best quality fabric.",
+        "git_heading": "Get In Touch",
+        "get_in_touch": "<p><strong>Mensa Brand Technologies Private <\/strong><\/p><p><strong>Limited,<\/strong><\/p><p><strong>&nbsp;<\/strong><\/p><p><strong>Vaishnavi Properties, #30\/1, Silicon <\/strong><\/p><p><strong>Terraces, 2nd and 3rd Floor, <\/strong><\/p><p><strong>Adugodi, Hosur Main Road, <\/strong><\/p><p><strong>Koramangala, Bengaluru – 560095<\/strong><\/p><p><strong>&nbsp;<\/strong><\/p><p><strong>For queries and feedback, write to us at:<\/strong><\/p><p><strong>&nbsp;<\/strong><\/p><p>Email: care@dennislingo.com<\/p><p>&nbsp;<\/p><p>Phone: +91 9611719302<\/p><p>&nbsp;<\/p><p><strong>Opening Hours:<\/strong><br\/>Monday to Sunday: 10am - 7pm<br\/>&nbsp;<\/p><p><strong>Subscribe to Our Newsletter<\/strong><\/p><p><strong>&nbsp;<\/strong><\/p>"
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -32,10 +52,12 @@
         "footer-1",
         "footer-2"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "newsletter_enable": true,
         "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
         "show_social": true,
         "enable_country_selector": false,
         "enable_language_selector": false,
@@ -48,6 +70,7 @@
     }
   },
   "order": [
+    "my_footer_39dyCT",
     "footer"
   ]
 }

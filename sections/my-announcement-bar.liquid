@@ -1,0 +1,49 @@
+{{ 'my-announcement-bar.css' | asset_url | stylesheet_tag }}
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+
+<div class="swiper mySwiper main_div_slider">
+  <div class="richtext_box_parent swiper-wrapper padding_div">
+    {% for blocks in section.blocks %}
+      <div class="richtext_box_child swiper-slide">
+        {{ blocks.settings.text_box_id }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'my-announcement-bar-slider.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "my-announcement-bar",
+  "settings": [
+    {
+      "type": "range",
+      "id": "text_boxes_range",
+      "label": "Text Boxes",
+      "default": 1,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Text Boxes",
+      "type": "text_box",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text_box_id",
+          "label": "Text Box"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-announcement-bar"
+    }
+  ]
+}
+{% endschema %}

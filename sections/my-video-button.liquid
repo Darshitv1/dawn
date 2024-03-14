@@ -1,0 +1,42 @@
+{{ 'my-video-button.css' | asset_url | stylesheet_tag }}
+{% comment %} controls: true, autoplay: false, loop: false, muted: true, preload: true {% endcomment %}
+<div class="page-width">
+  <div class="main_video" data-autoplay="{{ section.settings.autoplay }}">
+    {% comment %} {{ section.settings.my_video | video_tag: image_size: 'master', preload: true }} {% endcomment %}
+    <video
+      src="{{section.settings.my_video.sources[1].url}}"
+      id="my_video"
+      loop
+      muted
+      playsinline
+      preload
+      data-autoplay="{{ section.settings.autoplay }}"
+    ></video>
+    <div class="_button">
+      <span class="play_button">{% render 'my-play-button' %}</span>
+    </div>
+  </div>
+  <script src="{{ 'my-video-button.js' | asset_url }}" defer="defer"></script>
+</div>
+{% schema %}
+{
+  "name": "my-video-play",
+  "settings": [
+    {
+      "type": "video",
+      "id": "my_video",
+      "label": "A Shopify Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay"
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-video-play"
+    }
+  ]
+}
+{% endschema %}

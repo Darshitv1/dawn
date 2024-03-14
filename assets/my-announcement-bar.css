@@ -1,0 +1,20 @@
+.main_div_slider {
+  background: black;
+}
+
+/* .main_div_slider .padding_div {
+  padding-left: 5rem;
+  padding-right: 5rem;
+} */
+
+.main_div_slider .padding_div .richtext_box_child h6 {
+  color: white !important;
+  background: black;
+  width: 100% !important;
+  margin: 0 !important;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+}

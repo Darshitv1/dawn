@@ -1,0 +1,87 @@
+{{ 'my-form.css' | asset_url | stylesheet_tag }}
+
+<div class=" form-container1  {% if section.settings.title != blank %}form-container{% endif %}">
+  <form id="form">
+    <h1>{{ section.settings.title }}</h1>
+    {% for block in section.blocks %}
+      {% if block.type == 'F_name' %}
+        <label for="fname">F_name</label>
+        <input type="text" name="fname" placeholder="{{ block.settings.label }}">
+      {% elsif block.type == 'L_name' %}
+        <label for="lname">L_name</label>
+        <input type="text" name="lname" placeholder="{{ block.settings.label }}">
+      {% elsif block.type == 'Address' %}
+        <label for="address">Address</label>
+        <textarea name="address" placeholder="{{ block.settings.label }}"></textarea>
+      {% endif %}
+    {% endfor %}
+  </form>
+</div>
+
+{% schema %}
+{
+  "name": "my-form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "form"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "name": "F_name",
+      "type": "F_name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "f_name",
+          "label": "F_name"
+        }
+      ]
+    },
+    {
+      "name": "L_name",
+      "type": "L_name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "l_name",
+          "label": "L_name"
+        }
+      ]
+    },
+    {
+      "name": "Address",
+      "type": "Address",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "address",
+          "label": "Address"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-form",
+      "settings": {
+        "title": "Form"
+      },
+      "blocks": [
+        {
+          "type": "F_name"
+        },
+        {
+          "type": "L_name"
+        },
+        {
+          "type": "Address"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

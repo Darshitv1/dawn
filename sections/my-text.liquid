@@ -1,0 +1,83 @@
+{{ 'my-text.css' | asset_url | stylesheet_tag }} 
+{{ section.settings.paragraph }}
+<div class="first {{ section.settings.alignment }}">
+  <div class="left">
+    {% comment %} <h3>{{ section.settings['text-box'] }}</h3> {% endcomment %}
+    <div class="div1">
+      <a href="{{ section.settings.link }}" class="my_button">{{ section.settings.linktext }}</a>
+    </div>
+  </div>
+  <div class="right">
+    <img
+      class="img1"
+      src="{{ section.settings.image | image_url: width: section.settings.image.width }}"
+      width="section.settings.image.width"
+      height="section.settings.image.height"
+      alt="section.settings.image.alt"
+    >
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "my_text",
+
+  "settings": [
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "my text",
+      "default": "my text"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "id": "text-box",
+      "type": "text",
+      "label": "Heading",
+      "default": "Title"
+    },
+    {
+      "id": "link",
+      "type": "url",
+      "label": "Button link"
+    },
+    {
+      "id": "linktext",
+      "type": "text",
+      "label": "Button text",
+      "default": "Click Here"
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "my_text"
+    }
+  ]
+}
+{% endschema %}

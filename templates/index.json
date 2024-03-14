@@ -21,7 +21,7 @@
           "type": "buttons",
           "settings": {
             "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
+            "button_link_1": "shopify:\/\/collections\/all",
             "button_style_secondary_1": true,
             "button_label_2": "",
             "button_link_2": "",
@@ -34,6 +34,7 @@
         "text",
         "button"
       ],
+      "disabled": true,
       "settings": {
         "image_overlay_opacity": 40,
         "image_height": "large",
@@ -41,6 +42,7 @@
         "show_text_box": false,
         "desktop_content_alignment": "center",
         "color_scheme": "scheme-3",
+        "image_behavior": "none",
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
         "show_text_below": false
@@ -67,7 +69,10 @@
         "heading",
         "text"
       ],
+      "disabled": true,
       "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
         "color_scheme": "scheme-1",
         "full_width": true,
         "padding_top": 40,
@@ -76,20 +81,29 @@
     },
     "featured_collection": {
       "type": "featured-collection",
+      "disabled": true,
       "settings": {
         "title": "Featured products",
         "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
         "collection": "all",
         "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "full_width": false,
         "show_view_all": false,
-        "swipe_on_mobile": false,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-1",
         "image_ratio": "adapt",
+        "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
+        "enable_quick_add": false,
         "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "padding_top": 28,
         "padding_bottom": 36
       }
@@ -122,11 +136,13 @@
         "product",
         "collection-1"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Multimedia collage",
         "heading_size": "h2",
         "desktop_layout": "left",
         "mobile_layout": "collage",
+        "card_styles": "product-card-wrapper",
         "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
@@ -134,10 +150,12 @@
     },
     "video": {
       "type": "video",
+      "disabled": true,
       "settings": {
         "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
         "heading_size": "h1",
+        "enable_video_looping": false,
+        "video_url": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
         "description": "",
         "full_width": false,
         "color_scheme": "scheme-1",
@@ -181,6 +199,7 @@
         "column2",
         "column3"
       ],
+      "disabled": true,
       "settings": {
         "title": "",
         "heading_size": "h1",
@@ -191,11 +210,154 @@
         "background_style": "none",
         "button_label": "",
         "button_link": "",
-        "swipe_on_mobile": false,
         "color_scheme": "scheme-1",
         "columns_mobile": "1",
+        "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "my_image_banner_Ua7dyy": {
+      "type": "my-image-banner",
+      "disabled": true,
+      "custom_css": [
+
+      ],
+      "settings": {
+        "alignment": "bottom",
+        "text_color": "#ffffff",
+        "show_image": true,
+        "image": "shopify:\/\/shop_images\/WallpaperSilverWings_BlackBackground_DigitalArt_WallpaperForYou.jpg",
+        "title": "<h1>Custom Image Banner<\/h1>",
+        "text": "Give customers details about te banner image(s) or content on the template."
+      }
+    },
+    "my_background_tRUVDE": {
+      "type": "my-background",
+      "disabled": true,
+      "settings": {
+        "bg_color": "linear-gradient(180deg, rgba(255, 145, 129, 1), rgba(254, 91, 124, 1) 49%, rgba(255, 140, 162, 1) 100%)",
+        "text_color": "#000000",
+        "title": "<p>XYZ<\/p>",
+        "v_alignment": "bg_center",
+        "h_alignment": "bg_center"
+      }
+    },
+    "my_video_Hqkyjb": {
+      "type": "my-video",
+      "disabled": true,
+      "settings": {
+        "my_video": "shopify:\/\/files\/videos\/emerald-galaxy.3840x2160.mp4"
+      }
+    },
+    "my_video_url_jLDe3F": {
+      "type": "my-video-url",
+      "disabled": true,
+      "settings": {
+        "product_description_video": "https:\/\/youtu.be\/yMJCcKyorfs?si=T26OiSSU4kDCj5Bt"
+      }
+    },
+    "my_video_merge_diRT4L": {
+      "type": "my-video-merge",
+      "disabled": true,
+      "settings": {
+        "my_video_url": "",
+        "my_video": "shopify:\/\/files\/videos\/vegeta-ultra-ego.3840x2160.mp4"
+      }
+    },
+    "my_multi_images_gkAdcf": {
+      "type": "my-multi-images",
+      "blocks": {
+        "image_a3T47p": {
+          "type": "image",
+          "settings": {
+            "images": "shopify:\/\/shop_images\/WallpaperSilverWings_BlackBackground_DigitalArt_WallpaperForYou.jpg"
+          }
+        },
+        "image_PrNg7t": {
+          "type": "image",
+          "settings": {
+            "images": "shopify:\/\/shop_images\/sky_wallpaper.jpg"
+          }
+        },
+        "image_zTyPEh": {
+          "type": "image",
+          "settings": {
+            "images": "shopify:\/\/shop_images\/WallpaperSilverWings_BlackBackground_DigitalArt_WallpaperForYou.jpg"
+          }
+        },
+        "image_E7G4yY": {
+          "type": "image",
+          "settings": {
+            "images": "shopify:\/\/shop_images\/sky_wallpaper.jpg"
+          }
+        },
+        "image_TeY3W6": {
+          "type": "image",
+          "settings": {
+            "images": "shopify:\/\/shop_images\/WallpaperSilverWings_BlackBackground_DigitalArt_WallpaperForYou.jpg"
+          }
+        },
+        "image_r7dfBd": {
+          "type": "image",
+          "settings": {
+            "images": "shopify:\/\/shop_images\/sky_wallpaper.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_a3T47p",
+        "image_PrNg7t",
+        "image_zTyPEh",
+        "image_E7G4yY",
+        "image_TeY3W6",
+        "image_r7dfBd"
+      ],
+      "disabled": true,
+      "settings": {
+        "textbox": "",
+        "image_range": 3
+      }
+    },
+    "my_video_button_PgcRMJ": {
+      "type": "my-video-button",
+      "disabled": true,
+      "settings": {
+        "my_video": "shopify:\/\/files\/videos\/windows-11-bats-moewalls-com.mp4",
+        "autoplay": false
+      }
+    },
+    "my_slider_qmJwPn": {
+      "type": "my-slider",
+      "blocks": {
+        "image_M7J4La": {
+          "type": "image",
+          "settings": {
+            "slider_images": "shopify:\/\/shop_images\/gift-card.jpg"
+          }
+        },
+        "image_ALNWc6": {
+          "type": "image",
+          "settings": {
+            "slider_images": "shopify:\/\/shop_images\/rack-of-womens-clothing.jpg"
+          }
+        },
+        "image_WCjkKw": {
+          "type": "image",
+          "settings": {
+            "slider_images": "shopify:\/\/shop_images\/t-shirt-store.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_M7J4La",
+        "image_ALNWc6",
+        "image_WCjkKw"
+      ],
+      "settings": {
+        "images_desktop": 1,
+        "images_mobile": "two",
+        "select": "slider"
       }
     }
   },
@@ -205,6 +367,14 @@
     "featured_collection",
     "collage",
     "video",
-    "multicolumn"
+    "multicolumn",
+    "my_image_banner_Ua7dyy",
+    "my_background_tRUVDE",
+    "my_video_Hqkyjb",
+    "my_video_url_jLDe3F",
+    "my_video_merge_diRT4L",
+    "my_multi_images_gkAdcf",
+    "my_video_button_PgcRMJ",
+    "my_slider_qmJwPn"
   ]
 }

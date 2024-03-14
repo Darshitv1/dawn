@@ -1,0 +1,41 @@
+{{ 'my-video-merge.css' | asset_url | stylesheet_tag }}
+<div class="page-width">
+  {% if section.settings.my_video != blank %}
+    {{
+      section.settings.my_video
+      | video_tag: image_size: 'large', controls: true, autoplay: false, loop: false, muted: true, preload: true
+    }}
+  {% elsif section.settings.my_video_url != blank %}
+    {% assign videoId = section.settings.my_video_url.id %}
+    <iframe
+      class="my_video_url"
+      id="myVideoplay"
+      src="https://www.youtube.com/embed/{{ videoId }}?controls=0"
+      allow="encrypted-media"
+      allowfullscreen
+    ></iframe>
+  {% endif %}
+</div>
+{% schema %}
+{
+  "name": "my-video-merge",
+  "settings": [
+    {
+      "type": "video_url",
+      "id": "my_video_url",
+      "label": "Product description video",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "video",
+      "id": "my_video",
+      "label": "A Shopify Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-video-merge"
+    }
+  ]
+}
+{% endschema %}

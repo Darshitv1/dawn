@@ -1,0 +1,152 @@
+{{ 'my-footer.css' | asset_url | stylesheet_tag }}
+
+<div class="section-footer">
+  <footer class="site-footer">
+    <div class="page-width-x">
+      <div class="grid">
+        <div class="grid_item item_1">
+          <div class="logo_text_inner">
+            <div class="footer__logo">
+              <a href="/">
+                {% render 'my-logo' %}
+                <span>{{ section.settings.footer_logo_text }}</span>
+              </a>
+            </div>
+            <div class="custom_text_inner">
+              <p>{{ section.settings.paragraph }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid_item item_2">
+          {% for blocks in section.blocks %}
+            <div class="sub_items">
+              <ul class="footer-menu">
+                {% for link in blocks.settings.footer_menu.links %}
+                  <div class="sub_sub_items">
+                    <li class="footer-menu-link">
+                      <a class="footer-title" href="{{ link.url }}">{{ link.title }}</a>
+                      {% if link.links.size > 0 %}
+                        <button type="button" class="accordionx">{% render 'my-down-arrow' %}</button>
+                        <ul class="footer-menu-child footer-dropdown-child panelx display_class_x">
+                          {% for child_link in link.links %}
+                            <li class="footer-menu-link-child">
+                              <a href="{{ child_link.url }}">{{ child_link.title }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  </div>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="grid_item item_3">
+          <div class="heading_div">
+            <p>{{ section.settings.git_heading }}</p>
+            <button type="button" class="accordiony">{% render 'my-down-arrow' %}</button>
+          </div>
+          <div class="para_div display_class_x">
+            <div class="sub_para_div">
+              {{ section.settings.get_in_touch }}
+            </div>
+            <div class="newsletter_main">
+              <form action="/subscribe" method="post">
+                <input type="hidden" name="form_type" value="customer">
+                <input type="hidden" name="utf8" value="✓">
+                <div class="newsletter_sub">
+                  <input type="email" name="contact[email]" placeholder="Enter your email">
+                  <button type="submit">
+                    {% render 'my-email' %}
+                  </button>
+                </div>
+              </form>
+              <ul class="no-bullets footer-social">
+                <li>
+                  <a target="_blank" href="www.instagram.com">{% render 'my-instagram' %}</a>
+                </li>
+                <li>
+                  <a target="_blank" href="www.facebook.com">{% render 'my-facebook' %}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="copyright_section">
+        <p class="copyright_text">{{ section.settings.copyright }}</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="{{ 'my-footer.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "my-footer",
+  "settings": [
+    {
+      "id": "footer_logo_text",
+      "label": "Footer Logo Heading",
+      "type": "text",
+      "default": "DENNIS LINGO"
+    },
+    {
+      "id": "paragraph",
+      "type": "text",
+      "label": "Paragraph"
+    },
+    {
+      "id": "git_heading",
+      "type": "text",
+      "label": "Heading",
+      "default": "Get In Touch"
+    },
+    {
+      "id": "get_in_touch",
+      "type": "richtext",
+      "label": "Write"
+    },
+    {
+      "id": "copyright",
+      "type": "text",
+      "label": "Copyright",
+      "default": "&#169;2024 DENNIS LINGO"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "my-footer",
+      "type": "footer",
+      "limit": 5,
+      "settings": [
+        {
+          "id": "footer_menu",
+          "type": "link_list",
+          "label": "Footer Menu"
+        }
+      ]
+    },
+    {
+      "name": "foo_email_form",
+      "type": "email_form",
+      "limit": 1,
+      "settings": [
+        {
+          "id": "news_letter",
+          "type": "text",
+          "label": "News Letter"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Footer",
+      "name": "my-footer"
+    }
+  ]
+}
+{% endschema %}

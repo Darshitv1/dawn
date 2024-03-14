@@ -1,0 +1,82 @@
+{{ 'my-image-banner.css' | asset_url | stylesheet_tag }}
+{% if section.settings.show_image == true %}
+  <div class="page-width">
+    <div class="my_banner">
+      <div class="banner_img">
+        <img
+          src="{{ section.settings.image | image_url: width: section.settings.image.width }}"
+          width="section.settings.image.width"
+          height="section.settings.image.height"
+          alt="section.settings.image.alt"
+        >
+      </div>
+      <div class="{{ section.settings.alignment }}">
+        <div class="banner_title" style="color: {{section.settings.text_color }} !important">
+          {{ section.settings.title }}
+        </div>
+        <p class="banner_text" style="color: {{section.settings.text_color }} !important">
+          {{ section.settings.text }}
+        </p>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "my-image-banner",
+  "settings": [
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show Image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Rich Text"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-image-banner"
+    }
+  ]
+}
+{% endschema %}

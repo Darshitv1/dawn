@@ -2,6 +2,58 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "my_announcement_bar_8BN9gH": {
+      "type": "my-announcement-bar",
+      "blocks": {
+        "text_box_XRRUqC": {
+          "type": "text_box",
+          "settings": {
+            "text_box_id": "<h6><strong>📢&nbsp;&nbsp;DENNIS LINGO SALE | USE CODE: DL10<\/strong>&nbsp;&nbsp;<span style=\"text-decoration:underline\"><em>Get 10% Off On Orders Above ₹999\/-<\/em><\/span><\/h6>"
+          }
+        },
+        "text_box_NAez4H": {
+          "type": "text_box",
+          "settings": {
+            "text_box_id": "<h6>GET INSTNAT EXTRA 5% OFF ON PREPAID ORDERS<\/h6>"
+          }
+        }
+      },
+      "block_order": [
+        "text_box_XRRUqC",
+        "text_box_NAez4H"
+      ],
+      "settings": {
+        "text_boxes_range": 2
+      }
+    },
+    "my_header_3naKTW": {
+      "type": "my-header",
+      "blocks": {
+        "image_BCUrcG": {
+          "type": "image",
+          "settings": {
+            "for_image": "BUNDLE BASH SALE",
+            "images": "shopify:\/\/shop_images\/WallpaperSilverWings_BlackBackground_DigitalArt_WallpaperForYou.jpg"
+          }
+        },
+        "image_NMa3R9": {
+          "type": "image",
+          "settings": {
+            "for_image": "DL WOMAN",
+            "images": "shopify:\/\/shop_images\/sky_wallpaper.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_BCUrcG",
+        "image_NMa3R9"
+      ],
+      "disabled": true,
+      "settings": {
+        "logo_width": 100,
+        "navigation": "custom-menu"
+      }
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
@@ -9,25 +61,35 @@
           "type": "announcement",
           "settings": {
             "text": "Welcome to our store",
-            "text_alignment": "center",
-            "color_scheme": "scheme-1",
             "link": ""
           }
         }
       },
       "block_order": [
         "announcement-bar-0"
-      ]
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
     },
     "header": {
       "type": "header",
+      "disabled": true,
       "settings": {
-        "color_scheme": "scheme-1",
         "logo_position": "middle-left",
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu": "custom-menu",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "mobile_logo_position": "center",
@@ -35,10 +97,62 @@
         "padding_top": 20,
         "padding_bottom": 20
       }
+    },
+    "my_text_T9JXxR": {
+      "type": "my-text",
+      "disabled": true,
+      "settings": {
+        "alignment": "right",
+        "title": "",
+        "paragraph": "",
+        "image": "shopify:\/\/shop_images\/sky_wallpaper.jpg",
+        "text-box": "Title",
+        "link": "https:\/\/www.google.com",
+        "linktext": "Google"
+      }
+    },
+    "my_new_header_DeUKUr": {
+      "type": "my-new-header",
+      "blocks": {
+        "image_rVUpjg": {
+          "type": "image",
+          "settings": {
+            "for_image": "tfrgfhtgfjn",
+            "images": "shopify:\/\/shop_images\/tie-clip.jpg"
+          }
+        },
+        "image_taDY4h": {
+          "type": "image",
+          "settings": {
+            "for_image": "DL WOMAN",
+            "images": "shopify:\/\/shop_images\/minimalist-retail-clothing-display.jpg"
+          }
+        },
+        "image_mkKtcG": {
+          "type": "image",
+          "settings": {
+            "for_image": "NEW ARRIVALS",
+            "images": "shopify:\/\/shop_images\/blue_shirt.webp"
+          }
+        }
+      },
+      "block_order": [
+        "image_rVUpjg",
+        "image_taDY4h",
+        "image_mkKtcG"
+      ],
+      "settings": {
+        "logo_width": 100,
+        "navigation": "custom-menu"
+      }
     }
   },
   "order": [
+    "my_announcement_bar_8BN9gH",
+    "my_header_3naKTW",
     "announcement-bar",
-    "header"
+    "header",
+    "my_text_T9JXxR",
+    "my_new_header_DeUKUr"
   ]
 }

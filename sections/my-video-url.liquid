@@ -1,0 +1,29 @@
+{{ 'my-video-url.css' | asset_url | stylesheet_tag }}
+<div class="page-width">
+  {% assign videoId = section.settings.product_description_video.id %}
+  <iframe
+    class="my_video_url"
+    id="myVideoplay"
+    src="https://www.youtube.com/embed/{{ videoId }}?controls=0"
+    allow="encrypted-media"
+    allowfullscreen
+  ></iframe>
+</div>
+{% schema %}
+{
+  "name": "my-video-url",
+  "settings": [
+    {
+      "type": "video_url",
+      "id": "product_description_video",
+      "label": "Product description video",
+      "accept": ["youtube", "vimeo"]
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-video-url"
+    }
+  ]
+}
+{% endschema %}

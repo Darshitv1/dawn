@@ -1,5 +1,39 @@
 {
   "sections": {
+    "my_slider_qmJwPn": {
+      "type": "my-slider",
+      "blocks": {
+        "image_M7J4La": {
+          "type": "image",
+          "settings": {
+            "slider_images": "shopify:\/\/shop_images\/gift-card.jpg"
+          }
+        },
+        "image_ALNWc6": {
+          "type": "image",
+          "settings": {
+            "slider_images": "shopify:\/\/shop_images\/rack-of-womens-clothing.jpg"
+          }
+        },
+        "image_WCjkKw": {
+          "type": "image",
+          "settings": {
+            "slider_images": "shopify:\/\/shop_images\/t-shirt-store.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_M7J4La",
+        "image_ALNWc6",
+        "image_WCjkKw"
+      ],
+      "disabled": true,
+      "settings": {
+        "images_desktop": 1,
+        "images_mobile": "two",
+        "select": "slider"
+      }
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -81,7 +115,6 @@
     },
     "featured_collection": {
       "type": "featured-collection",
-      "disabled": true,
       "settings": {
         "title": "Featured products",
         "heading_size": "h2",
@@ -327,41 +360,23 @@
         "autoplay": false
       }
     },
-    "my_slider_qmJwPn": {
-      "type": "my-slider",
-      "blocks": {
-        "image_M7J4La": {
-          "type": "image",
-          "settings": {
-            "slider_images": "shopify:\/\/shop_images\/gift-card.jpg"
-          }
-        },
-        "image_ALNWc6": {
-          "type": "image",
-          "settings": {
-            "slider_images": "shopify:\/\/shop_images\/rack-of-womens-clothing.jpg"
-          }
-        },
-        "image_WCjkKw": {
-          "type": "image",
-          "settings": {
-            "slider_images": "shopify:\/\/shop_images\/t-shirt-store.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "image_M7J4La",
-        "image_ALNWc6",
-        "image_WCjkKw"
-      ],
+    "my_product_tzQUQp": {
+      "type": "my-product",
+      "disabled": true,
       "settings": {
-        "images_desktop": 1,
-        "images_mobile": "two",
-        "select": "slider"
+        "my_product": "jeans"
+      }
+    },
+    "my_collection_tRTaWt": {
+      "type": "my-collection",
+      "settings": {
+        "collection_heading": "<p>My Collection<\/p>",
+        "my_collection": "custom-collection-page"
       }
     }
   },
   "order": [
+    "my_slider_qmJwPn",
     "image_banner",
     "rich_text",
     "featured_collection",
@@ -375,6 +390,7 @@
     "my_video_merge_diRT4L",
     "my_multi_images_gkAdcf",
     "my_video_button_PgcRMJ",
-    "my_slider_qmJwPn"
+    "my_product_tzQUQp",
+    "my_collection_tRTaWt"
   ]
 }

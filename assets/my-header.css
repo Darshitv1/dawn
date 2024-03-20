@@ -663,7 +663,7 @@ svg:not(:root) {
   padding: 5px 0;
 }
 
-.accordion {
+.accordion_header {
   background-color: #fff;
   color: #444;
   cursor: pointer;
@@ -680,7 +680,7 @@ svg:not(:root) {
 }
 
 .active,
-.accordion:hover {
+.accordion_header:hover {
   background-color: #ccc;
 }
 

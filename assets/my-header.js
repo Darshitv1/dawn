@@ -22,7 +22,7 @@ hamburger.addEventListener('click', () => {
 });
 
 // const sub_ll = document.querySelector('#Sublinklist');
-var acc = document.getElementsByClassName('accordion');
+var acc = document.getElementsByClassName('accordion_header');
 var i;
 for (i = 0; i < acc.length; i++) {
   acc[i].addEventListener('click', function () {

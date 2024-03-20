@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "my-collection",
+      "settings": {
+        "collection_heading": "<p>My Featured Collection<\/p>",
+        "my_collection": "custom-collection-page",
+        "select": "grid",
+        "slider_range": 1,
+        "product_range": 3,
+        "product_range_tablet": 3,
+        "product_range_mobile": 2
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

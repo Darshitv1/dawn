@@ -1,0 +1,12 @@
+#collectionfilter {
+  display: flex;
+  flex-wrap: wrap;
+}
+.productitems {
+  text-align: center;
+  width: 33.33%;
+  height: 100%;
+}
+.collectionfilterjs ul {
+  list-style: none;
+}

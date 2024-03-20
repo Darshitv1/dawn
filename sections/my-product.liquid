@@ -1,0 +1,131 @@
+{% comment %}
+  {% for product in product.media %}
+    <div class="swiper-slide">
+      {{
+        product.preview_image
+        | image_url: width: 246
+        | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+      }}
+    </div>
+  {% endfor -%}
+{% endcomment %}
+{{ 'my-product.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width">
+  <div class="main_div">
+    <div class="main_slider_div">
+      <!-- Swiper -->
+      <div class="swiper-container gallery-top">
+        <div class="swiper-wrapper">
+          {% for product in product.media %}
+            <div class="swiper-slide">
+              {{
+                product.preview_image
+                | image_url: width: 246
+                | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+              }}
+            </div>
+          {% endfor -%}
+        </div>
+      </div>
+      <div class="swiper-container gallery-thumbs">
+        <div class="swiper-wrapper">
+          {% for product in product.media %}
+            <div class="swiper-slide">
+              {{
+                product.preview_image
+                | image_url: width: 246
+                | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+              }}
+            </div>
+          {% endfor -%}
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
+      </div>
+    </div>
+    <div class="product_info">
+      <div class="title">
+        <h1 class="product_title">{{ product.title }}</h1>
+      </div>
+      <div class="desc">
+        <p class="product_desc">{{ product.description }}</p>
+      </div>
+      <div class="price">
+        {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
+        <s class="product_old_price">
+          {{ variant_price_compare | money_with_currency }}
+        </s>
+        <span class="product_og_price">
+          {{- product.selected_or_first_available_variant.price | money_with_currency -}}
+        </span>
+      </div>
+      <div class="taxes">
+        {%- if cart.taxes_included -%}
+          {{ 'products.product.include_taxes' | t }}
+        {%- endif -%}
+      </div>
+      <div class="variants">
+        {%- for option in product.options_with_values -%}
+          <h3 class="variant_name">{{ option.name | escape }}</h3>
+        {% endfor %}
+        {% for variant in product.variants %}
+          {% if variant.available %}
+            <input
+              type="radio"
+              name="id"
+              id="variant-{{ variant.id }}"
+              value="{{ variant.id }}"
+              {% if variant == product.selected_or_first_available_variant %}
+                checked="checked"
+              {% endif %}
+            >
+            <label for="variant-{{ variant.id }}">
+              {{ variant.title }}
+            </label>
+          {% else %}
+            <input type="radio" name="id" id="variant-{{ variant.id }}" value="{{ variant.id }}" disabled="disabled">
+            <label for="variant-{{ variant.id }}"> {{ variant.title }} - {{ 'products.product.sold_out' | t }} </label>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="quantity_button">
+        <div class="qtydiv">
+          <label for="Quantity" class="quantity-selector"><h3 class="quantity_name">Quantity</h3></label>
+          <div class="qtybox button">
+            <button class="btnqty qtyminus icon icon-minus">-</button>
+            <span class="number">1</span>
+            <button class="btnqty qtyplus icon icon-plus">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="add_to_cart">
+        <input type="submit" name="add" id="add" value="Add to Cart" class="button">
+      </div>
+      <div class="buy_now">
+        <input type="submit" name="buy" id="buy" value="Buy Now" class="button">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'my-product.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "my-product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "my_product",
+      "label": "My Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-product"
+    }
+  ]
+}
+{% endschema %}

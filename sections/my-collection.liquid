@@ -113,7 +113,7 @@
           class="main_collection_card products-{{ section.settings.product_range }} tablet-products-{{ section.settings.product_range_tablet }} mobile-products-{{ section.settings.product_range_mobile }} swiper-slide slide-{{ section.settings.slider_range }}"
         >
           <div class="collection_image">
-            <a href="{{ collection.url }}">
+            <a href="{{ product.url }}">
               <div class="icon_container">
                 <img
                   src="{{ product.featured_media | image_url: width: section.settings.image.width }}"

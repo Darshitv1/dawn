@@ -73,16 +73,21 @@
 
 .qtybox {
   display: flex;
-  justify-content: space-between;
   width: 180px;
+  border: 1px solid black;
+  height: 47px;
 }
 
 .icon-minus,
 .icon-plus {
-  color: white;
+  color: black;
   z-index: 999;
   /* padding: 0 10px; */
   font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
 }
 
 #add,
@@ -98,8 +103,8 @@
 }
 
 #add:hover {
-  color: white;
-  background: black;
+  font-size: 17px;
+  border: 2px solid black;
 }
 
 .variants label {

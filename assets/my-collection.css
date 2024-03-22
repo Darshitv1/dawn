@@ -97,6 +97,10 @@
   display: block !important;
 }
 
+form.collectionfilterform {
+  width: fit-content;
+}
+
 .sort_by_filter {
   display: flex;
   justify-content: flex-end;

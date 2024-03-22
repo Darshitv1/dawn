@@ -3,28 +3,30 @@ const plus = document.querySelector('.icon-plus'),
 console.log(plus);
 console.log(minus);
 
-let number = document.querySelector('.number').innerHTML;
-console.log(number);
+let number = document.querySelector('.quantity__input');
+console.log(number.value);
 plus.addEventListener('click', () => {
-  number++;
-  document.querySelector('.number').innerHTML = number;
-  if (number > 1) {
+  number.value++;
+  // document.querySelector('.quantity__input') = number.value;
+  if (number.value > 1) {
     minus.style.opacity = 1;
   }
-  console.log(number);
+  console.log(number.value);
 });
 
 minus.addEventListener('click', () => {
-  number--;
-  if (number <= 1) {
-    number = 1;
-    document.querySelector('.number').innerHTML = number;
-    minus.style.opacity = 0.2;
-  } else {
-    document.querySelector('.number').innerHTML = number;
-    minus.style.opacity = 1;
+  // console.log(minus);
+  number.value--;
+  if (number.value <= 1) {
+    number.value = 1;
+    // document.querySelector('.quantity__input') = number.value;
+    minus.style.cursor = 'not-allowed';
   }
-  console.log(number);
+  // else {
+  // document.querySelector('.quantity__input') = number.value;
+  // minus.style.opacity = 1;
+  // }
+  console.log(number.value);
 });
 
 // if (number == 1) {

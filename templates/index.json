@@ -30,7 +30,7 @@
       "disabled": true,
       "settings": {
         "images_desktop": 1,
-        "images_mobile": "two",
+        "images_mobile": "one",
         "select": "slider"
       }
     },
@@ -366,13 +366,6 @@
       "settings": {
         "my_product": "jeans"
       }
-    },
-    "my_collection_tRTaWt": {
-      "type": "my-collection",
-      "settings": {
-        "collection_heading": "<p>My Collection<\/p>",
-        "my_collection": "custom-collection-page"
-      }
     }
   },
   "order": [
@@ -390,7 +383,6 @@
     "my_video_merge_diRT4L",
     "my_multi_images_gkAdcf",
     "my_video_button_PgcRMJ",
-    "my_product_tzQUQp",
-    "my_collection_tRTaWt"
+    "my_product_tzQUQp"
   ]
 }

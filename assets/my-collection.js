@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
       let last = v.indexOf('=');
       if (last != v.length - 1) {
         appliedFilters.push(v);
-        console.log(appliedFilters);
+        // console.log(appliedFilters);
       }
     });
     filter_item = appliedFilters.join('&');

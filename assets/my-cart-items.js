@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // updateCartItem(minus);
       }
       if (numberInputs[index].value <= 1) {
-        // numberInputs[index].value = 1;
+        numberInputs[index].value = 1;
         deleteBtn[index].style.display = 'block';
         minus.style.display = 'none';
         minus.disabled = true;

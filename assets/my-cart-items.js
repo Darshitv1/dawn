@@ -183,48 +183,47 @@ document.addEventListener('DOMContentLoaded', function () {
       alert('Something went wrong! Try again later.');
     }
   };
-
-  // function updateCartItems(productId, quantity) {
-  //   fetch('/cart/update.js', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'X-Requested-With': 'XMLHttpRequest',
-  //     },
-  //     body: JSON.stringify({
-  //       updates: {
-  //         [productId]: quantity,
-  //       },
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log('Cart items updated:', data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error updating cart items:', error);
-  //     });
-  // }
-
-  // function updateCart() {
-  //   let newCartData = {
-  //     quantities: quantities,
-  //   };
-  //   console.log('cartData', newCartData);
-  //   // debugger;
-  //   fetch('/cart/update.json', {
-  //     method: 'post',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(newCartData),
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       return response.json();
-  //     })
-  //     .catch((error) => console.error('Error:', error));
-  // }
 });
+// function updateCartItems(productId, quantity) {
+//   fetch('/cart/update.js', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'X-Requested-With': 'XMLHttpRequest',
+//     },
+//     body: JSON.stringify({
+//       updates: {
+//         [productId]: quantity,
+//       },
+//     }),
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log('Cart items updated:', data);
+//     })
+//     .catch((error) => {
+//       console.error('Error updating cart items:', error);
+//     });
+// }
+
+// function updateCart() {
+//   let newCartData = {
+//     quantities: quantities,
+//   };
+//   console.log('cartData', newCartData);
+//   // debugger;
+//   fetch('/cart/update.json', {
+//     method: 'post',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(newCartData),
+//   })
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+//       return response.json();
+//     })
+//     .catch((error) => console.error('Error:', error));
+// }

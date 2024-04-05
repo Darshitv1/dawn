@@ -285,6 +285,9 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+    {% if template contains 'collection' -%}
+      <script src="https://cdn.shopify.com/s/files/1/0382/4185/files/ajaxinate.js?937" defer="defer"></script>
+    {%- endif %}
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">

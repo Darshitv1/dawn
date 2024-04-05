@@ -18,12 +18,21 @@
       <div class="swiper-container gallery-top">
         <div class="swiper-wrapper">
           {% for product in product.media %}
-            <div class="swiper-slide">
-              {{
-                product.preview_image
-                | image_url: width: 246
-                | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
-              }}
+            <div class="swiper-slide image-container">
+              {% comment %}
+                {{
+                  product.preview_image
+                  | image_url: width: 246
+                  | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+                }}
+              {% endcomment %}
+              <img
+                class="product-image"
+                src="{{ product.preview_image | image_url }}"
+                width="246"
+                height="246"
+                alt="image"
+              >
             </div>
           {% endfor -%}
         </div>
@@ -32,17 +41,19 @@
         <div class="swiper-wrapper">
           {% for product in product.media %}
             <div class="swiper-slide">
-              {{
-                product.preview_image
-                | image_url: width: 246
-                | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
-              }}
+              <img
+                class="variant-image"
+                src="{{ product.preview_image | image_url }}"
+                width="246"
+                height="246"
+                alt="image"
+              >
             </div>
           {% endfor -%}
         </div>
         <!-- Add Arrows -->
-        <div class="swiper-button-next swiper-button-white"></div>
         <div class="swiper-button-prev swiper-button-white"></div>
+        <div class="swiper-button-next swiper-button-white"></div>
       </div>
     </div>
     <div class="product_info">
@@ -58,7 +69,8 @@
           {{ variant_price_compare | money_with_currency }}
         </s>
         <span class="product_og_price">
-          {{- product.selected_or_first_available_variant.price | money_with_currency -}}
+          {% comment %} {{- product.selected_or_first_available_variant.price | money_with_currency -}} {% endcomment %}
+          <span class="unit-price">{{ product.price | money_with_currency }}</span>
         </span>
       </div>
       <div class="taxes">
@@ -66,62 +78,159 @@
           {{ 'products.product.include_taxes' | t }}
         {%- endif -%}
       </div>
-      <div class="variants">
-        {%- for option in product.options_with_values -%}
-          <h3 class="variant_name">{{ option.name | escape }}</h3>
-        {% endfor %}
-        {% for variant in product.variants %}
-          {% if variant.available %}
-            <input
-              type="radio"
-              name="id"
-              id="variant-{{ variant.id }}"
-              value="{{ variant.id }}"
-              {% if variant == product.selected_or_first_available_variant %}
-                checked="checked"
-              {% endif %}
-            >
-            <label for="variant-{{ variant.id }}">
-              {{ variant.title }}
-            </label>
-          {% else %}
-            <input type="radio" name="id" id="variant-{{ variant.id }}" value="{{ variant.id }}" disabled="disabled">
-            <label for="variant-{{ variant.id }}"> {{ variant.title }} - {{ 'products.product.sold_out' | t }} </label>
-          {% endif %}
-        {% endfor %}
-      </div>
-      <div class="quantity_button">
-        <div class="qtydiv">
-          <label for="Quantity" class="quantity-selector"><h3 class="quantity_name">Quantity</h3></label>
-          <div class="qtybox">
-            <button class="btnqty qtyminus icon icon-minus">-</button>
-            <input
-              class="quantity__input"
-              type="number"
-              name="quantity"
-              id="Quantity-template--17546957848835__main"
-              data-cart-quantity="1"
-              data-min="1"
-              min="1"
-              step="1"
-              value="1"
-              form="product-form-template--17546957848835__main"
-              max="null"
-            >
-            <button class="btnqty qtyplus icon icon-plus">+</button>
+      <form action="/cart" method="post" class="form_f_var" enctype="multipart/form-data" data-product-form>
+        <div class="var">
+          <script id="variants" type="application/json">
+            {{ product.variants | json }}
+          </script>
+          <span class="unit-price" style="display: none;">{{ product.price | money_with_currency }}</span>
+          <div class="radios">
+            {% for product_option in product.options_with_values %}
+              <h4 class="options-title">{{ product_option.name }}</h4>
+              <div class="options-values variants">
+                {% for value in product_option.values %}
+                  {% comment %} {% assign is_sold_out = false %} {% endcomment %}
+                  {% for variant in product.variants %}
+                    {% comment %}
+                      {%- if variant.inventory_quantity > 0 -%}
+                        <p class="product__inventory_quantity" id="inventory-{{ section.id }}">
+                          {{ variant.inventory_quantity }} items left
+                        </p>
+                      {%- endif -%}
+                    {% endcomment %}
+                    {% comment %} {% if variant.title == value and variant.available == false %} {% endcomment %}
+                    {% comment %}
+                      {%- if variant.inventory_quantity < 1 -%}
+                        {% assign is_sold_out = true %}
+                      {% endif %}
+                    {% endcomment %}
+                  {% endfor %}
+                  <input
+                    type="radio"
+                    class="{{ product_option.name }} selection"
+                    id="{{ value }}"
+                    name="{{ product_option.name }}"
+                    value="{{ value }}"
+                    {% if product_option.selected_value == value %}
+                      checked="True"
+                    {% endif %}
+                  >
+                  <label
+                    for="{{ value }}"
+                  >
+                    {{- value -}}
+                  </label>
+                {% endfor %}
+              </div>
+              <div class="line"></div>
+            {% endfor %}
+          </div>
+
+          {% assign selectedVariant = product.first_or_selected_variant %}
+          <label style="display: none;" for="dropdown_variants" class="product-option">Options</label>
+          <select style="display: none;" id="dropdown_variants" class="product-select" name="id">
+            {% for variant in product.variants %}
+              <option
+                id="variant-select"
+                class="options_cls"
+                {% if selectedVariant.id == variant.id %}
+                  selected
+                {% endif %}
+                value="{{ variant.id }}"
+              >
+                {{ variant.title }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        {% comment %}
+          <div class="variants" data="{{product.variants |  json}}">
+              {% for product_option in product.options_with_values %}
+                <div class="variant_options">
+                  <h3 class="variant_name">{{ product_option.name }}</h3>
+                  {% for value in product_option.values %}
+                    <input
+                      type="radio"
+                      id="{{ product_option.name.id }}"
+                      name="id"
+                      value="{{ value }}"
+                      checked="checked"
+                    >
+                    <label for="{{ value }}">{{ value }}</label>
+                  {% endfor %}
+                  <br>
+                </div>
+              {% endfor %}
+                {%- for option in product.options_with_values -%}
+                  <h3 class="variant_name">{{ option.name | escape }}</h3>
+                {% endfor %}
+                {% for variant in product.variants %}
+                  {% if variant.available %}
+                    <input
+                      type="radio"
+                      class="variant-input-id"
+                      name="id"
+                      id="variant-{{ variant.id }}"
+                      value="{{ variant.id }}"
+                      {% if variant == product.selected_or_first_available_variant %}
+                        checked="checked"
+                      {% endif %}
+                    >
+                    <label for="variant-{{ variant.id }}">
+                      {{ variant.title }}
+                    </label>
+                  {% else %}
+                    <input type="radio" name="id" id="variant-{{ variant.id }}" value="{{ variant.id }}" disabled="disabled">
+                    <label for="variant-{{ variant.id }}">
+                      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                    </label>
+                  {% endif %}
+                {% endfor %}
+              </div>
+        {% endcomment %}
+
+        <div class="quantity_button">
+          <div class="product-quantity">
+            <label for="quantity" class="quantity-selector"><h3 class="quantity_name">Quantity</h3></label>
+            <div class="qtybox">
+              <button type="button" class="btnqty qtyminus icon icon-minus">-</button>
+              <input
+                class="quantity__input"
+                type="number"
+                name="quantity"
+                id="quantity"
+                value="1"
+              >
+              <button type="button" class="btnqty qtyplus icon icon-plus">+</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="add_to_cart">
-        <input type="submit" name="add" id="add" value="Add to Cart" class="button">
-      </div>
-      <div class="buy_now">
-        <input type="submit" name="buy" id="buy" value="Buy Now" class="button">
-      </div>
+        {% if product.available %}
+          <div class="add_to_cart">
+            <input type="submit" name="add" id="add" value="Add to Cart" class="add_to_cart_input button">
+            {% render 'my-cart-drawer' %}
+          </div>
+        {% else %}
+          <div class="add_to_cart">
+            <input
+              type="submit"
+              name="add"
+              id="add"
+              value="Sold Out"
+              class="add_to_cart_input button"
+              disabled="disabled"
+            >
+          </div>
+        {% endif %}
+        {% comment %}
+          <div class="buy_now">
+            <input type="button" name="buy" id="buy" value="Buy Now" class="button">
+          </div>
+        {% endcomment %}
+      </form>
     </div>
   </div>
 </div>
-
 <script src="{{ 'my-product.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}

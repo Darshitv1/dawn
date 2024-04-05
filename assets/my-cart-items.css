@@ -1,0 +1,40 @@
+.quantity_button .quantity_name {
+  padding: 10px 10px 10px 0;
+  display: inline-block;
+  width: 80px;
+}
+.quantity_button {
+  display: flex;
+  flex-direction: column;
+}
+
+.qtybox {
+  display: flex;
+  width: 180px;
+  border: 1px solid black;
+  height: 47px;
+}
+
+.icon-minus,
+.icon-plus {
+  color: black;
+  z-index: 999;
+  /* padding: 0 10px; */
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  text-align: center;
+}
+
+.minus-vala-class {
+  display: none;
+}

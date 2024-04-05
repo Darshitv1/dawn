@@ -10,8 +10,9 @@
   flex-direction: column;
 }
 
-.main_div .product_image {
-  width: calc(50% - 10px);
+.main_div .product-image {
+  width: calc(50%);
+  object-fit: contain;
 }
 
 .main_slider_div {
@@ -39,7 +40,7 @@
 .gallery-thumbs {
   height: 20%;
   box-sizing: border-box;
-  padding: 10px 0;
+  padding: 10px 25px;
   position: relative;
 }
 .gallery-thumbs .swiper-slide {
@@ -54,7 +55,7 @@
 .swiper-button-next,
 .swiper-button-prev {
   position: absolute;
-  display: block !important;
+  display: inline-block !important;
 }
 
 .gallery-thumbs .swiper-wrapper .swiper-slide img {
@@ -105,17 +106,22 @@
 #add:hover {
   font-size: 17px;
   border: 2px solid black;
+  transition: font-size 0.2s ease;
+}
+
+.options-values {
+  margin: 10px 0;
 }
 
 .variants label {
   border: 1px solid black;
   padding: 10px 20px;
-  border-radius: 22px;
+  border-radius: 5px;
   text-align: center;
-  margin: 0 10px 0 0;
+  margin: 0 5px 0 0;
 }
 
-.variants [type='radio']:checked + label {
+input[type='radio']:checked + label {
   background: black;
   color: white;
 }
@@ -124,6 +130,7 @@
   background: black;
   color: white;
   cursor: pointer;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .variants [type='radio'] {
@@ -132,5 +139,7 @@
 
 .variants .variant_name,
 .quantity_button .quantity_name {
-  padding: 10px 0;
+  padding: 10px 10px 10px 0;
+  display: inline-block;
+  width: 80px;
 }

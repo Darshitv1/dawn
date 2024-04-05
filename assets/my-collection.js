@@ -155,4 +155,84 @@ document.addEventListener('DOMContentLoaded', function () {
     history.pushState({}, '', window.location.pathname);
     updateList(fetchUrl);
   });
+
+  // var variantsData = JSON.parse(document.querySelector('.product-variants').dataset.variants);
+  // variantsData.forEach(function (variant) {
+  //   console.log('Variant ID:', variant.id);
+  // });
+
+  const addToCartForms = document.querySelectorAll('[data-product-form]');
+  // console.log('addToCartForms', addToCartForms);
+
+  addToCartForms.forEach((form) => {
+    form.addEventListener('submit', async (event) => {
+      console.log('event', event);
+      event.preventDefault();
+
+      let selectedVariant = event.submitter.closest('.coll_pro_add_to_cart').querySelector('#hidden_type');
+      let selectedVariantValue = selectedVariant.dataset.id;
+      console.log('value: ', selectedVariantValue);
+
+      fetch('/cart/add', {
+        method: 'post',
+        body: new FormData(form),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((cart) => {
+          console.log('cart:', cart);
+        })
+        .catch((error) => console.error('Error:', error));
+
+      const message = document.createElement('p');
+      message.classList.add('added-to-cart');
+      message.textContent = 'Added to cart!';
+      form.appendChild(message);
+      setTimeout(() => {
+        message.remove();
+      }, 3000);
+      // window.location.href = '/cart';
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  var endlessScroll = new Ajaxinate({
+    container: '#Huratips-Loop',
+    pagination: '#Huratips-Pagination',
+  });
+
+  // Listen for the 'ajaxinate:done' event
+  document.addEventListener('ajaxinate:done', function (event) {
+    // Check if there are more pages to load
+    if (!event.detail.has_more) {
+      // Add your logic to fetch and append new products here
+      fetchAndAppendNewProducts();
+    }
+  });
+
+  // Function to fetch and append new products
+  function fetchAndAppendNewProducts() {
+    // Fetch new products and append them to the container
+    // For example:
+    fetch('/api/new-products')
+      .then((response) => response.text())
+      .then((data) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data, 'text/html');
+        const productGrid = doc.querySelector('#Huratips-Loop');
+
+        document.getElementById('Huratips-Loop').appendChild(productGrid);
+        // Reinitialize Ajaxinate to handle the new products
+        endlessScroll.destroy();
+        endlessScroll = new Ajaxinate({
+          container: '#Huratips-Loop',
+          pagination: '#Huratips-Pagination',
+        });
+      });
+  }
 });

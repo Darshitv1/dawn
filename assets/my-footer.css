@@ -99,6 +99,7 @@ summary {
 
 .logo_text_inner .custom_text_inner {
   height: 100%;
+  text-align: justify;
 }
 
 .sub_items ul.footer-menu {

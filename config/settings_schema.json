@@ -1465,5 +1465,35 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "thank_you_page",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo_image_ty_page1",
+        "label": "Logo1"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image_ty_page2",
+        "label": "Logo2"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image_ty_page3",
+        "label": "Logo3"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image_ty_page4",
+        "label": "Logo4"
+      },
+      {
+        "type": "checkbox",
+        "id": "button_link",
+        "label": "Button"
+      }
+    ]
   }
 ]

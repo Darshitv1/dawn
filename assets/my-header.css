@@ -19,6 +19,7 @@ select#sort_by {
 }
 .predictive-search-result {
   display: flex;
+  width: 500px;
 }
 
 .image_through_js {

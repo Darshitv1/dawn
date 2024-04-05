@@ -1,0 +1,183 @@
+{{ 'my-cart-items.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Image</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart.items %}
+        <div class="hide" style="display: none;">{{ item | json }}</div>
+        <tr>
+          <td>{{ item.title }}</td>
+          <td>
+            <img
+              src="{{ item.image | image_url: width: 300 }}"
+              alt="{{ item.image.alt | escape }}"
+              loading="lazy"
+              width="150"
+              height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+            >
+          </td>
+          <td>{{ item.price | money }}</td>
+          <td>
+            <div class="quantity_button">
+              <div class="product-quantity">
+                <div class="qtybox">
+                  <button type="button" class="btnqty qtyminus icon icon-minus">-</button>
+                  <input
+                    class="quantity__input"
+                    type="number"
+                    name="quantity"
+                    id="quantity"
+                    value="1"
+                  >
+                  <button type="button" class="btnqty qtyplus icon icon-plus">+</button>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>{{ item.price | times: item.quantity | money }}</td>
+          <td>
+            <button class="delete">Delete</button>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4"></td>
+        <td>Total:</td>
+        <td>{{ cart.total_price | money }}</td>
+      </tr>
+    </tfoot>
+  </table>
+{% endcomment %}
+<form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
+  {%- if cart.item_count > 0 -%}
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Variant</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Properties</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for item in cart.items -%}
+          <tr>
+            <td>
+              <a href="{{ item.url | within: collections.all }}">
+                <img
+                  src="{{ item.image | image_url: width: 300 }}"
+                  alt="{{ item.image.alt | escape }}"
+                  loading="lazy"
+                  width="150"
+                  height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+                >
+              </a>
+            </td>
+            <td class="id_selector" data-p_id="{{ item.variant.id }}">
+              {%- unless item.variant.title contains 'Default' -%}
+                {{ item.product.title }} /
+                {{ item.variant.title }}
+              {%- endunless -%}
+            </td>
+            <td class="price">{{ item.price | money }}</td>
+            <td>
+              <div class="quantity_button">
+                <div class="product-quantity">
+                  <div class="qtybox" data-pro="{{ item.variant.id }}">
+                    <a
+                      aria-label="Remove {{ item.variant.title }}"
+                      hreff="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+                      style="font-weight: bold;"
+                      class="my-delete-svg minus-vala-class"
+                      data-product-id="{{ item.variant.id }}"
+                    >
+                      {%- render 'my-delete-svg' -%}
+                    </a>
+                    <button type="button" class="btnqty qtyminus icon icon-minus">-</button>
+                    <input
+                      class="quantity__input"
+                      type="number"
+                      name="quantity"
+                      id="quantity"
+                      value="1"
+                    >
+                    <button type="button" class="btnqty qtyplus icon icon-plus">+</button>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              {%- assign property_size = item.properties | size -%}
+              {%- if property_size > 0 -%}
+                <ul>
+                  {%- for p in item.properties -%}
+                    {%- assign first_character_in_key = p.first | truncate: 1, '' -%}
+                    {%- unless p.last == blank or first_character_in_key == '_' -%}
+                      <li>
+                        {{ p.first }}:
+                        {%- if p.last contains '/uploads/' -%}
+                          <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                        {%- else -%}
+                          {{ p.last }}
+                        {%- endif -%}
+                      </li>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+              NULL
+            </td>
+            <td>
+              <a
+                aria-label="Remove {{ item.variant.title }}"
+                hreff="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+                style="font-weight: bold;"
+                class="my-delete-svg"
+              >
+                {%- render 'my-delete-svg' -%}
+              </a>
+            </td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" style="text-align: end;">Total</td>
+          {% comment %} <td>Total:</td> {% endcomment %}
+          <td class="total_price">{{ cart.total_price | money }}</td>
+        </tr>
+      </tfoot>
+    </table>
+    {% comment %} <input id="checkout" type="submit" name="checkout" value="Checkout"> {% endcomment %}
+    <button
+      type="submit"
+      id="checkout"
+      class="cart__checkout-button button"
+      name="checkout"
+      {% if cart == empty %}
+        disabled
+      {% endif %}
+      form="cart"
+    >
+      {{ 'sections.cart.checkout' | t }}
+    </button>
+
+  {%- else -%}
+    <p>The cart is empty. <a href="/collections/all" style="font-weight: bold;">Continue shopping</a></p>
+  {%- endif -%}
+</form>
+<script src="{{ 'my-cart-items.js' | asset_url }}" defer="defer"></script>

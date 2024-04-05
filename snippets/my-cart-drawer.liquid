@@ -313,6 +313,7 @@
 
   async function updateCartDrawer() {
     const res = await fetch('/?section_id=my-cart-drawer');
+    console.log('text', res);
     const text = await res.text();
     const html = document.createElement('div');
     html.innerHTML = text;

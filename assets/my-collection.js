@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', function () {
 const slides = document.querySelector('.coll_xyz');
 const data = slides.dataset.grid;
 console.log(data);
@@ -34,7 +35,7 @@ window.addEventListener('resize', function () {
   }
 
   var mediaQuery = window.matchMedia('(max-width: 768px)');
-  var xyzxyz = document.querySelector('#filter_div');
+  var xyzxyz = document.querySelector('#wantToAppend');
   var main = document.querySelector('.main_collection_card');
 
   if (mediaQuery) {
@@ -43,7 +44,8 @@ window.addEventListener('resize', function () {
   }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
+
+
   let filter_item, fetchUrl, sort_item;
 
   let sorting = document.querySelector('#sort_by');
@@ -64,16 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
   formfilter.addEventListener('change', function (e) {
     const filter_x = new FormData(formfilter);
     filter_item = new URLSearchParams(filter_x).toString();
-    // console.log('filter_item', filter_item);
-    // filter_item.split('&').forEach((v) => {
-    //   // console.log('v', v);
-    //   // console.log('=', v.indexOf('='));
-    //   let last = v.indexOf('=');
-    //   if (last != v.length - 1) {
-    //     console.log('no value in ', v);
-    //     filter_item += v;
-    //   }
-    // });
     const appliedFilters = [];
     filter_item.split('&').forEach((v) => {
       let last = v.indexOf('=');
@@ -83,12 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
     filter_item = appliedFilters.join('&');
-    // console.log('filters:', filters);
-    // console.log('length', filters.length);
-    // filters.forEach((value) => {
-    //   console.log('value', value);
-    //   console.log('=', value.indexOf('=')));
-    // });
     if (sort_item && filter_item) {
       fetchUrl = `?sort_by=${sort_item}&${filter_item}`;
     } else {
@@ -121,16 +107,16 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(data);
     let parser = new DOMParser();
     let newDoc = parser.parseFromString(data, 'text/html');
-    let new_data = newDoc.querySelector('#filter_div');
+    let new_data = newDoc.querySelector('#wantToAppend');
     if (!new_data) {
-      console.error('Error: #filter_div not found in new data');
+      console.error('Error: #wantToAppend not found in new data');
       return;
     }
     console.log('new_data', new_data);
 
-    let old_data = document.querySelector('#filter_div');
+    let old_data = document.querySelector('#wantToAppend');
     if (!old_data) {
-      console.error('Error: #filter_div not found in old data');
+      console.error('Error: #wantToAppend not found in old data');
       return;
     }
     old_data.innerHTML = new_data.innerHTML;
@@ -201,38 +187,57 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  var endlessScroll = new Ajaxinate({
-    container: '#Huratips-Loop',
-    pagination: '#Huratips-Pagination',
-  });
+  let url = document.querySelector('#Huratips-Loop').getAttribute('data-nextpage');
+  let nextPageUrl = url;
+  let isLoading = false;
+  let currentPage = 2;
 
-  // Listen for the 'ajaxinate:done' event
-  document.addEventListener('ajaxinate:done', function (event) {
-    // Check if there are more pages to load
-    if (!event.detail.has_more) {
-      // Add your logic to fetch and append new products here
-      fetchAndAppendNewProducts();
+  function fetchNextPage() {
+    if (nextPageUrl && !isLoading) {
+      isLoading = true;
+      fetch(nextPageUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then((data) => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(data, 'text/html');
+          console.log('doc', doc);
+          const productGrid = doc.querySelectorAll('#abcd');
+          productGrid.forEach((item) => {
+            document.querySelector('#wantToAppend').appendChild(item);
+          });
+          const pagination = document.querySelector('#Huratips-Loop');
+          console.log('pagination', pagination);
+          // console.log(pagination.getAttribute('dat'));
+          const nextPageLink = pagination ? pagination.getAttribute('data-nextpage') : null;
+          console.log('Next page link:', nextPageLink);
+          if (nextPageLink) {
+            currentPage++;
+            nextPageUrl = nextPageLink.replace(/page=\d+/, `page=${currentPage}`);
+          } else {
+            nextPageUrl = null;
+          }
+          isLoading = false;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          isLoading = false;
+        });
+    }
+  }
+
+  // Initial fetch for the first page of products
+  // fetchNextPage();
+
+  // Event listener for scrolling
+  window.addEventListener('scroll', function () {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      console.log('Reached end of page. Loading next page...');
+      fetchNextPage();
     }
   });
-
-  // Function to fetch and append new products
-  function fetchAndAppendNewProducts() {
-    // Fetch new products and append them to the container
-    // For example:
-    fetch('/api/new-products')
-      .then((response) => response.text())
-      .then((data) => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data, 'text/html');
-        const productGrid = doc.querySelector('#Huratips-Loop');
-
-        document.getElementById('Huratips-Loop').appendChild(productGrid);
-        // Reinitialize Ajaxinate to handle the new products
-        endlessScroll.destroy();
-        endlessScroll = new Ajaxinate({
-          container: '#Huratips-Loop',
-          pagination: '#Huratips-Pagination',
-        });
-      });
-  }
 });

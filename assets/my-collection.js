@@ -1,4 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
 const slides = document.querySelector('.coll_xyz');
 const data = slides.dataset.grid;
 console.log(data);
@@ -44,8 +43,7 @@ window.addEventListener('resize', function () {
   }
 });
 
-
-
+document.addEventListener('DOMContentLoaded', function () {
   let filter_item, fetchUrl, sort_item;
 
   let sorting = document.querySelector('#sort_by');
@@ -66,6 +64,16 @@ window.addEventListener('resize', function () {
   formfilter.addEventListener('change', function (e) {
     const filter_x = new FormData(formfilter);
     filter_item = new URLSearchParams(filter_x).toString();
+    // console.log('filter_item', filter_item);
+    // filter_item.split('&').forEach((v) => {
+    //   // console.log('v', v);
+    //   // console.log('=', v.indexOf('='));
+    //   let last = v.indexOf('=');
+    //   if (last != v.length - 1) {
+    //     console.log('no value in ', v);
+    //     filter_item += v;
+    //   }
+    // });
     const appliedFilters = [];
     filter_item.split('&').forEach((v) => {
       let last = v.indexOf('=');
@@ -75,6 +83,12 @@ window.addEventListener('resize', function () {
       }
     });
     filter_item = appliedFilters.join('&');
+    // console.log('filters:', filters);
+    // console.log('length', filters.length);
+    // filters.forEach((value) => {
+    //   console.log('value', value);
+    //   console.log('=', value.indexOf('=')));
+    // });
     if (sort_item && filter_item) {
       fetchUrl = `?sort_by=${sort_item}&${filter_item}`;
     } else {
@@ -84,7 +98,7 @@ window.addEventListener('resize', function () {
     updateList(fetchUrl);
   });
 
-  function updateList() {
+  function updateList(fetchUrl) {
     console.log('Fetching data from:', fetchUrl);
     window.history.pushState(null, null, fetchUrl);
     fetch(fetchUrl)
@@ -92,12 +106,25 @@ window.addEventListener('resize', function () {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        let text = response.text();
-        console.log(text);
-        return text;
+        return response.text();
       })
       .then((data) => {
         console.log('Received data:', data);
+        const parser = new DOMParser();
+        const newDoc = parser.parseFromString(data, 'text/html');
+        const pagination = newDoc.querySelector('#Huratips-Loop');
+        const nextPageLink = pagination ? pagination.getAttribute('data-nextpage') : null;
+
+        if (nextPageLink) {
+          const url = new URL(nextPageLink, window.location.href);
+          const page = url.searchParams.get('page');
+          currentPage = page ? parseInt(page) : 2;
+          nextPageUrl = nextPageLink;
+        } else {
+          nextPageUrl = null;
+          window.removeEventListener('scroll', handleScroll);
+        }
+
         replaceData(data);
       })
       .catch((error) => console.error('Error:', error));
@@ -187,40 +214,48 @@ window.addEventListener('resize', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  let url = document.querySelector('#Huratips-Loop').getAttribute('data-nextpage');
-  let nextPageUrl = url;
+  let nextPageUrl = document.querySelector('#Huratips-Loop').getAttribute('data-nextpage');
   let isLoading = false;
   let currentPage = 2;
+  const appendTarget = document.querySelector('#wantToAppend');
 
   function fetchNextPage() {
     if (nextPageUrl && !isLoading) {
       isLoading = true;
+
       fetch(nextPageUrl)
         .then((response) => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          return response.text();
+          let text = response.text();
+          // console.log('data text', text);
+          return text;
         })
         .then((data) => {
+          // console.log('data', data);
           const parser = new DOMParser();
           const doc = parser.parseFromString(data, 'text/html');
-          console.log('doc', doc);
+          // console.log('data doc', doc);
+          // debugger;
           const productGrid = doc.querySelectorAll('#abcd');
+
           productGrid.forEach((item) => {
-            document.querySelector('#wantToAppend').appendChild(item);
+            appendTarget.appendChild(item);
           });
-          const pagination = document.querySelector('#Huratips-Loop');
-          console.log('pagination', pagination);
-          // console.log(pagination.getAttribute('dat'));
+
+          const pagination = doc.querySelector('#Huratips-Loop');
           const nextPageLink = pagination ? pagination.getAttribute('data-nextpage') : null;
-          console.log('Next page link:', nextPageLink);
+
           if (nextPageLink) {
             currentPage++;
-            nextPageUrl = nextPageLink.replace(/page=\d+/, `page=${currentPage}`);
+            nextPageUrl = new URL(nextPageLink, window.location.href);
+            nextPageUrl.searchParams.set('page', currentPage);
           } else {
             nextPageUrl = null;
+            window.removeEventListener('scroll', handleScroll);
           }
+
           isLoading = false;
         })
         .catch((error) => {
@@ -230,14 +265,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function handleScroll() {
+    // const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    // const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const lastProductItem = appendTarget.lastElementChild;
+
+    if (lastProductItem) {
+      const lastProductItemPosition = lastProductItem.getBoundingClientRect().bottom;
+      // console.log('lastProductItemPosition', lastProductItemPosition);
+
+      if (lastProductItemPosition <= window.innerHeight && !isLoading) {
+        console.log('fetching...');
+        fetchNextPage();
+      }
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll);
+
   // Initial fetch for the first page of products
   // fetchNextPage();
-
-  // Event listener for scrolling
-  window.addEventListener('scroll', function () {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      console.log('Reached end of page. Loading next page...');
-      fetchNextPage();
-    }
-  });
 });

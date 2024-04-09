@@ -147,19 +147,32 @@ window.document.addEventListener('DOMContentLoaded', () => {
       });
 
       fetch('/cart/add', {
-        method: 'post',
+        method: 'POST',
         body: new FormData(form),
+        headers: {
+          Accept: 'application/json',
+        },
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            // Check if the response is HTML
+            if (response.headers.get('Content-Type').includes('text/html')) {
+              return response.text().then((html) => {
+                throw new Error(`Server responded with HTML: ${html}`);
+              });
+            } else {
+              throw new Error('Network response was not ok');
+            }
           }
           return response.json();
         })
         .then((cart) => {
-          // console.log('cart: ', cart);
+          // Handle the JSON response
+          console.log('cart: ', cart);
         })
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => {
+          console.error('Error:', error);
+        });
 
       // Update cart count
       document.querySelectorAll('.cart-count').forEach((el) => {

@@ -1,3 +1,15 @@
+const ul = document.querySelector('.dropdown-child.conten_of_list');
+const liElements = ul.querySelectorAll('.menu-link-child');
+console.log(liElements);
+const wrapperDiv = document.createElement('div');
+wrapperDiv.classList.add('wrapper-class');
+
+for (let i = liElements.length - 5; i < liElements.length; i++) {
+  wrapperDiv.appendChild(liElements[i]);
+}
+
+ul.appendChild(wrapperDiv);
+
 const toggle_btn = document.querySelector('.drawer__close-button');
 const navbar = document.querySelector('#NavDrawer');
 const hamburger = document.querySelector('.hamburger_icon');

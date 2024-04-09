@@ -8,6 +8,11 @@
   }
 }
 
+.wrapper-class {
+  display: flex;
+  flex-direction: column;
+}
+
 #predictive-search {
   margin-left: 25px;
 }
@@ -783,7 +788,7 @@ svg:not(:root) {
 }
 
 .content_of_image_list .content_of_image {
-  width: 50%;
+  width: 30%;
   float: right;
   display: grid;
 }
@@ -796,7 +801,7 @@ svg:not(:root) {
 }
 
 .content_of_image_list .content_of_list {
-  width: 50%;
+  width: 70%;
   float: left;
 }
 

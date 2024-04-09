@@ -166,7 +166,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const quantity = parseInt(quantity_input);
     console.log('quantity', quantity);
 
+    // const lineItem = button.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
+    // console.log('button', lineItem);
+    // debugger;
+    // const lineItemProperties = lineItem.dataset.lineItemProperties;
+
     // updateCartItems(product, quantity);
+    // let properties = {
+    //   items: [
+    //     {
+    //       id: product,
+    //       quantity: quantity,
+    //     },
+    //   ],
+    // };
 
     try {
       const response = await fetch(`/cart/update.js`, {

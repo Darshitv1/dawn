@@ -205,6 +205,19 @@
             </div>
           </div>
         </div>
+        <div class="line_item_properties">
+          <!-- Add a text input field for engraving -->
+          <label style="display: block;" for="engraving">Engraving</label>
+          <input class="engraving_cls" type="text" id="engraving" name="properties[Engraving]">
+
+          <!-- Add a dropdown for size -->
+          <label style="display: block;" for="size">Size</label>
+          <select class="property_cls" id="size" name="properties[Size]">
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+          </select>
+        </div>
         {% if product.available %}
           <div class="add_to_cart">
             <input type="submit" name="add" id="add" value="Add to Cart" class="add_to_cart_input button">

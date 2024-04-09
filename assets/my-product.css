@@ -143,3 +143,16 @@ input[type='radio']:checked + label {
   display: inline-block;
   width: 80px;
 }
+
+.line_item_properties {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #666;
+}
+.line_item_properties .engraving_cls {
+  padding: 10px;
+}
+
+.line_item_properties .property_cls {
+  padding: 10px;
+}

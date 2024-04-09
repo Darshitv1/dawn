@@ -114,32 +114,16 @@
     "my_new_header_DeUKUr": {
       "type": "my-new-header",
       "blocks": {
-        "image_rVUpjg": {
+        "image_PiEkHU": {
           "type": "image",
           "settings": {
-            "for_image": "BUNDLE BASH SALE",
-            "images": "shopify:\/\/shop_images\/tie-clip.jpg"
-          }
-        },
-        "image_taDY4h": {
-          "type": "image",
-          "settings": {
-            "for_image": "DL WOMAN",
-            "images": "shopify:\/\/shop_images\/minimalist-retail-clothing-display.jpg"
-          }
-        },
-        "image_mkKtcG": {
-          "type": "image",
-          "settings": {
-            "for_image": "NEW ARRIVALS",
-            "images": "shopify:\/\/shop_images\/blue_shirt.webp"
+            "for_image": "CATEGORIES",
+            "images": "shopify:\/\/shop_images\/blue_shirt_7c49ae28-b1dc-4434-bff7-ab8a383ee228.webp"
           }
         }
       },
       "block_order": [
-        "image_rVUpjg",
-        "image_taDY4h",
-        "image_mkKtcG"
+        "image_PiEkHU"
       ],
       "settings": {
         "logo_width": 100,

@@ -120,26 +120,39 @@
                 </div>
               </div>
             </td>
-            <td>
+            <td
+              class="cart__row line-item"
+              data-line-item-id="{{ item.key }}"
+              data-line-item-properties="{{ item.properties }}"
+            >
               {%- assign property_size = item.properties | size -%}
               {%- if property_size > 0 -%}
-                <ul>
+                <ul style="list-style-type: none;">
                   {%- for p in item.properties -%}
-                    {%- assign first_character_in_key = p.first | truncate: 1, '' -%}
-                    {%- unless p.last == blank or first_character_in_key == '_' -%}
-                      <li>
-                        {{ p.first }}:
-                        {%- if p.last contains '/uploads/' -%}
-                          <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
-                        {%- else -%}
-                          {{ p.last }}
-                        {%- endif -%}
-                      </li>
-                    {%- endunless -%}
+                    {% comment %}
+                      {%- assign first_character_in_key = p.first | truncate: 1, '' -%}
+                      {%- unless p.last == blank or first_character_in_key == '_' -%}
+                    {% endcomment %}
+                    <li>
+                      {{ p.first }}:&nbsp;
+                      {%- if p.last contains '/uploads/' -%}
+                        <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {%- else -%}
+                        {{ p.last }}
+                      {%- endif -%}
+                    </li>
+                    {% comment %} {%- endunless -%} {% endcomment %}
                   {%- endfor -%}
                 </ul>
               {%- endif -%}
-              NULL
+              {% comment %}
+                {% for p in item.properties %}
+                  {% unless p.last == blank %}
+                    {{ p.first }}: {{ p.last }}
+                    <br>
+                  {% endunless %}
+                {% endfor %}
+              {% endcomment %}
             </td>
             <td>
               <a

@@ -120,10 +120,18 @@
             "for_image": "CATEGORIES",
             "images": "shopify:\/\/shop_images\/blue_shirt_7c49ae28-b1dc-4434-bff7-ab8a383ee228.webp"
           }
+        },
+        "image_UDEpqG": {
+          "type": "image",
+          "settings": {
+            "for_image": "NEW ARRIVALS",
+            "images": "shopify:\/\/shop_images\/SFJEAN0234-1.jpg"
+          }
         }
       },
       "block_order": [
-        "image_PiEkHU"
+        "image_PiEkHU",
+        "image_UDEpqG"
       ],
       "settings": {
         "logo_width": 100,

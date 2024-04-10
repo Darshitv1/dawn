@@ -1,14 +1,28 @@
-const ul = document.querySelector('.dropdown-child.conten_of_list');
-const liElements = ul.querySelectorAll('.menu-link-child');
-console.log(liElements);
-const wrapperDiv = document.createElement('div');
-wrapperDiv.classList.add('wrapper-class');
+// Get all the <ul> elements with the class "dropdown-child conten_of_list"
+const parentUls = document.querySelectorAll('.dropdown-child.content_of_list');
 
-for (let i = liElements.length - 5; i < liElements.length; i++) {
-  wrapperDiv.appendChild(liElements[i]);
-}
+// Loop through each parent <ul> element
+parentUls.forEach((parentUl) => {
+  // Get all the <li> elements with the class "menu-link-child" within the current parent <ul>
+  const menuLinkChildElements = parentUl.querySelectorAll('.menu-link-child');
 
-ul.appendChild(wrapperDiv);
+  // Create a new <div> element to wrap the selected <li> elements
+  const wrapperDiv = document.createElement('div');
+  wrapperDiv.classList.add('wrapper-class');
+
+  // Loop through each <li> element
+  menuLinkChildElements.forEach((li) => {
+    // Check if the <li> element doesn't have a nested <ul> with the class "dropdown-grandchild"
+    const hasGrandchildLinks = li.querySelector('.dropdown-grandchild');
+    if (!hasGrandchildLinks) {
+      // If it doesn't have grandchild links, append the <li> element to the wrapperDiv
+      wrapperDiv.appendChild(li);
+    }
+  });
+
+  // Append the wrapperDiv to the current parent <ul> element
+  parentUl.appendChild(wrapperDiv);
+});
 
 const toggle_btn = document.querySelector('.drawer__close-button');
 const navbar = document.querySelector('#NavDrawer');

@@ -1,4 +1,5 @@
 {{ 'my-collection.css' | asset_url | stylesheet_tag }}
+{{ 'my-quickview.css' | asset_url | stylesheet_tag }}
 {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
 <div class="coll_xyz" data-grid="{{ section.settings.slider_range }}"></div>
@@ -112,6 +113,11 @@
     >
       {% for product in collection.products %}
         {% comment %} {% for collection in product.collections %} {% endcomment %}
+        {% comment %}
+          <div class="quick-view-button">
+          <a class="quick-view" data-handle="{{ product.handle }}" href="javascript:void(0);">Quick View</a>
+          </div>
+        {% endcomment %}
         <div
           id="abcd"
           class="main_collection_card products-{{ section.settings.product_range }} tablet-products-{{ section.settings.product_range_tablet }} mobile-products-{{ section.settings.product_range_mobile }} swiper-slide slide-{{ section.settings.slider_range }}"
@@ -131,6 +137,36 @@
                 {% endif %}
               </div>
             </a>
+            <a href="#" class="quick_view quick-view-btn" data-product-id="{{ product.id }}">
+              <button class="button quick_hide">Quick View</button>
+            </a>
+            <div class="quick-view-modal" id="quick-view-modal-{{ product.id }}" aria-hidden="true">
+              <div class="quick-view-modal__content">
+                <button class="quick-view-modal__close" aria-label="Close modal">X</button>
+                <div class="quick-view-modal__header">
+                  <img
+                    src="{{ product.featured_media | image_url: width: section.settings.image.width }}"
+                    width="{{ section.settings.image.width }}"
+                    height="{{ section.settings.image.height }}"
+                    alt="{{ section.settings.image.alt | default: product.title }}"
+                    loading="lazy"
+                  >
+                </div>
+                <div class="quick-view-modal__body">
+                  <h2>{{ product.title }}</h2>
+                  <p>{{ product.description }}</p>
+                  <p>{{ product.price | money }}</p>
+                  {% if product.available %}
+                    {% form 'product', product, id: 'quick-view-form' %}
+                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                      <button type="submit" name="add" class="quick-view-modal__add-to-cart button">Add to Cart</button>
+                    {% endform %}
+                  {% else %}
+                    <p>This product is currently unavailable.</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
           </div>
           <form action="/cart/add" method="post" class="form_f_var" enctype="multipart/form-data" data-product-form>
             {% assign selectedVariant = product.selected_or_first_available_variant %}
@@ -193,6 +229,7 @@
 {% endif %}
 <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'my-collection.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'my-quickview.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {

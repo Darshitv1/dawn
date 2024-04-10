@@ -1,3 +1,18 @@
+.quick_hide {
+  display: none;
+}
+
+#abcd:hover .quick_hide {
+  display: block;
+}
+
+.quick_view {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-87px, -50px);
+}
+
 .collection_heading {
   text-align: center;
   margin-bottom: 50px;

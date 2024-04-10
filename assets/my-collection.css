@@ -1,6 +1,14 @@
 .quick_hide {
   display: none;
 }
+.quick_hide > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.collection_image {
+  position: relative;
+}
 
 #abcd:hover .quick_hide {
   display: block;
@@ -8,9 +16,9 @@
 
 .quick_view {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-87px, -50px);
+  top: 10%;
+  right: 18%;
+  /* transform: translate(-87px, -50px); */
 }
 
 .collection_heading {
@@ -33,7 +41,7 @@
   margin-bottom: 30px;
 }
 
-.main_collection_card:hover .collection_image img {
+.main_collection_card:hover .collection_image > a > div > img {
   transform: scale(1.05);
   transition: transform 0.5s ease-in-out;
 }

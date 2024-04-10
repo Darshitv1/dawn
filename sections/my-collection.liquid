@@ -138,11 +138,13 @@
               </div>
             </a>
             <a href="#" class="quick_view quick-view-btn" data-product-id="{{ product.id }}">
-              <button class="button quick_hide">Quick View</button>
+              <button class="quick_hide">{% render 'my-magnifing-glass' %}</button>
             </a>
             <div class="quick-view-modal" id="quick-view-modal-{{ product.id }}" aria-hidden="true">
               <div class="quick-view-modal__content">
-                <button class="quick-view-modal__close" aria-label="Close modal">X</button>
+                <button class="quick-view-modal__close" aria-label="Close modal">
+                  {% render 'my-close-button' %}
+                </button>
                 <div class="quick-view-modal__header">
                   <img
                     src="{{ product.featured_media | image_url: width: section.settings.image.width }}"

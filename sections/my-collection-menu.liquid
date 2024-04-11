@@ -1,0 +1,73 @@
+{{ 'my-collection-menu.css' | asset_url | stylesheet_tag }}
+
+<div class="swiperhehe mySwiper">
+  <div class="collection-wrapper swiper-wrapper">
+    {% for link in section.settings.collection_menu.links %}
+      {% assign currentColHandle = link.url | split: '/' | last %}
+      {% assign collection_X = collections[currentColHandle] %}
+      <div class="swiper-slide" data-first="{{ currentColHandle }}" data-second="{{ collection_X }}">
+        <a class="link_object" href="{{ link.url }}">
+          {% if section.settings.select == 'both' %}
+            <img src="{{ collection_X | image_url }}" alt="{{ link.title }}" height="100" width="100">
+          {% endif %}
+          <h3>{{ link.title }}</h3>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="swiper-pagination"></div>
+  {% comment %}
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  {% endcomment %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var swiper = new Swiper('.mySwiper', {
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      grabCursor: true,
+      loop: true,
+      //   navigation: {
+      //     nextEl: '.swiper-button-next',
+      //     prevEl: '.swiper-button-prev',
+      //   },
+    });
+  });
+</script>
+{% schema %}
+{
+  "name": "my-collection-menu",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "collection_menu",
+      "label": "Select Collection Menu"
+    },
+    {
+      "type": "radio",
+      "id": "select",
+      "label": "Select Any",
+      "options": [
+        {
+          "value": "both",
+          "label": "Show Image & Text"
+        },
+        {
+          "value": "text_only",
+          "label": "Show Text Only"
+        }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets": [
+    {
+      "name": "my-collection-menu"
+    }
+  ]
+}
+{% endschema %}

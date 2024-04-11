@@ -13,6 +13,7 @@
 
 .quick-view-modal[aria-hidden='true'] {
   display: none;
+  transition: display 1s ease-in-out;
 }
 
 .quick-view-modal__content {

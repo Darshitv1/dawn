@@ -1,5 +1,12 @@
 {
   "sections": {
+    "my_collection_menu_AnMGhD": {
+      "type": "my-collection-menu",
+      "settings": {
+        "collection_menu": "collection-menu",
+        "select": "both"
+      }
+    },
     "main": {
       "type": "my-collection",
       "settings": {
@@ -14,6 +21,7 @@
     }
   },
   "order": [
+    "my_collection_menu_AnMGhD",
     "main"
   ]
 }

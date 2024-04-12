@@ -5,7 +5,7 @@
     {% for link in section.settings.collection_menu.links %}
       {% assign currentColHandle = link.url | split: '/' | last %}
       {% assign collection_X = collections[currentColHandle] %}
-      <div class="swiper-slide" data-first="{{ currentColHandle }}" data-second="{{ collection_X }}">
+      <div class="swiper-slide" style="display: flex;">
         <a class="link_object" href="{{ link.url }}">
           {% if section.settings.select == 'both' %}
             <img src="{{ collection_X | image_url }}" alt="{{ link.title }}" height="100" width="100">

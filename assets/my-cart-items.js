@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', async function () {
           minusButtons[index].style.display = 'none';
           minusButtons[index].disabled = true;
           minusButtons[index].style.cursor = 'not-allowed';
-          deleteButtons[index].style.display = 'block';
+          deleteButtons[index].style.display = 'flex';
+          deleteButtons[index].style.alignItems = 'center';
         } else {
           minusButtons[index].style.display = 'block';
           minusButtons[index].disabled = false;
@@ -72,7 +73,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       }
       if (numberInputs[index].value <= 1) {
         numberInputs[index].value = 1;
-        deleteButtons[index].style.display = 'block';
+        deleteButtons[index].style.display = 'flex';
+        deleteButtons[index].style.alignItems = 'center';
         minus.style.display = 'none';
         minus.disabled = true;
         minus.style.cursor = 'not-allowed';
@@ -137,7 +139,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   });
 
+  var loader = document.querySelector('.loader');
+  var cart_count = document.querySelectorAll('.badgexyz');
   const updateCartItem = async (productId, quantity) => {
+    totalPriceElement.style.display = 'none';
+    loader.style.display = 'block';
     try {
       const response = await fetch(`/cart/update.js`, {
         method: 'POST',
@@ -146,8 +152,14 @@ document.addEventListener('DOMContentLoaded', async function () {
       });
 
       const data = await response.json();
+      setTimeout(() => {
+        loader.style.display = 'none';
+        totalPriceElement.style.display = 'block';
+      }, 1000);
       console.log('Cart items updated:', data);
-      const totalPriceElement = document.querySelector('.total_price');
+      cart_count.forEach((count) => {
+        count.innerText = data.item_count;
+      });
       const discountElement = document.querySelector('.total_discounts');
       // let total = parseFloat(totalPriceElement.innerText.replace(/[^\d.]/g, '')); // Remove non-numeric characters
 

@@ -238,7 +238,7 @@
           {% for item in cart.items %}
             <div class="cart-drawer-item" data-line-item-key="{{ item.key }}">
               <div class="cart-drawer-item-image">
-                <img src="{{ item.image | img_url: '200x200' }}" height="200" width="200" alt="{{ item.title }}">
+                <img src="{{ item.image | image_url }}" height="200" width="200" alt="{{ item.title }}">
               </div>
               <div class="cart-drawer-item-main">
                 <div class="cart-drawer-item-main-flex">

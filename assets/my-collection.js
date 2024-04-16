@@ -181,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', async (event) => {
       console.log('event', event);
       event.preventDefault();
-
       let selectedVariant = event.submitter.closest('.coll_pro_add_to_cart').querySelector('#hidden_type');
       let selectedVariantValue = selectedVariant.dataset.id;
       console.log('value: ', selectedVariantValue);

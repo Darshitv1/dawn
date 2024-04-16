@@ -16,10 +16,8 @@
     {% endfor %}
   </div>
   <div class="swiper-pagination"></div>
-  {% comment %}
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-  {% endcomment %}
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
 </div>
 
 <script>
@@ -31,10 +29,14 @@
       },
       grabCursor: true,
       loop: true,
-      //   navigation: {
-      //     nextEl: '.swiper-button-next',
-      //     prevEl: '.swiper-button-prev',
-      //   },
+      freeMode: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      keyboard: {
+        enabled: true,
+      },
     });
   });
 </script>

@@ -252,6 +252,7 @@
     {% endstyle %}
 
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    {{ 'font-awesome.min.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
     {%- unless settings.type_body_font.system? -%}

@@ -172,13 +172,21 @@
         <tr>
           {% if cart.total_discounts > 0 %}
             <td colspan="5" style="text-align: end;">Discounts</td>
-            <td class="total_discounts">{{ cart.total_discounts | money }}</td>
+            <td class="total_discounts loader_upper">{{ cart.total_discounts | money }}</td>
+            <td class="loader" style="display: none;">
+              {% render 'my-loader' %}
+            </td>
           {% endif %}
         </tr>
         <tr>
           <td colspan="5" style="text-align: end;">Total</td>
           {% comment %} <td>Total:</td> {% endcomment %}
-          <td class="total_price">{{ cart.total_price | money }}</td>
+          <td class="total_price loader_upper">
+            {{ cart.total_price | money }}
+          </td>
+          <td class="loader" style="display: none;">
+            {% render 'my-loader' %}
+          </td>
         </tr>
       </tfoot>
     </table>

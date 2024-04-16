@@ -192,6 +192,12 @@
                     {% render 'my-bag-icon' %}
                   </span>
                 </a>
+                <script>
+                  var cartCount = {{ cart.item_count }};
+                  if (cartCount > 0) {
+                    document.querySelector('.cart-link').insertAdjacentHTML('beforeend', '<span class="cart-count">' + cartCount + '</span>');
+                  }
+                </script>
               </div>
             </div>
           </div>

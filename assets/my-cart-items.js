@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         const index = Array.from(numberInputs).indexOf(quantityInput);
         quantityInput.value = item.quantity;
         numberInputs[index].setAttribute('value', item.quantity);
-        updatePrice(index);
-
+        console.log('price', item.original_price);
+        updatePrice(index, item.original_price);
         if (item.quantity <= 1) {
           minusButtons[index].style.display = 'none';
           minusButtons[index].disabled = true;
@@ -45,11 +45,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
-  // Update prices based on initial quantities
-  prices.forEach((price, index) => {
-    updatePrice(index);
-  });
-
   plusButtons.forEach((plus, index) => {
     plus.addEventListener('click', () => {
       deleteButtons[index].style.display = 'none';
@@ -58,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       numberInputs[index].setAttribute('value', numberInputs[index].value);
       minusButtons[index].style.cursor = 'pointer';
       minusButtons[index].removeAttribute('disabled');
-      updatePrice(index);
+      // updatePrice(index);
       updateCartItem(productIds[index], parseInt(numberInputs[index].value));
     });
   });
@@ -68,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (numberInputs[index].value > 1) {
         numberInputs[index].value--;
         numberInputs[index].setAttribute('value', numberInputs[index].value);
-        updatePrice(index);
+        // updatePrice(index);
         updateCartItem(productIds[index], parseInt(numberInputs[index].value));
       }
       if (numberInputs[index].value <= 1) {
@@ -82,10 +77,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   });
 
-  function updatePrice(index) {
-    const quantity = parseInt(numberInputs[index].value);
-    const totalPrice = prices[index] * quantity;
-    priceElements[index].innerText = 'Rs. ' + totalPrice.toFixed(2);
+  function updatePrice(index, price) {
+    console.log('priceelements', price, priceElements, index);
+    let ogPrice = parseFloat(price / 100);
+    priceElements[index].innerText = 'Rs. ' + ogPrice.toFixed(2);
   }
 
   document.querySelectorAll('.btnqty').forEach((button) => {
@@ -140,7 +135,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   });
 
   var loader = document.querySelector('.loader');
-  var cart_count = document.querySelectorAll('.badgexyz');
   const updateCartItem = async (productId, quantity) => {
     totalPriceElement.style.display = 'none';
     loader.style.display = 'block';
@@ -152,20 +146,15 @@ document.addEventListener('DOMContentLoaded', async function () {
       });
 
       const data = await response.json();
-      setTimeout(() => {
-        loader.style.display = 'none';
-        totalPriceElement.style.display = 'block';
-      }, 1000);
+      loader.style.display = 'none';
+      totalPriceElement.style.display = 'block';
       console.log('Cart items updated:', data);
-      cart_count.forEach((count) => {
-        count.innerText = data.item_count;
-      });
-      const discountElement = document.querySelector('.total_discounts');
       // let total = parseFloat(totalPriceElement.innerText.replace(/[^\d.]/g, '')); // Remove non-numeric characters
 
       // console.log('total:', total);
       // const discount = (total * 10000) / 9; // Calculate discount based on total price
       // console.log('discount:', discount);
+      const discountElement = document.querySelector('.total_discounts');
       totalPriceElement.innerText = 'Rs. ' + formatNumber(data.total_price);
 
       // Update total discount

@@ -1,6 +1,5 @@
 {{ 'my-slider.css' | asset_url | stylesheet_tag }}
 {{ 'my-multi-images.css' | asset_url | stylesheet_tag }}
-{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 {% comment %} {{ 'my-multi-images.css' | asset_url | stylesheet_tag }}  {% endcomment %}
 
 <div class="xyz" style="height: 580px;" data-grid="{{ section.settings.images_desktop }}">
@@ -24,7 +23,6 @@
     {% endif %}
   </div>
 </div>
-<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'my-slider.js' | asset_url }}" defer="defer"></script>
 {% schema %}
 {

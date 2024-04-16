@@ -1,6 +1,5 @@
 {{ 'my-collection.css' | asset_url | stylesheet_tag }}
 {{ 'my-quickview.css' | asset_url | stylesheet_tag }}
-{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
 <div class="coll_xyz" data-grid="{{ section.settings.slider_range }}"></div>
 <h1 class="collection_heading">{{ section.settings.collection_heading }}</h1>
@@ -229,7 +228,6 @@
   <div class="swiper-button-prev"></div>
   <div class="swiper-pagination xyz_ab"></div>
 {% endif %}
-<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'my-collection.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'my-quickview.js' | asset_url }}" defer="defer"></script>
 

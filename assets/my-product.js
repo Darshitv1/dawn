@@ -6,8 +6,13 @@ window.document.addEventListener('DOMContentLoaded', () => {
 
   function applyDiscount() {
     const discountCode = discountCodeInput.value;
+    if (!discountCode) {
+      console.log('No discount code applied');
+      return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('discounts', discountCode); 
+    urlParams.set('discounts', discountCode);
     window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
     console.log('discount applied:', discountCode);
     fetch(`/discount/${discountCode}`)

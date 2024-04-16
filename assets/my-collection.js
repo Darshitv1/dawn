@@ -1,29 +1,3 @@
-const slides = document.querySelector('.coll_xyz');
-const data = slides.dataset.grid;
-console.log(data);
-
-var swiper = new Swiper('.mySwiper', {
-  slidesPerView: data,
-  centeredSlides: true,
-  spaceBetween: 20,
-  //   pagination: {
-  //     el: '.swiper-pagination',
-  //     // type: 'fraction',
-  //   },
-  //   autoplay: {
-  //     delay: 4000,
-  //     disableOnInteraction: false,
-  //   },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  loop: true,
-  rewind: true,
-  // cssMode: true,
-  grabCursor: true,
-});
-
 window.addEventListener('resize', function () {
   // Get the current window width
   const width = window.innerWidth;
@@ -44,6 +18,31 @@ window.addEventListener('resize', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  const slides = document.querySelector('.coll_xyz');
+  const data = slides.dataset.grid;
+  console.log(data);
+
+  var swiper = new Swiper('.mySwiper', {
+    slidesPerView: data,
+    centeredSlides: true,
+    spaceBetween: 20,
+    //   pagination: {
+    //     el: '.swiper-pagination',
+    //     // type: 'fraction',
+    //   },
+    //   autoplay: {
+    //     delay: 4000,
+    //     disableOnInteraction: false,
+    //   },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    loop: true,
+    rewind: true,
+    // cssMode: true,
+    grabCursor: true,
+  });
   let filter_item, fetchUrl, sort_item;
 
   let sorting = document.querySelector('#sort_by');
@@ -210,9 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // window.location.href = '/cart';
     });
   });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
   let nextPageUrl = document.querySelector('#Huratips-Loop').getAttribute('data-nextpage');
   let isLoading = false;
   let currentPage = 2;
@@ -256,6 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
 
           isLoading = false;
+          attachQuickViewListeners();
         })
         .catch((error) => {
           console.error('Error:', error);

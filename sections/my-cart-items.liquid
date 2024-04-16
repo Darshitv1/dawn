@@ -173,10 +173,16 @@
           {% if cart.total_discounts > 0 %}
             <td colspan="5" style="text-align: end;">Discounts</td>
             <td class="total_discounts loader_upper">{{ cart.total_discounts | money }}</td>
-            <td class="loader" style="display: none;">
-              {% render 'my-loader' %}
-            </td>
+            {% comment %}
+              <td class="loader" style="display: none;">
+                {% render 'my-loader' %}
+              </td>
+            {% endcomment %}
           {% endif %}
+        </tr>
+        <tr>
+          <td colspan="5" style="text-align: end;">Shipping Charge</td>
+          <td class="shipping">Rs. 50.00</td>
         </tr>
         <tr>
           <td colspan="5" style="text-align: end;">Total</td>

@@ -249,6 +249,9 @@
                     <span>{{ item.variant.title }}</span>
                     <div class="cart-drawer-quantity-selector">
                       <button class="cart-drawer-quantity-selector-minus" type="button">-</button>
+                      <button class="dlt_btn" style="display: none;">
+                        {% render 'my-delete-svg' %}
+                      </button>
                       <input type="text" readonly value="{{ item.quantity }}">
                       <button class="cart-drawer-quantity-selector-plus" type="button">+</button>
                     </div>
@@ -348,6 +351,24 @@
           body: JSON.stringify({ updates: { [key]: newQuantity } }),
         });
         const cart = await res.json();
+
+        // let minus_btn = document.querySelectorAll('.cart-drawer-quantity-selector-minus');
+        // let dlt_btn = document.querySelectorAll('.dlt_btn');
+        // if (newQuantity == 1) {
+        //   minus_btn.forEach((btn) => {
+        //     btn.style.display = 'none';
+        //   });
+        //   dlt_btn.forEach((btn) => {
+        //     btn.style.display = 'block';
+        //   });
+        // } else {
+        //   minus_btn.forEach((btn) => {
+        //     btn.style.display = 'block';
+        //   });
+        //   dlt_btn.forEach((btn) => {
+        //     btn.style.display = 'none';
+        //   });
+        // }
 
         updateCartItemCounts(cart.item_count);
 

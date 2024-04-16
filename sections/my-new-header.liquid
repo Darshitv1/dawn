@@ -194,9 +194,14 @@
                 </a>
                 <script>
                   var cartCount = {{ cart.item_count }};
-                  if (cartCount > 0) {
-                    document.querySelector('.cart-link').insertAdjacentHTML('beforeend', '<span class="cart-count">' + cartCount + '</span>');
-                  }
+                    const cartLink = document.querySelector('.cart-link');
+                    let cartCountElement = document.querySelector('.cart-count');
+                    if (!cartCountElement) {
+                    cartCountElement = document.createElement('span');
+                    cartCountElement.classList.add('cart-count');
+                    cartLink.appendChild(cartCountElement);
+                    }
+                    cartCountElement.innerHTML = cartCount;
                 </script>
               </div>
             </div>

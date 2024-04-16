@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   const plusButtons = document.querySelectorAll('.icon-plus');
   const minusButtons = document.querySelectorAll('.icon-minus');
   const deleteButtons = document.querySelectorAll('.minus-vala-class');
@@ -6,8 +6,43 @@ document.addEventListener('DOMContentLoaded', function () {
   const numberInputs = document.querySelectorAll('.quantity__input');
   let totalPriceElement = document.querySelector('.total_price');
   let productIds = Array.from(document.querySelectorAll('.id_selector')).map((elem) => parseInt(elem.dataset.p_id));
-
   let prices = Array.from(priceElements).map((priceElement) => parseFloat(priceElement.innerText.replace('Rs.', '')));
+
+  async function fetchCartData() {
+    try {
+      const response = await fetch('/cart.js');
+      const cartData = await response.json();
+      return cartData;
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+      return null;
+    }
+  }
+  const cartData = await fetchCartData();
+  if (cartData) {
+    // Initialize quantities based on the fetched cart data
+    cartData.items.forEach((item) => {
+      const quantityInput = document.querySelector(`.quantity__input[data-variant-id="${item.variant_id}"]`);
+      if (quantityInput) {
+        const index = Array.from(numberInputs).indexOf(quantityInput);
+        quantityInput.value = item.quantity;
+        numberInputs[index].setAttribute('value', item.quantity);
+        updatePrice(index);
+
+        if (item.quantity <= 1) {
+          minusButtons[index].style.display = 'none';
+          minusButtons[index].disabled = true;
+          minusButtons[index].style.cursor = 'not-allowed';
+          deleteButtons[index].style.display = 'block';
+        } else {
+          minusButtons[index].style.display = 'block';
+          minusButtons[index].disabled = false;
+          minusButtons[index].style.cursor = 'pointer';
+          deleteButtons[index].style.display = 'none';
+        }
+      }
+    });
+  }
 
   // Update prices based on initial quantities
   prices.forEach((price, index) => {
@@ -48,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function updatePrice(index) {
     const quantity = parseInt(numberInputs[index].value);
     const totalPrice = prices[index] * quantity;
-    priceElements[index].innerText = 'Rs.' + totalPrice.toFixed(2);
+    priceElements[index].innerText = 'Rs. ' + totalPrice.toFixed(2);
   }
 
   document.querySelectorAll('.btnqty').forEach((button) => {
@@ -58,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
         (total, price) => total + parseFloat(price.innerText.replace('Rs.', '')),
         0
       );
-      totalPriceElement.innerText = 'Rs.' + totalPrice.toFixed(2);
+      totalPriceElement.innerText = 'Rs. ' + totalPrice.toFixed(2);
     });
   });
 
@@ -92,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
           );
 
           // Update total price in the UI
-          totalPriceElement.innerText = 'Rs.' + total.toFixed(2);
+          totalPriceElement.innerText = 'Rs. ' + total.toFixed(2);
         } else {
           alert('Failed to remove item from cart. Please try again.');
         }
@@ -112,8 +147,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const data = await response.json();
       console.log('Cart items updated:', data);
+      const totalPriceElement = document.querySelector('.total_price');
+      const discountElement = document.querySelector('.total_discounts');
+      // let total = parseFloat(totalPriceElement.innerText.replace(/[^\d.]/g, '')); // Remove non-numeric characters
+
+      // console.log('total:', total);
+      // const discount = (total * 10000) / 9; // Calculate discount based on total price
+      // console.log('discount:', discount);
+      totalPriceElement.innerText = 'Rs. ' + formatNumber(data.total_price);
+
+      // Update total discount
+      discountElement.innerText = 'Rs. ' + formatNumber(data.total_discount);
+
+      function formatNumber(number) {
+        return (number / 100).toFixed(2);
+      }
     } catch (error) {
-      alert('Something went wrong! Try again later.');
+      //   alert('Something went wrong! Try again later2.');
     }
   };
 });

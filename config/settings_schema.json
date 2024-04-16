@@ -1495,5 +1495,43 @@
         "label": "Button"
       }
     ]
-  }
+  },
+  {  
+    "name": "Cart discounts executed in checkout [Plus]",  
+    "settings": [ 
+      { 
+        "type": "header",  
+        "content": "Enable cart page discount code input field." 
+      },  
+      { 
+        "type": "paragraph",  
+        "content": "Adds a discount code input field to the cart page." 
+      },  
+      { 
+        "type": "checkbox",  
+        "id": "plus_display_discount_code", 
+        "label": "Show discount code input field on cart page.", 
+        "default": true 
+      } 
+    ]  
+},
+{  
+    "name": "My Discount",  
+    "settings": [ 
+      { 
+        "type": "header",  
+        "content": "Enable cart page discount code input field." 
+      },  
+      { 
+        "type": "paragraph",  
+        "content": "Adds a discount code input field to the cart page." 
+      },  
+      { 
+        "type": "checkbox",  
+        "id": "my_discount_code", 
+        "label": "Show discount code input field on cart page.", 
+        "default": true 
+      } 
+    ]  
+}
 ]

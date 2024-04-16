@@ -1,4 +1,35 @@
 window.document.addEventListener('DOMContentLoaded', () => {
+  const discountCodeInput = document.querySelector('.discount-code');
+  var originalPrice = document.querySelector('.unit-price').innerHTML.replace('Rs. ', '');
+  console.log('originalPrice:', originalPrice);
+  discountCodeInput.addEventListener('click', applyDiscount);
+
+  function applyDiscount() {
+    const discountCode = discountCodeInput.value;
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('discounts', discountCode); 
+    window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
+    console.log('discount applied:', discountCode);
+    fetch(`/discount/${discountCode}`)
+      .then(function () {
+        return fetch('/cart/update.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            updates: {},
+          }),
+        });
+      })
+      .then(() => {
+        console.log('Discount updated');
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+      });
+  }
+
   const plus = document.querySelector('.icon-plus'),
     minus = document.querySelector('.icon-minus');
   // console.log(plus);
@@ -92,6 +123,12 @@ window.document.addEventListener('DOMContentLoaded', () => {
       // console.log('Radio button clicked');
       const variant = variantsArray.find((variant) => JSON.stringify(variant.options) === JSON.stringify(checkedArray));
       if (variant) {
+        radioArray.forEach((r) => {
+          r.removeAttribute('checked');
+        });
+
+        // Set the 'checked' attribute on the selected radio button
+        this.setAttribute('checked', 'True');
         console.log('Found variant:', variant);
         console.log('avaibility', variant.available);
         const addToCartButton = document.getElementById('add');
@@ -113,9 +150,11 @@ window.document.addEventListener('DOMContentLoaded', () => {
         var priceString = variant.price.toString();
         document.querySelector('.unit-price').textContent = `Rs. ${(priceString * number.value) / 100}`;
         // const image = document.querySelector('.product-image');
-        const variantImage = variant.featured_media.position;
-        // console.log('Slide index:', variantImage);
-        galleryTop.slideTo(variantImage - 1);
+        if (variant.featured_media) {
+          const variantImage = variant.featured_media.position;
+          // console.log('Slide index:', variantImage);
+          galleryTop.slideTo(variantImage - 1);
+        }
         // image.alt = variant.alt;
       }
     });
@@ -124,10 +163,9 @@ window.document.addEventListener('DOMContentLoaded', () => {
   // console.log('addToCartForms', addToCartForms);
 
   addToCartForms.forEach((form) => {
-    console.log('form: ', form);
     form.addEventListener('submit', async (event) => {
-      // console.log('event', event);
       event.preventDefault();
+
       let c = 0;
 
       // console.log(checkedArray);
@@ -145,42 +183,39 @@ window.document.addEventListener('DOMContentLoaded', () => {
           c++;
         }
       });
-
-      fetch('/cart/add', {
-        method: 'POST',
+      await fetch('/cart/add', {
+        method: 'post',
         body: new FormData(form),
-        headers: {
-          Accept: 'application/json',
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            // Check if the response is HTML
-            if (response.headers.get('Content-Type').includes('text/html')) {
-              return response.text().then((html) => {
-                throw new Error(`Server responded with HTML: ${html}`);
-              });
-            } else {
-              throw new Error('Network response was not ok');
-            }
-          }
-          return response.json();
-        })
-        .then((cart) => {
-          // Handle the JSON response
-          console.log('cart: ', cart);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-
-      // Update cart count
-      document.querySelectorAll('.cart-count').forEach((el) => {
-        el.textContent = cart.item_count;
-        // console.log('cart count: ', el.textContent);
       });
 
-      // Display message
+      // Get cart count
+      const res = await fetch('/cart.js');
+      const cart = await res.json();
+      console.log('cart:', cart);
+      // fetch('/cart/add', {
+      //   method: 'POST',
+      //   body: new FormData(form),
+      //   headers: {
+      //     Accept: 'application/json',
+      //   },
+      // })
+      //   .then(async (response) => {
+      //     if (!response.ok) {
+      //       if (response.headers.get('Content-Type').includes('text/html')) {
+      //         const html = await response.text();
+      //         throw new Error(`Server responded with HTML: ${html}`);
+      //       } else {
+      //         throw new Error('Network response was not ok');
+      //       }
+      //     }
+      //     return response.json();
+      //   })
+      //   .then((cart) => {
+      //     console.log('cart: ', cart);
+      //   })
+      //   .catch((error) => {
+      //     console.error('Error:', error);
+      //   });
       const message = document.createElement('p');
       message.classList.add('added-to-cart');
       message.textContent = 'Added to cart! Redirecting...';
@@ -188,92 +223,6 @@ window.document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         message.remove();
       }, 3000);
-      // let action = (event.submitter.formAction = '/cart');
-      // console.log('action', action);
-      // window.location.href = '/cart';
-      // let fetchUrl = '/cart';
-      // window.history.pushState(null, null, fetchUrl);
-      // fetch(fetchUrl)
-      //   .then((response) => {
-      //     if (!response.ok) {
-      //       throw new Error('Network response was not ok');
-      //     }
-      //     return response.text();
-      //   })
-      //   .then((data) => {
-      //     window.location.href = data;
-      //   })
-      //   .catch((error) => console.error('Error:', error));
     });
   });
 });
-
-// addToCartForms.forEach((form) => {
-//   form.addEventListener('submit', async (event) => {
-//     // Prevent normal submission
-//     event.preventDefault();
-
-//     // Submit form with ajax
-//     await fetch('/cart', {
-//       method: 'post',
-//       body: new FormData(form),
-//     });
-
-//     // Get new cart object
-//     const res = await fetch('/cart.json');
-//     const cart = await res.json();
-// console.log(cart);
-
-//     // Update cart count
-//     document.querySelectorAll('.cart-count').forEach((el) => {
-//       el.textContent = cart.item_count;
-//     });
-
-//     // Display message
-//     const message = document.createElement('p');
-//     message.classList.add('added-to-cart');
-//     message.textContent = 'Added to cart!';
-//     form.appendChild(message);
-//   });
-// });
-// document.querySelector('.form_f_var').addEventListener('submit', function (event) {
-//   event.preventDefault();
-//   var form = event.target;
-//   var formData = new FormData(form);
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('POST', '/cart.json', true);
-//   xhr.onreadystatechange = function () {
-//     if (xhr.readyState === 4 && xhr.status === 200) {
-//       var response = JSON.parse(xhr.responseText);
-// console.log(response);
-//       if (response.status === 'success') {
-//         window.location.href = '/cart';
-//       }
-//     }
-//   };
-// console.log(formData);
-//   xhr.send(formData);
-// });
-
-///----------------------if product doesn't go to cart then try this....
-// fetch('/cart/add', {
-//   method: 'post',
-//   body: new FormData(form),
-// })
-//   .then((response) => {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//   })
-//   .then((cart) => {
-//     // Get new cart object
-//     return fetch('/cart.json');
-//   })
-//   .then((res) => res.json())
-//   .then((cart) => {
-// console.log('cart :', cart);
-//     // Update cart count
-//     document.querySelectorAll('.cart-count').forEach((el) => {
-//       el.textContent = cart.item_count;
-//     });

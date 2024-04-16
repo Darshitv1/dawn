@@ -128,7 +128,12 @@
 
           {% assign selectedVariant = product.first_or_selected_variant %}
           <label style="display: none;" for="dropdown_variants" class="product-option">Options</label>
-          <select style="display: none;" id="dropdown_variants" class="product-select" name="id">
+          <select
+            style="display: none;"
+            id="dropdown_variants"
+            class="product-select"
+            name="id"
+          >
             {% for variant in product.variants %}
               <option
                 id="variant-select"
@@ -235,6 +240,27 @@
             >
           </div>
         {% endif %}
+        <button class="discount-code" value="xyz">
+          <div class="coupon">
+            <div class="center">
+              <div>
+                <h2>10% OFF</h2>
+                <h3>Coupon</h3>
+                {% comment %} <small>Click to Apply</small> {% endcomment %}
+              </div>
+            </div>
+
+            <div class="right">
+              <div>Click to</div>
+              <div>Apply</div>
+            </div>
+          </div>
+          {% comment %}  {% render 'my-discount' %} {% endcomment %}
+          {% comment %}
+            <h4 style="display: inline;">DISCOUNT CODE:</h4>
+            <button style="display: inline;" id="discountCode" value="xyz">xyz</button>
+          {% endcomment %}
+        </button>
         {% comment %}
           <div class="buy_now">
             <input type="button" name="buy" id="buy" value="Buy Now" class="button">

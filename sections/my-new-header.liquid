@@ -183,25 +183,29 @@
               </div>
               <div class="padx">
                 <a
-                  href="/cart"
+                  hrefff="/cart"
                   class="site-nav__link site-nav__link--icon js-drawer-open-cart"
                   aria-controls="CartDrawer"
                   data-icon="bag-minimal"
+                  onclick="openCartDrawer()"
                 >
                   <span class="cart-link">
                     {% render 'my-bag-icon' %}
                   </span>
                 </a>
                 <script>
-                  var cartCount = {{ cart.item_count }};
-                    const cartLink = document.querySelector('.cart-link');
-                    let cartCountElement = document.querySelector('.cart-count');
-                    if (!cartCountElement) {
-                    cartCountElement = document.createElement('span');
-                    cartCountElement.classList.add('cart-count');
-                    cartLink.appendChild(cartCountElement);
-                    }
-                    cartCountElement.innerHTML = cartCount;
+                    function openCartDrawer(){
+                    document.querySelector('.cart-drawer').classList.add('cart-drawer--active');
+                  }
+                    var cartCount = {{ cart.item_count }};
+                      const cartLink = document.querySelector('.cart-link');
+                      let cartCountElement = document.querySelector('.cart-count');
+                      if (!cartCountElement) {
+                      cartCountElement = document.createElement('span');
+                      cartCountElement.classList.add('cart-count');
+                      cartLink.appendChild(cartCountElement);
+                      }
+                      cartCountElement.innerHTML = cartCount;
                 </script>
               </div>
             </div>

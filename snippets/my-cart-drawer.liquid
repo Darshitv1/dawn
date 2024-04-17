@@ -10,7 +10,7 @@
     z-index: 99999;
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    /* padding: 24px; */
     transition: left 0s 0.2s, opacity 0.2s;
   }
 
@@ -23,7 +23,7 @@
   .cart-drawer-box {
     width: 480px;
     background: #f5f5f5;
-    border-radius: 12px;
+    /* border-radius: 12px; */
     flex: 1;
     margin-left: auto;
     display: flex;
@@ -89,7 +89,7 @@
     display: flex;
     align-items: center;
     border: 1px solid #e7e7e7;
-    border-radius: 12px;
+    /* border-radius: 12px; */
     background: white;
     overflow: hidden;
   }
@@ -148,8 +148,9 @@
   .cart-drawer-quantity-selector {
     display: inline-flex;
     border: 1px solid #e7e7e7;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     margin-top: 10px;
+    align-items: center;
   }
 
   .cart-drawer-quantity-selector button {
@@ -208,12 +209,22 @@
     color: #fff;
     line-height: 46px;
     font-size: 16px;
-    border-radius: 6px;
+    /* border-radius: 6px; */
   }
 
   .cart-drawer-empty {
     margin: auto;
     color: #212529;
+  }
+
+  .dlt_btn {
+    display: none;
+  }
+
+  .dlt_btn.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
 
@@ -249,7 +260,7 @@
                     <span>{{ item.variant.title }}</span>
                     <div class="cart-drawer-quantity-selector">
                       <button class="cart-drawer-quantity-selector-minus" type="button">-</button>
-                      <button class="dlt_btn" style="display: none;">
+                      <button class="dlt_btn cart-drawer-quantity-selector-minus" style="display: none;">
                         {% render 'my-delete-svg' %}
                       </button>
                       <input type="text" readonly value="{{ item.quantity }}">
@@ -317,31 +328,66 @@
   async function updateCartDrawer() {
     const res = await fetch('/?section_id=my-cart-drawer');
     console.log('text', res);
-    const text = await res.text();
-    const html = document.createElement('div');
-    html.innerHTML = text;
-
-    const newBox = html.querySelector('.cart-drawer').innerHTML;
-
+    const html = await res.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const newBox = doc.querySelector('.cart-drawer').innerHTML;
     document.querySelector('.cart-drawer').innerHTML = newBox;
 
     addCartDrawerListeners();
   }
 
   function addCartDrawerListeners() {
+    // Delete item from cart
+    // document.querySelectorAll('.dlt_btn').forEach((button) => {
+    //   button.addEventListener('click', async () => {
+    //     // Get line item key
+    //     const rootItem = button.closest('.cart-drawer-item');
+    //     const key = rootItem.getAttribute('data-line-item-key');
+
+    //     // Remove item from cart
+    //     const res = await fetch('/cart/update.js', {
+    //       method: 'post',
+    //       headers: {
+    //         Accept: 'application/json',
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({ updates: { [key]: 0 } }),
+    //     });
+    //     const cart = await res.json();
+
+    //     updateCartItemCounts(cart.item_count);
+
+    //     // Update cart
+    //     updateCartDrawer();
+    //   });
+    // });
+
     // Update quantities
     document.querySelectorAll('.cart-drawer-quantity-selector button').forEach((button) => {
       button.addEventListener('click', async () => {
+        console.log('clicked', button);
         // Get line item key
-        const rootItem = button.parentElement.parentElement.parentElement.parentElement.parentElement;
+        const rootItem = button.closest('.cart-drawer-item');
         const key = rootItem.getAttribute('data-line-item-key');
 
         // Get new quantity
         const currentQuantity = Number(button.parentElement.querySelector('input').value);
         const isUp = button.classList.contains('cart-drawer-quantity-selector-plus');
+        console.log('isUp', isUp);
         const newQuantity = isUp ? currentQuantity + 1 : currentQuantity - 1;
 
-        // Ajax update\
+        // const deleteButton = rootItem.querySelector('.dlt_btn');
+        // const minusButton = rootItem.querySelector('.cart-drawer-quantity-selector-minus');
+        // if (newQuantity === 1) {
+        //   deleteButton.classList.add('show');
+        //   minusButton.style.display = 'none';
+        // } else {
+        //   deleteButton.classList.remove('show');
+        //   minusButton.style.display = 'flex';
+        // }
+
+        // Ajax update
         const res = await fetch('/cart/update.js', {
           method: 'post',
           headers: {
@@ -351,24 +397,6 @@
           body: JSON.stringify({ updates: { [key]: newQuantity } }),
         });
         const cart = await res.json();
-
-        // let minus_btn = document.querySelectorAll('.cart-drawer-quantity-selector-minus');
-        // let dlt_btn = document.querySelectorAll('.dlt_btn');
-        // if (newQuantity == 1) {
-        //   minus_btn.forEach((btn) => {
-        //     btn.style.display = 'none';
-        //   });
-        //   dlt_btn.forEach((btn) => {
-        //     btn.style.display = 'block';
-        //   });
-        // } else {
-        //   minus_btn.forEach((btn) => {
-        //     btn.style.display = 'block';
-        //   });
-        //   dlt_btn.forEach((btn) => {
-        //     btn.style.display = 'none';
-        //   });
-        // }
 
         updateCartItemCounts(cart.item_count);
 

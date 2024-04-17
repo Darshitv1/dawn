@@ -28,8 +28,8 @@ class Product {
 
   applyDiscount(discountCodeInput) {
     const discountCode = discountCodeInput.value;
-    if (!discountCode) {
-      console.log('No discount code applied');
+    if (!discountCode || !discountCodeInput.clicked) {
+      console.log('No discount code applied or not explicitly clicked');
       return;
     }
 
@@ -107,9 +107,6 @@ class Product {
           body: new FormData(form),
         });
 
-        const res = await fetch('/cart.js');
-        const cart = await res.json();
-        console.log('cart:', cart);
         const message = document.createElement('p');
         message.classList.add('added-to-cart');
         message.textContent = 'Added to cart! Redirecting...';
@@ -117,35 +114,42 @@ class Product {
         setTimeout(() => {
           message.remove();
         }, 3000);
+
+        const res = await fetch('/cart.js');
+        const cart = await res.json();
+        console.log('cart:', cart);
       });
     });
   }
 }
 
-// Usage
 document.addEventListener('DOMContentLoaded', () => {
   const variantsArray = JSON.parse(document.getElementById('variants').text);
   const product = new Product(variantsArray);
-  product.init();
 
+  // Event listener for the discount code input
   const discountCodeInput = document.querySelector('.discount-code');
   discountCodeInput.addEventListener('click', () => {
+    discountCodeInput.clicked = true; // Set the 'clicked' property to true when the discount code input is clicked
     product.applyDiscount(discountCodeInput);
   });
 
+  // Event listener for radio buttons
   const radioArray = document.querySelectorAll('input[type="radio"]');
   radioArray.forEach((radio) => {
     radio.addEventListener('change', function () {
       const checkedValues = document.querySelectorAll('input[type="radio"]:checked');
       product.checkedArray = Array.from(checkedValues, (radio) => radio.value);
-      const variant = product.variantsArray.find((variant) => JSON.stringify(variant.options) === JSON.stringify(product.checkedArray));
+      const variant = product.variantsArray.find(
+        (variant) => JSON.stringify(variant.options) === JSON.stringify(product.checkedArray)
+      );
       if (variant) {
         radioArray.forEach((r) => {
           r.removeAttribute('checked');
         });
         this.setAttribute('checked', 'True');
         console.log('Found variant:', variant);
-        console.log('avaibility', variant.available);
+        console.log('availability', variant.available);
         const addToCartButton = document.getElementById('add');
         const quant_btn = document.querySelector('.quantity_button');
         const price_update = document.querySelector('.unit-price');
@@ -171,4 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  product.init();
 });

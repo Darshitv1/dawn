@@ -169,8 +169,13 @@ class CartManager {
             button.closest('tr').remove(); // Remove the item from the UI
 
             let total = parseFloat(data.total_price / 100);
+            let discount = parseFloat(data.total_discount / 100);
 
             // Update total price in the UI
+
+            if (this.discountElement) {
+              this.discountElement.innerText = 'Rs. ' + discount.toFixed(2);
+            }
             this.totalPriceElement.innerText = 'Rs. ' + total.toFixed(2);
             if (data.items.length === 0) {
               location.reload(); // Reload the page if the cart is empty

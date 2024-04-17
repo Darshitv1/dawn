@@ -1,170 +1,222 @@
-document.addEventListener('DOMContentLoaded', async function () {
-  const plusButtons = document.querySelectorAll('.icon-plus');
-  const minusButtons = document.querySelectorAll('.icon-minus');
-  const deleteButtons = document.querySelectorAll('.minus-vala-class');
-  const priceElements = document.querySelectorAll('.price');
-  const numberInputs = document.querySelectorAll('.quantity__input');
-  let totalPriceElement = document.querySelector('.total_price');
-  let productIds = Array.from(document.querySelectorAll('.id_selector')).map((elem) => parseInt(elem.dataset.p_id));
-  let prices = Array.from(priceElements).map((priceElement) => parseFloat(priceElement.innerText.replace('Rs.', '')));
+class CartManager {
+  constructor() {
+    this.initializeElements();
+    this.fetchCartData();
+    this.initRemoveButtons();
+  }
 
-  async function fetchCartData() {
+  initializeElements() {
+    this.plusButtons = document.querySelectorAll('.icon-plus');
+    this.minusButtons = document.querySelectorAll('.icon-minus');
+    this.deleteButtons = document.querySelectorAll('.minus-vala-class');
+    this.priceElements = document.querySelectorAll('.price');
+    this.numberInputs = document.querySelectorAll('.quantity__input');
+    this.totalPriceElement = document.querySelector('.total_price');
+    this.productIds = Array.from(document.querySelectorAll('.id_selector')).map((elem) => parseInt(elem.dataset.p_id));
+    this.prices = Array.from(this.priceElements).map((priceElement) => this.extractPrice(priceElement.innerText));
+    this.loader = document.querySelector('.loader');
+    this.loader2 = document.querySelector('.discount_loader');
+    this.discountElement = document.querySelector('.total_discounts');
+  }
+
+  extractPrice(priceString) {
+    return parseFloat(priceString.replace('Rs.', ''));
+  }
+
+  async fetchCartData() {
     try {
       const response = await fetch('/cart.js');
       const cartData = await response.json();
-      return cartData;
+      if (cartData) {
+        this.updateCartItems(cartData.items);
+      }
     } catch (error) {
       console.error('Error fetching cart data:', error);
-      return null;
     }
   }
-  const cartData = await fetchCartData();
-  if (cartData) {
-    // Initialize quantities based on the fetched cart data
-    cartData.items.forEach((item) => {
-      const quantityInput = document.querySelector(`.quantity__input[data-variant-id="${item.variant_id}"]`);
-      if (quantityInput) {
-        const index = Array.from(numberInputs).indexOf(quantityInput);
-        quantityInput.value = item.quantity;
-        numberInputs[index].setAttribute('value', item.quantity);
-        console.log('price', item.original_price);
-        updatePrice(index, item.original_price);
-        if (item.quantity <= 1) {
-          minusButtons[index].style.display = 'none';
-          minusButtons[index].disabled = true;
-          minusButtons[index].style.cursor = 'not-allowed';
-          deleteButtons[index].style.display = 'flex';
-          deleteButtons[index].style.alignItems = 'center';
-        } else {
-          minusButtons[index].style.display = 'block';
-          minusButtons[index].disabled = false;
-          minusButtons[index].style.cursor = 'pointer';
-          deleteButtons[index].style.display = 'none';
-        }
-      }
-    });
-  }
 
-  plusButtons.forEach((plus, index) => {
-    plus.addEventListener('click', () => {
-      deleteButtons[index].style.display = 'none';
-      minusButtons[index].style.display = 'block';
-      numberInputs[index].value++;
-      numberInputs[index].setAttribute('value', numberInputs[index].value);
-      minusButtons[index].style.cursor = 'pointer';
-      minusButtons[index].removeAttribute('disabled');
-      // updatePrice(index);
-      updateCartItem(productIds[index], parseInt(numberInputs[index].value));
-    });
-  });
-
-  minusButtons.forEach((minus, index) => {
-    minus.addEventListener('click', () => {
-      if (numberInputs[index].value > 1) {
-        numberInputs[index].value--;
-        numberInputs[index].setAttribute('value', numberInputs[index].value);
-        // updatePrice(index);
-        updateCartItem(productIds[index], parseInt(numberInputs[index].value));
-      }
-      if (numberInputs[index].value <= 1) {
-        numberInputs[index].value = 1;
-        deleteButtons[index].style.display = 'flex';
-        deleteButtons[index].style.alignItems = 'center';
-        minus.style.display = 'none';
-        minus.disabled = true;
-        minus.style.cursor = 'not-allowed';
-      }
-    });
-  });
-
-  function updatePrice(index, price) {
-    console.log('priceelements', price, priceElements, index);
-    let ogPrice = parseFloat(price / 100);
-    priceElements[index].innerText = 'Rs. ' + ogPrice.toFixed(2);
-  }
-
-  document.querySelectorAll('.btnqty').forEach((button) => {
-    button.addEventListener('click', () => {
-      let newPrices = document.querySelectorAll('.price');
-      let totalPrice = Array.from(newPrices).reduce(
-        (total, price) => total + parseFloat(price.innerText.replace('Rs.', '')),
-        0
-      );
-      totalPriceElement.innerText = 'Rs. ' + totalPrice.toFixed(2);
-    });
-  });
-
-  const removeButtons = document.querySelectorAll('.my-delete-svg');
-
-  removeButtons.forEach((button) => {
-    button.addEventListener('click', async () => {
-      const productId = button.getAttribute('data-product-id');
-
-      if (!productId) {
-        console.error('Product ID not found on button');
-        return;
-      }
-
-      try {
-        const response = await fetch(`/cart/update.js`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ updates: { [productId]: 0 } }), // Set quantity to 0 to remove the item
-        });
-
-        if (response.ok) {
-          // Remove the item from the UI
-          button.closest('tr').remove();
-
-          // Recalculate total price
-          let newPrices = document.querySelectorAll('.price');
-          let total = Array.from(newPrices).reduce(
-            (sum, price) => sum + parseFloat(price.innerText.replace('Rs.', '')),
-            0
-          );
-
-          // Update total price in the UI
-          totalPriceElement.innerText = 'Rs. ' + total.toFixed(2);
-        } else {
-          alert('Failed to remove item from cart. Please try again.');
-        }
-      } catch (error) {
-        alert('Something went wrong! Try again later.');
-      }
-    });
-  });
-
-  var loader = document.querySelector('.loader');
-  const updateCartItem = async (productId, quantity) => {
-    totalPriceElement.style.display = 'none';
-    loader.style.display = 'block';
+  async updateCartItem(productId, quantity) {
     try {
-      const response = await fetch(`/cart/update.js`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updates: { [productId]: quantity } }),
-      });
-
-      const data = await response.json();
-      loader.style.display = 'none';
-      totalPriceElement.style.display = 'block';
-      console.log('Cart items updated:', data);
-      // let total = parseFloat(totalPriceElement.innerText.replace(/[^\d.]/g, '')); // Remove non-numeric characters
-
-      // console.log('total:', total);
-      // const discount = (total * 10000) / 9; // Calculate discount based on total price
-      // console.log('discount:', discount);
-      const discountElement = document.querySelector('.total_discounts');
-      totalPriceElement.innerText = 'Rs. ' + formatNumber(data.total_price);
-
-      // Update total discount
-      discountElement.innerText = 'Rs. ' + formatNumber(data.total_discount);
-
-      function formatNumber(number) {
-        return (number / 100).toFixed(2);
+      this.showLoader();
+      const data = await this.sendCartUpdateRequest(productId, quantity);
+      this.hideLoader();
+      if (data) {
+        this.updateCartDisplay(data);
+        console.log('Cart item updated:', data);
       }
     } catch (error) {
-      //   alert('Something went wrong! Try again later2.');
+      console.error('Error updating cart item:', error);
     }
-  };
+  }
+
+  showLoader() {
+    this.loader.style.display = 'block';
+    this.totalPriceElement.style.display = 'none';
+    if (this.loader2) {
+      this.loader2.style.display = 'block';
+    }
+    if (this.discountElement) {
+      this.discountElement.style.display = 'none';
+    }
+  }
+
+  hideLoader() {
+    this.loader.style.display = 'none';
+    this.totalPriceElement.style.display = 'block';
+    if (this.loader2) {
+      this.loader2.style.display = 'none';
+    }
+    if (this.discountElement) {
+      this.discountElement.style.display = 'block';
+    }
+  }
+
+  async sendCartUpdateRequest(productId, quantity) {
+    const response = await fetch(`/cart/update.js`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ updates: { [productId]: quantity } }),
+    });
+    return await response.json();
+  }
+
+  updateCartDisplay(data) {
+    this.totalPriceElement.innerText = 'Rs. ' + (data.total_price / 100).toFixed(2);
+
+    if (this.discountElement) {
+      this.discountElement.innerText = 'Rs. ' + (data.total_discount / 100).toFixed(2);
+    } else {
+      console.warn('Discount element not found in the DOM.');
+    }
+  }
+
+  updateCartItems(items) {
+    items.forEach((item) => {
+      const index = this.productIds.indexOf(item.variant_id);
+      if (index !== -1) {
+        this.updateQuantityDisplay(index, item.quantity);
+        this.updatePriceDisplay(index, item.original_price);
+        this.updateButtonDisplay(index, item.quantity);
+      }
+    });
+  }
+
+  updateQuantityDisplay(index, quantity) {
+    this.numberInputs[index].value = quantity;
+    this.numberInputs[index].setAttribute('value', quantity);
+  }
+
+  updatePriceDisplay(index, price) {
+    let ogPrice = parseFloat(price / 100);
+    this.priceElements[index].innerText = 'Rs. ' + ogPrice.toFixed(2);
+  }
+
+  updateButtonDisplay(index, quantity) {
+    if (quantity <= 1) {
+      this.minusButtons[index].style.display = 'none';
+      this.minusButtons[index].disabled = true;
+      this.minusButtons[index].style.cursor = 'not-allowed';
+      this.deleteButtons[index].style.display = 'flex';
+      this.deleteButtons[index].style.alignItems = 'center';
+    }
+  }
+
+  init() {
+    this.plusButtons.forEach((plus, index) => {
+      plus.addEventListener('click', () => {
+        this.onPlusButtonClick(index);
+      });
+    });
+
+    this.minusButtons.forEach((minus, index) => {
+      minus.addEventListener('click', () => {
+        this.onMinusButtonClick(index);
+      });
+    });
+
+    const checkoutButton = document.getElementById('checkout');
+    if (checkoutButton) {
+      checkoutButton.addEventListener('click', () => {
+        if (!checkoutButton.hasAttribute('disabled')) {
+          window.location.href = '/checkout'; // Replace '/checkout' with the appropriate Shopify checkout URL
+        }
+      });
+    }
+  }
+
+  initRemoveButtons() {
+    const removeButtons = document.querySelectorAll('.my-delete-svg');
+
+    removeButtons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        const productId = button.getAttribute('data-product-id');
+
+        if (!productId) {
+          console.error('Product ID not found on button');
+          return;
+        }
+
+        try {
+          const response = await fetch(`/cart/update.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ updates: { [productId]: 0 } }), // Set quantity to 0 to remove the item
+          });
+          const data = await response.json();
+          console.log('Cart item deleted:', data);
+
+          if (response.ok) {
+            button.closest('tr').remove(); // Remove the item from the UI
+
+            let total = parseFloat(data.total_price / 100);
+
+            // Update total price in the UI
+            this.totalPriceElement.innerText = 'Rs. ' + total.toFixed(2);
+            if (data.items.length === 0) {
+              location.reload(); // Reload the page if the cart is empty
+            }
+          } else {
+            alert('Failed to remove item from cart. Please try again.');
+          }
+        } catch (error) {
+          alert('Something went wrong! Try again later.');
+        }
+      });
+    });
+  }
+
+  onPlusButtonClick(index) {
+    this.deleteButtons[index].style.display = 'none';
+    this.numberInputs[index].value++;
+    this.numberInputs[index].setAttribute('value', this.numberInputs[index].value);
+    this.updateCartItem(this.productIds[index], parseInt(this.numberInputs[index].value));
+
+    // Display the minus button when the quantity is greater than 1
+    if (this.numberInputs[index].value > 1) {
+      this.minusButtons[index].style.display = 'block';
+      this.minusButtons[index].disabled = false;
+      this.minusButtons[index].style.cursor = 'pointer';
+    }
+  }
+
+  onMinusButtonClick(index) {
+    if (this.numberInputs[index].value > 1) {
+      this.numberInputs[index].value--;
+      this.numberInputs[index].setAttribute('value', this.numberInputs[index].value);
+      this.updateCartItem(this.productIds[index], parseInt(this.numberInputs[index].value));
+    }
+    if (this.numberInputs[index].value <= 1) {
+      this.numberInputs[index].value = 1;
+      this.deleteButtons[index].style.display = 'flex';
+      this.deleteButtons[index].style.alignItems = 'center';
+      this.minusButtons[index].style.display = 'none';
+      this.minusButtons[index].disabled = true;
+      this.minusButtons[index].style.cursor = 'not-allowed';
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
+  const cartManager = new CartManager();
+  cartManager.init();
 });

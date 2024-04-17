@@ -170,24 +170,22 @@
       </tbody>
       <tfoot>
         <tr>
-          {% if cart.total_discounts > 0 %}
-            <td colspan="5" style="text-align: end;">Discounts</td>
-            <td class="total_discounts loader_upper">{{ cart.total_discounts | money }}</td>
-            {% comment %}
-              <td class="loader" style="display: none;">
-                {% render 'my-loader' %}
-              </td>
-            {% endcomment %}
-          {% endif %}
-        </tr>
-        <tr>
           <td colspan="5" style="text-align: end;">Shipping Charge</td>
           <td class="shipping">Rs. 50.00</td>
         </tr>
         <tr>
+          {% if cart.total_discounts > 0 %}
+            <td colspan="5" style="text-align: end;">Discounts</td>
+            <td class="total_discounts loader_upper">{{ cart.total_discounts | money }}</td>
+            <td class="discount_loader" style="display: none;">
+              {% render 'my-loader' %}
+            </td>
+          {% endif %}
+        </tr>
+        <tr>
           <td colspan="5" style="text-align: end;">Total</td>
           {% comment %} <td>Total:</td> {% endcomment %}
-          <td class="total_price loader_upper">
+          <td class="total_price">
             {{ cart.total_price | money }}
           </td>
           <td class="loader" style="display: none;">
@@ -211,7 +209,9 @@
     </button>
 
   {%- else -%}
-    <p>The cart is empty. <a href="/collections/all" style="font-weight: bold;">Continue shopping</a></p>
+    <p style="display: flex;justify-content: center;">
+      The cart is empty. <a href="/collections/custom-collection-page" style="font-weight: bold;">Continue shopping</a>
+    </p>
   {%- endif -%}
 </form>
 <script src="{{ 'my-cart-items.js' | asset_url }}" defer="defer"></script>

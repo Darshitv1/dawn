@@ -41,7 +41,8 @@ td {
   display: none;
 }
 
-.loader {
+.loader,
+.discount_loader {
   max-width: 50px;
   width: 100%;
   aspect-ratio: 1;

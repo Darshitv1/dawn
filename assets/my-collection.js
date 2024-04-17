@@ -32,8 +32,33 @@ class ProductFilter {
     this.sorting.addEventListener('change', this.debouncedHandleSortChange);
     this.filterForm.addEventListener('change', this.debouncedHandleFilterChange);
     window.addEventListener('scroll', this.handleScroll);
+    this.quickView();
+    const clearButton = document.querySelector('.clear');
+    clearButton.addEventListener('click', () => {
+      this.clearFiltersAndFetchInitialData();
+      this.fetchNextPage();
+    });
     // Initial fetch for the first page of products
     // this.fetchNextPage();
+  }
+
+  // Method to clear filters and fetch initial data
+  clearFiltersAndFetchInitialData() {
+    // Clear all filter inputs
+    const filterInputs = this.filterForm.querySelectorAll('input, select');
+    filterInputs.forEach((input) => {
+      if (input.type === 'checkbox' || input.type === 'radio') {
+        input.checked = false;
+      } else {
+        input.value = '';
+      }
+    });
+
+    // Fetch initial data
+    const initialFetchUrl = window.location.origin + window.location.pathname;
+    window.history.pushState(null, null, initialFetchUrl);
+    this.sorting.selectedIndex = 0;
+    this.updateList(initialFetchUrl);
   }
 
   updateList(fetchUrl) {
@@ -72,6 +97,8 @@ class ProductFilter {
   }
 
   fetchNextPage() {
+    const loader = document.querySelector('.loader');
+    loader.style.display = 'block';
     if (this.nextPageUrl && !this.isLoading) {
       this.isLoading = true;
       fetch(this.nextPageUrl)
@@ -82,7 +109,9 @@ class ProductFilter {
           return response.text();
         })
         .then((data) => {
-          this.appendFetchedData(data);
+          this.debounce((loader.style.display = 'none'), 1000);
+          this.debounce(this.appendFetchedData(data), 1000);
+          this.getFilterData();
         })
         .catch((error) => {
           console.error('Error:', error);

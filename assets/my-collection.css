@@ -131,6 +131,16 @@ form.collectionfilterform {
   justify-content: flex-end;
 }
 
+.loader {
+  width: 100%;
+  text-align: center;
+}
+
+.loader svg {
+  width: 100px;
+  height: 100px;
+}
+
 @media screen and (max-width: 994px) {
   .main_container .tablet-products-1 {
     width: calc(100% - 10px);

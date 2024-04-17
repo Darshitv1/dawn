@@ -162,6 +162,7 @@
                       <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                       <button type="submit" name="add" class="quick-view-modal__add-to-cart button">Add to Cart</button>
                     {% endform %}
+                    <a href="{{ product.url }}" class="button" style="margin: 10px;">View Product</a>
                   {% else %}
                     <p>This product is currently unavailable.</p>
                   {% endif %}
@@ -222,6 +223,9 @@
       {%- endif -%}
     {% endcomment %}
   </div>
+  <div class="loader" style="display: none;">
+    {% render 'my-loader' %}
+  </div>
 {%- endpaginate -%}
 {% if section.settings.select == 'slider' %}
   <div class="swiper-button-next"></div>
@@ -229,7 +233,6 @@
   <div class="swiper-pagination xyz_ab"></div>
 {% endif %}
 <script src="{{ 'my-collection.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'my-quickview.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {

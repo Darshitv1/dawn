@@ -235,7 +235,9 @@
       <h2>Your cart</h2>
 
       <div class="cart-drawer-header-right">
-        <span class="cart-drawer-header-right-items">{{ cart.item_count }} items</span>
+        <span class="cart-drawer-header-right-items" data-count="{{ cart.item_count }}">
+          {{- cart.item_count }} items</span
+        >
 
         <button class="cart-drawer-header-right-close" type="button">X</button>
       </div>
@@ -398,10 +400,14 @@
         });
         const cart = await res.json();
 
-        updateCartItemCounts(cart.item_count);
+        if (cart.item_count === 0) {
+          closeCartDrawer();
+        } else {
+          updateCartItemCounts(cart.item_count);
+          updateCartDrawer();
+        }
 
         // Update cart
-        updateCartDrawer();
       });
     });
 

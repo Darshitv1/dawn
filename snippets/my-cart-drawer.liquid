@@ -402,12 +402,10 @@
 
         if (cart.item_count === 0) {
           closeCartDrawer();
-        } else {
-          updateCartItemCounts(cart.item_count);
-          updateCartDrawer();
         }
-
+        updateCartItemCounts(cart.item_count);
         // Update cart
+        updateCartDrawer();
       });
     });
 

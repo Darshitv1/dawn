@@ -120,6 +120,8 @@ class ProductFilter {
           this.isLoading = false;
           this.quickView();
         });
+    } else {
+      this.debounce((loader.style.display = 'none'), 1000);
     }
   }
 

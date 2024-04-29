@@ -1,0 +1,193 @@
+.focal-image-wrapper {
+  position: relative;
+}
+
+.focal-image-wrapper > img {
+  width: 100%;
+  height: auto;
+}
+.focal-image-wrapper .focal-point-block {
+  position: absolute;
+  background: lawngreen;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(-100%, -100%);
+}
+
+.focal-image-wrapper .focal-point-block svg {
+  width: 25px;
+  height: 25px;
+}
+
+.focal-image-wrapper .focal-point {
+  position: relative;
+}
+
+.focal-point-block .product-block {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  right: auto;
+  cursor: default;
+}
+
+.focal-point-block:hover .product-block {
+  display: block;
+}
+
+.focal-point-block:hover .card-container {
+  animation: card-container-in 0.5s both;
+}
+
+.focal-point-block:hover .modal-window {
+  animation: modal-window-in 0.5s both;
+}
+
+.card-container {
+  animation: card-container-out 1s both;
+}
+
+.modal-window {
+  animation: modal-window-out 1s both;
+}
+
+/* .focal-point-block:not(:hover) .modal-window {
+}
+
+.focal-point-block:not(:hover) .card-container {
+} */
+
+.left_hoja {
+  left: auto !important;
+  right: 100% !important;
+}
+
+.button {
+  text-align: center;
+  margin: 8px 0 20px;
+  border-radius: 12px;
+  --border-opacity: unset;
+  --shadow-horizontal-offset: unset;
+  --shadow-vertical-offset: unset;
+  --shadow-blur-radius: unset;
+  --shadow-opacity: unset;
+  --shadow-visible: unset;
+  --border-offset: unset;
+}
+
+/* translateX(-50%) moves the element backwards by half of its width, which results in the centers of the element and the container to overlap with one another.
+ */
+
+.button:after {
+  box-shadow: none;
+}
+
+.button:hover {
+  box-shadow: none;
+}
+
+.main-container,
+.modal-window,
+.modal-container {
+  transition: 0.5s;
+}
+
+.modal-window {
+  /* position: fixed; */
+  /* top: 50%; */
+  /* right: -300px; */
+  /* translate: 50% -50%; */
+  background: #ffffff;
+  color: #000000;
+  /* padding: 48px 40px; */
+  width: 200px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.modal-container {
+  /* position: fixed;
+  top: 0;
+  left: 0; */
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+  visibility: visible;
+  opacity: 1;
+}
+
+.main-container {
+  scale: 0.75;
+}
+
+h2 {
+  margin: 8px;
+  font-weight: 900;
+  font-size: 21px;
+}
+
+h3 {
+  margin: 8px;
+  font-weight: 500;
+  font-size: 17px;
+}
+
+i {
+  margin: 8px;
+}
+
+p {
+  margin: 0;
+}
+
+@keyframes modal-window-in {
+  0% {
+    width: 118px;
+    height: 0;
+  }
+  100% {
+    right: 50%;
+  }
+}
+
+@keyframes card-container-in {
+  0%,
+  75% {
+    opacity: 0;
+  }
+  85%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-window-out {
+  0% {
+    right: 50%;
+  }
+  100% {
+    width: 118px;
+    height: 0;
+  }
+}
+
+@keyframes card-container-out {
+  0%,
+  15% {
+    opacity: 1;
+  }
+  25%,
+  100% {
+    opacity: 0;
+  }
+}

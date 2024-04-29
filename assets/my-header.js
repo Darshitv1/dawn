@@ -7,7 +7,7 @@ parentUls.forEach((parentUl) => {
   const menuLinkChildElements = parentUl.querySelectorAll('.menu-link-child');
 
   // Create a new <div> element to wrap the selected <li> elements
-  const wrapperDiv = document.createElement('div');
+  const wrapperDiv = document.createElement('div'); 
   wrapperDiv.classList.add('wrapper-class');
 
   // Loop through each <li> element

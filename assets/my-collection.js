@@ -59,6 +59,7 @@ class ProductFilter {
     window.history.pushState(null, null, initialFetchUrl);
     this.sorting.selectedIndex = 0;
     this.updateList(initialFetchUrl);
+    this.fetchNextPage();
   }
 
   updateList(fetchUrl) {

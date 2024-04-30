@@ -115,6 +115,7 @@
     },
     "featured_collection": {
       "type": "featured-collection",
+      "disabled": true,
       "settings": {
         "title": "Featured products",
         "heading_size": "h2",
@@ -366,6 +367,45 @@
       "settings": {
         "my_product": "jeans"
       }
+    },
+    "my_focal_point_mDUnJ6": {
+      "type": "my-focal-point",
+      "blocks": {
+        "focal_point_with_product_Xnwq7P": {
+          "type": "focal_point_with_product",
+          "settings": {
+            "vertical": 47,
+            "horizontal": 74,
+            "product": "black-t-shirt"
+          }
+        },
+        "focal_point_with_product_JpAib9": {
+          "type": "focal_point_with_product",
+          "settings": {
+            "vertical": 60,
+            "horizontal": 12,
+            "product": "black-hoodie"
+          }
+        },
+        "focal_point_with_product_JUzW97": {
+          "type": "focal_point_with_product",
+          "settings": {
+            "vertical": 50,
+            "horizontal": 35,
+            "product": "copy-3-of-shirt"
+          }
+        }
+      },
+      "block_order": [
+        "focal_point_with_product_Xnwq7P",
+        "focal_point_with_product_JpAib9",
+        "focal_point_with_product_JUzW97"
+      ],
+      "settings": {
+        "focalImage": "shopify:\/\/shop_images\/focal-point-image.webp",
+        "image_width": 500,
+        "image_height": 500
+      }
     }
   },
   "order": [
@@ -383,6 +423,7 @@
     "my_video_merge_diRT4L",
     "my_multi_images_gkAdcf",
     "my_video_button_PgcRMJ",
-    "my_product_tzQUQp"
+    "my_product_tzQUQp",
+    "my_focal_point_mDUnJ6"
   ]
 }

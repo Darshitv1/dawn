@@ -38,10 +38,51 @@ class ProductFilter {
       this.clearFiltersAndFetchInitialData();
       this.fetchNextPage();
     });
+
+    // const radioButtons = document.querySelectorAll('.selection');
+    // radioButtons.forEach((radioButton) => {
+    //   radioButton.addEventListener('change', this.handleRadioButtonChange.bind(this));
+    //   console.log('clicked', radioButton);
+    // });
+    const swatch = document.querySelectorAll('.color-switch'); //colorswitch
+    // console.log('color',swatch);
+    swatch.forEach((swatchs) => {
+      swatchs.addEventListener('click', this.handleRadioButtonChange.bind(swatchs));
+    });
     // Initial fetch for the first page of products
     // this.fetchNextPage();
   }
 
+  handleRadioButtonChange(swatchs) {
+    const productContainer = swatchs.target.closest('.main_collection_card'); //main product div
+    // console.log('productContainer', productContainer);
+    const currentColor = swatchs.target.dataset.color;
+    console.log('currentColor', currentColor);
+    const currentImage = productContainer.querySelector('.changes_ke_liye');
+    const allInputs = productContainer.querySelectorAll('#match-image-input');
+    const formData = productContainer.querySelector('#hidden_type');
+    const quickViewModal = productContainer.querySelector('.changes_ke_liye_dusra');
+    const quickCart = productContainer.querySelector('.isme_bhi_changes_hai');
+    let ids = [];
+    allInputs.forEach((input) => {
+      const variantTitle = input.getAttribute('variant-title');
+      console.log('variantTitle', variantTitle);
+      const variantColor = variantTitle.split(' / ')[2].trim();
+      // console.log('variantColor', variantColor);
+      if (variantColor.toLowerCase() === currentColor.toLowerCase()) {
+        const variantImage = input.getAttribute('variant-image');
+        console.log('variantImage', variantImage);
+        const variantId = input.getAttribute('variant-id');
+        ids.push(variantId);
+        console.log('variantId', variantId);
+        formData.dataset.id = ids[0];
+        formData.value = ids[0];
+        quickCart.value = ids[0];
+        currentImage.src = variantImage;
+        quickViewModal.src = variantImage;
+      }
+    });
+  }
   // Method to clear filters and fetch initial data
   clearFiltersAndFetchInitialData() {
     // Clear all filter inputs

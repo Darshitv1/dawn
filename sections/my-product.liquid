@@ -79,6 +79,11 @@
         {%- endif -%}
       </div>
       <form action="/cart" method="post" class="form_f_var" enctype="multipart/form-data" data-product-form>
+        <input
+          type="hidden"
+          name="ids"
+          value="{{ product.selected_or_first_available_variant.id }}"
+        >
         <div class="var">
           <script id="variants" type="application/json">
             {{ product.variants | json }}
@@ -89,22 +94,6 @@
               <h4 class="options-title">{{ product_option.name }}</h4>
               <div class="options-values variants">
                 {% for value in product_option.values %}
-                  {% comment %} {% assign is_sold_out = false %} {% endcomment %}
-                  {% for variant in product.variants %}
-                    {% comment %}
-                      {%- if variant.inventory_quantity > 0 -%}
-                        <p class="product__inventory_quantity" id="inventory-{{ section.id }}">
-                          {{ variant.inventory_quantity }} items left
-                        </p>
-                      {%- endif -%}
-                    {% endcomment %}
-                    {% comment %} {% if variant.title == value and variant.available == false %} {% endcomment %}
-                    {% comment %}
-                      {%- if variant.inventory_quantity < 1 -%}
-                        {% assign is_sold_out = true %}
-                      {% endif %}
-                    {% endcomment %}
-                  {% endfor %}
                   <input
                     type="radio"
                     class="{{ product_option.name }} selection"
@@ -124,21 +113,21 @@
               </div>
               <div class="line"></div>
             {% endfor %}
+
+            <p id="inventory-quantity">
+              {{ product.selected_or_first_available_variant.inventory_quantity }} items left
+            </p>
           </div>
 
-          {% assign selectedVariant = product.first_or_selected_variant %}
+          {% comment %} {% assign selectedVariant = product.first_or_selected_variant %} {% endcomment %}
           <label style="display: none;" for="dropdown_variants" class="product-option">Options</label>
-          <select
-            style="display: none;"
-            id="dropdown_variants"
-            class="product-select"
-            name="id"
-          >
+          <select style="display: none;" id="dropdown_variants" class="product-select" name="id">
             {% for variant in product.variants %}
               <option
+                style="display: none;"
                 id="variant-select"
                 class="options_cls"
-                {% if selectedVariant.id == variant.id %}
+                {% if variant == product.selected_or_first_available_variant %}
                   selected
                 {% endif %}
                 value="{{ variant.id }}"
@@ -147,53 +136,18 @@
               </option>
             {% endfor %}
           </select>
+          <select style="display: none;" id="kuch_bhi_dede" class="jarurat_nahi" name="naah">
+            {% for variant in product.variants %}
+              <option
+                style="display: none;"
+                id="inventory_ke_liye_bhai"
+                data-inventory-quantity="{{ variant.inventory_quantity }}"
+              >
+                {{ variant.title }}
+              </option>
+            {% endfor %}
+          </select>
         </div>
-        {% comment %}
-          <div class="variants" data="{{product.variants |  json}}">
-              {% for product_option in product.options_with_values %}
-                <div class="variant_options">
-                  <h3 class="variant_name">{{ product_option.name }}</h3>
-                  {% for value in product_option.values %}
-                    <input
-                      type="radio"
-                      id="{{ product_option.name.id }}"
-                      name="id"
-                      value="{{ value }}"
-                      checked="checked"
-                    >
-                    <label for="{{ value }}">{{ value }}</label>
-                  {% endfor %}
-                  <br>
-                </div>
-              {% endfor %}
-                {%- for option in product.options_with_values -%}
-                  <h3 class="variant_name">{{ option.name | escape }}</h3>
-                {% endfor %}
-                {% for variant in product.variants %}
-                  {% if variant.available %}
-                    <input
-                      type="radio"
-                      class="variant-input-id"
-                      name="id"
-                      id="variant-{{ variant.id }}"
-                      value="{{ variant.id }}"
-                      {% if variant == product.selected_or_first_available_variant %}
-                        checked="checked"
-                      {% endif %}
-                    >
-                    <label for="variant-{{ variant.id }}">
-                      {{ variant.title }}
-                    </label>
-                  {% else %}
-                    <input type="radio" name="id" id="variant-{{ variant.id }}" value="{{ variant.id }}" disabled="disabled">
-                    <label for="variant-{{ variant.id }}">
-                      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
-                    </label>
-                  {% endif %}
-                {% endfor %}
-              </div>
-        {% endcomment %}
-
         <div class="quantity_button">
           <div class="product-quantity">
             <label for="quantity" class="quantity-selector"><h3 class="quantity_name">Quantity</h3></label>

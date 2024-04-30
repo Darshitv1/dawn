@@ -43,10 +43,10 @@
   flex-direction: column;
 }
 
-.main_collection_card:hover .collection_image > a > div > img {
+/* .main_collection_card:hover .collection_image > a > div > img {
   transform: scale(1.05);
   transition: transform 0.5s ease-in-out;
-}
+} */
 
 .collection_info .coll_pro_title {
   width: fit-content;
@@ -139,6 +139,28 @@ form.collectionfilterform {
 .loader svg {
   width: 100px;
   height: 100px;
+}
+
+label {
+  display: inline-block;
+  font-size: 50px; /* Adjust the size of the circle */
+  line-height: 1; /* To maintain circular shape */
+  cursor: pointer;
+}
+
+input[type='radio'] {
+  appearance: none; /* Remove default radio button appearance */
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 2px solid currentColor; /* Use the color of the label */
+  outline: none;
+  margin: 0;
+  vertical-align: middle;
+}
+
+input[type='radio']:checked {
+  background-color: currentColor; /* Use the color of the label */
 }
 
 @media screen and (max-width: 994px) {

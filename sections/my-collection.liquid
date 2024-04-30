@@ -126,6 +126,7 @@
               <div class="icon_container">
                 <img
                   src="{{ product.featured_media | image_url: width: section.settings.image.width }}"
+                  class="changes_ke_liye"
                   width="{{ section.settings.image.width }}"
                   height="{{ section.settings.image.height }}"
                   alt="{{ section.settings.image.alt | default: product.title }}"
@@ -136,6 +137,59 @@
                 {% endif %}
               </div>
             </a>
+            <div class="variants">
+              {% comment %} for color switches {% endcomment %}
+              {% if product.variants %}
+                {% assign color_options = '' %}
+
+                {% for variant in product.variants %}
+                  {% capture variant_color %}{{ variant.option3 }}{% endcapture %}
+                  {% unless color_options contains variant_color %}
+                    {% assign color_options = color_options | append: variant_color | append: ', ' %}
+                  {% endunless %}
+                {% endfor %}
+
+                {% assign color_options = color_options | remove: ' ' | split: ',' %}
+
+                <div id="colorSwitches" class="color_Switches">
+                  {% for color in color_options %}
+                    {% if color != blank %}
+                      <span
+                        class="color-switch"
+                        data-color="{{ color | remove: ' ' }}"
+                        style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; margin-right: 5px; background-color: {{ color | downcase | remove: ' ' }}; padding-left: 5px; padding-right: 5px; border: solid black thin;"
+                      ></span>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% else %}
+
+              {% else %}
+                <div style="display:none;"></div>
+              {% endif %}
+
+              {% comment %} variant Information {% endcomment %}
+
+              <div class="varaint_information">
+                {% if product %}
+                  {% for variant in product.variants %}
+                    {% comment %}
+                      <h3>{{ variant.title }}</h3>
+                      <h3>{{ variant.id }}</h3>
+                    {% endcomment %}
+
+                    <input
+                      id="match-image-input"
+                      type="hidden"
+                      variant-id="{{ variant.id }}"
+                      variant-title="{{ variant.title }}"
+                      variant-price_compare="{{ variant.compare_at_price | money }}"
+                      variant-image="{{ variant.featured_image.src | image_url }}"
+                    >
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
             <a href="#" class="quick_view quick-view-btn" data-product-id="{{ product.id }}">
               <button class="quick_hide">{% render 'my-magnifing-glass' %}</button>
             </a>
@@ -147,6 +201,7 @@
                 <div class="quick-view-modal__header">
                   <img
                     src="{{ product.featured_media | image_url: width: section.settings.image.width }}"
+                    class="changes_ke_liye_dusra"
                     width="{{ section.settings.image.width }}"
                     height="{{ section.settings.image.height }}"
                     alt="{{ section.settings.image.alt | default: product.title }}"
@@ -159,7 +214,12 @@
                   <p>{{ product.price | money }}</p>
                   {% if product.available %}
                     {% form 'product', product, id: 'quick-view-form' %}
-                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                      <input
+                        type="hidden"
+                        class="isme_bhi_changes_hai"
+                        name="ids"
+                        value="{{ product.selected_or_first_available_variant.id }}"
+                      >
                       <button type="submit" name="add" class="quick-view-modal__add-to-cart button">Add to Cart</button>
                     {% endform %}
                     <a href="{{ product.url }}" class="button" style="margin: 10px;">View Product</a>
@@ -201,12 +261,14 @@
                   {{ variant_price_compare | money_with_currency }}
                 </s>
               </div>
+
               <div class="coll_pro_add_to_cart">
                 <input type="submit" name="add" id="add" value="Add to Cart" class="button">
                 <input
                   type="hidden"
                   id="hidden_type"
-                  name=""
+                  name="ids"
+                  value="{{ product.selected_or_first_available_variant.id }}"
                   data-id="{{ product.selected_or_first_available_variant.id }}"
                 >
                 {% render 'my-cart-drawer' %}

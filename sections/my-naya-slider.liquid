@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Swiper Example</title>
+    {% comment %} <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> {% endcomment %}
+    <style>
+      html,
+      body {
+        position: relative;
+        height: 100%;
+      }
+      body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+      }
+      .swiper-container {
+        width: 100%;
+        height: 100%;
+      }
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+      .swiper-container-v {
+        background: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="swiper-container swiper-container-h" style="width: 1100px; height: 500px;">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">Horizontal Slide 1</div>
+        <div class="swiper-slide swiper-container-v" style="width: 1100px; height: 500px;">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">Vertical Slide 1</div>
+            <div class="swiper-slide">Vertical Slide 2</div>
+            <div class="swiper-slide">Vertical Slide 3</div>
+            <div class="swiper-slide">Vertical Slide 4</div>
+            <div class="swiper-slide">Vertical Slide 5</div>
+          </div>
+          <div class="swiper-pagination swiper-pagination-v"></div>
+        </div>
+        <div class="swiper-slide">Horizontal Slide 3</div>
+        <div class="swiper-slide">Horizontal Slide 4</div>
+      </div>
+      <div class="swiper-pagination swiper-pagination-h"></div>
+    </div>
+    {% comment %} <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer="defer"></script> {% endcomment %}
+  </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var swiperH = new Swiper('.swiper-container-h', {
+        spaceBetween: 50,
+        slidesPerView: 1,
+        pagination: {
+          el: '.swiper-pagination-h',
+          clickable: true,
+        },
+      });
+      var swiperV = new Swiper('.swiper-container-v', {
+        direction: 'vertical',
+        slidesPerView: 1,
+        spaceBetween: 50,
+        pagination: {
+          el: '.swiper-pagination-v',
+          clickable: true,
+        },
+      });
+    });
+  </script>
+</html>
+
+{% schema %}
+{
+  "name": "My Naya Slider",
+  "presets": [
+    {
+      "name": "My Naya Slider"
+    }
+  ]
+}
+{% endschema %}

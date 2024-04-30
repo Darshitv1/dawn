@@ -1,5 +1,6 @@
 class Product {
   constructor(variantsArray) {
+    this.variantsElement = document.querySelector('#variants');
     this.variantsArray = variantsArray;
     this.checkedArray = [];
     this.number = document.querySelector('.quantity__input');
@@ -23,6 +24,28 @@ class Product {
         swiper: this.galleryThumbs,
       },
       loop: true,
+    });
+  }
+
+  updateInventoryQuantity() {
+    const radiosContainer = document.querySelector('.radios');
+    const variantSelect = document.querySelector('#kuch_bhi_dede');
+    const inventoryQuantityElement = document.querySelector('#inventory-quantity');
+
+    radiosContainer.addEventListener('change', () => {
+      const selectedOptions = Array.from(document.querySelectorAll('.selection:checked')).map((radio) => radio.value);
+
+      const selectedVariantOption = Array.from(variantSelect.options).find((option) => {
+        const variantOptions = option.textContent.split(' / ').map((option) => option.trim().toLowerCase());
+        return !variantOptions.some((option, index) => option !== selectedOptions[index].toLowerCase());
+      });
+
+      if (selectedVariantOption) {
+        const inventoryQuantity = selectedVariantOption.dataset.inventoryQuantity;
+        inventoryQuantityElement.textContent = `${inventoryQuantity} items left`;
+      } else {
+        inventoryQuantityElement.textContent = '';
+      }
     });
   }
 
@@ -76,6 +99,7 @@ class Product {
   }
 
   init() {
+    this.initEventListeners();
     this.plusButton.addEventListener('click', () => {
       this.updateQuantity(1);
     });
@@ -121,39 +145,36 @@ class Product {
       });
     });
   }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-  const variantsArray = JSON.parse(document.getElementById('variants').text);
-  const product = new Product(variantsArray);
+  initEventListeners() {
+    const variantsArray = JSON.parse(this.variantsElement.text);
+    const product = new Product(variantsArray);
 
-  // Event listener for the discount code input
-  const discountCodeInput = document.querySelector('.discount-code');
-  discountCodeInput.addEventListener('click', () => {
-    discountCodeInput.clicked = true; // Set the 'clicked' property to true when the discount code input is clicked
-    product.applyDiscount(discountCodeInput);
-  });
+    // Event listener for the discount code input
+    const discountCodeInput = document.querySelector('.discount-code');
+    discountCodeInput.addEventListener('click', () => {
+      discountCodeInput.clicked = true;
+      product.applyDiscount(discountCodeInput);
+    });
 
-  // Event listener for radio buttons
-  const radioArray = document.querySelectorAll('input[type="radio"]');
-  radioArray.forEach((radio) => {
-    radio.addEventListener('change', function () {
+    // Function to handle radio button change
+    const handleRadioChange = (event) => {
+      if (event.target.type !== 'radio') return;
+
       const checkedValues = document.querySelectorAll('input[type="radio"]:checked');
       product.checkedArray = Array.from(checkedValues, (radio) => radio.value);
       const variant = product.variantsArray.find(
         (variant) => JSON.stringify(variant.options) === JSON.stringify(product.checkedArray)
       );
       if (variant) {
-        radioArray.forEach((r) => {
-          r.removeAttribute('checked');
-        });
-        this.setAttribute('checked', 'True');
         console.log('Found variant:', variant);
+        let variantId = document.querySelector("input[name='ids']");
+        variantId.value = variant.id;
         console.log('availability', variant.available);
         const addToCartButton = document.getElementById('add');
         const quant_btn = document.querySelector('.quantity_button');
         const price_update = document.querySelector('.unit-price');
-        if (variant.available == false) {
+        if (variant.available === false) {
           quant_btn.style.display = 'none';
           price_update.style.textDecoration = 'line-through';
           addToCartButton.value = 'Sold Out';
@@ -164,17 +185,23 @@ document.addEventListener('DOMContentLoaded', () => {
           addToCartButton.value = 'Add to Cart';
           addToCartButton.disabled = false;
         }
-
         var priceString = variant.price.toString();
         document.querySelector('.unit-price').textContent = `Rs. ${(priceString * product.number.value) / 100}`;
-
         if (variant.featured_media) {
           const variantImage = variant.featured_media.position;
           product.galleryTop.slideTo(variantImage - 1);
         }
+        product.updateInventoryQuantity();
       }
-    });
-  });
+    };
 
+    // Set up event listener for radio button changes using event delegation
+    document.addEventListener('change', handleRadioChange);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const variantsArray = JSON.parse(document.querySelector('#variants').text);
+  const product = new Product(variantsArray);
   product.init();
 });

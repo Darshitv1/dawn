@@ -423,26 +423,35 @@
 
   addCartDrawerListeners();
 
-  document.querySelectorAll('form[action="/cart/add"]').forEach((form) => {
+  document.querySelectorAll('form[action="/cart"]').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      let variantId = form.querySelector('input[name="ids"]').value;
+      let quantityInput = form.querySelector('input[name="quantity"]');
+      let quantity = quantityInput ? parseInt(quantityInput.value) : 1;
 
-      // Submit form with ajax
       await fetch('/cart/add', {
         method: 'post',
-        body: new FormData(form),
+        body: JSON.stringify({
+          items: [
+            {
+              id: parseInt(variantId),
+              quantity: parseInt(quantity),
+            },
+          ],
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
-      // Get cart count
-      const res = await fetch('/cart.js');
-      const cart = await res.json();
-      updateCartItemCounts(cart.item_count);
-
-      // Update cart
-      await updateCartDrawer();
-
-      // Open cart drawer
-      openCartDrawer();
+      (async () => {
+        const res = await fetch('/cart.js');
+        const cart = await res.json();
+        updateCartItemCounts(cart.item_count);
+        await updateCartDrawer();
+        openCartDrawer();
+      })();
     });
   });
 

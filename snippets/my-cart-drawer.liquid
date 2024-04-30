@@ -11,13 +11,15 @@
     display: flex;
     flex-direction: column;
     /* padding: 24px; */
-    transition: left 0s 0.2s, opacity 0.2s;
+    transition: left 0s 0.2s
+    , opacity 0.2s;
   }
 
   .cart-drawer--active {
     left: 0;
     opacity: 1;
-    transition: left 0s, opacity 0.2s;
+    transition: left 0s
+    , opacity 0.2s;
   }
 
   .cart-drawer-box {
@@ -29,7 +31,8 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
-    transition: 0.2s opacity, 0.2s transform;
+    transition: 0.2s opacity
+    , 0.2s transform;
     opacity: 0;
     transform: translateX(40px);
   }
@@ -236,14 +239,15 @@
 
       <div class="cart-drawer-header-right">
         <span class="cart-drawer-header-right-items" data-count="{{ cart.item_count }}">
-          {{- cart.item_count }} items</span
-        >
+          {{- cart.item_count }} items</span>
 
         <button class="cart-drawer-header-right-close" type="button">X</button>
       </div>
     </header>
 
-    {% form 'cart', cart, class: 'cart-drawer-form' %}
+    {% form 'cart'
+      , cart
+      , class: 'cart-drawer-form' %}
       {% if cart.item_count == 0 %}
         <p class="cart-drawer-empty">Your cart is empty</p>
       {% else %}
@@ -251,7 +255,11 @@
           {% for item in cart.items %}
             <div class="cart-drawer-item" data-line-item-key="{{ item.key }}">
               <div class="cart-drawer-item-image">
-                <img src="{{ item.image | image_url }}" height="200" width="200" alt="{{ item.title }}">
+                <img
+                  src="{{ item.image | image_url }}"
+                  height="200"
+                  width="200"
+                  alt="{{ item.title }}">
               </div>
               <div class="cart-drawer-item-main">
                 <div class="cart-drawer-item-main-flex">
@@ -265,7 +273,10 @@
                       <button class="dlt_btn cart-drawer-quantity-selector-minus" style="display: none;">
                         {% render 'my-delete-svg' %}
                       </button>
-                      <input type="text" readonly value="{{ item.quantity }}">
+                      <input
+                        type="text"
+                        readonly
+                        value="{{ item.quantity }}">
                       <button class="cart-drawer-quantity-selector-plus" type="button">+</button>
                     </div>
                   </div>
@@ -294,8 +305,7 @@
             type="button"
             name="checkout"
             value="Checkout"
-            class="cart-drawer-button checkout"
-          >
+            class="cart-drawer-button checkout">
         </footer>
       {% endif %}
     {% endform %}
@@ -312,21 +322,21 @@
       });
     }
   });
-
+  
   function openCartDrawer() {
     document.querySelector('.cart-drawer').classList.add('cart-drawer--active');
   }
-
+  
   function closeCartDrawer() {
     document.querySelector('.cart-drawer').classList.remove('cart-drawer--active');
   }
-
+  
   function updateCartItemCounts(count) {
     document.querySelectorAll('.cart-count').forEach((el) => {
       el.textContent = count;
     });
   }
-
+  
   async function updateCartDrawer() {
     const res = await fetch('/?section_id=my-cart-drawer');
     console.log('text', res);
@@ -335,10 +345,10 @@
     const doc = parser.parseFromString(html, 'text/html');
     const newBox = doc.querySelector('.cart-drawer').innerHTML;
     document.querySelector('.cart-drawer').innerHTML = newBox;
-
+  
     addCartDrawerListeners();
   }
-
+  
   function addCartDrawerListeners() {
     // Delete item from cart
     // document.querySelectorAll('.dlt_btn').forEach((button) => {
@@ -346,7 +356,7 @@
     //     // Get line item key
     //     const rootItem = button.closest('.cart-drawer-item');
     //     const key = rootItem.getAttribute('data-line-item-key');
-
+  
     //     // Remove item from cart
     //     const res = await fetch('/cart/update.js', {
     //       method: 'post',
@@ -357,14 +367,14 @@
     //       body: JSON.stringify({ updates: { [key]: 0 } }),
     //     });
     //     const cart = await res.json();
-
+  
     //     updateCartItemCounts(cart.item_count);
-
+  
     //     // Update cart
     //     updateCartDrawer();
     //   });
     // });
-
+  
     // Update quantities
     document.querySelectorAll('.cart-drawer-quantity-selector button').forEach((button) => {
       button.addEventListener('click', async () => {
@@ -372,13 +382,13 @@
         // Get line item key
         const rootItem = button.closest('.cart-drawer-item');
         const key = rootItem.getAttribute('data-line-item-key');
-
+  
         // Get new quantity
         const currentQuantity = Number(button.parentElement.querySelector('input').value);
         const isUp = button.classList.contains('cart-drawer-quantity-selector-plus');
         console.log('isUp', isUp);
         const newQuantity = isUp ? currentQuantity + 1 : currentQuantity - 1;
-
+  
         // const deleteButton = rootItem.querySelector('.dlt_btn');
         // const minusButton = rootItem.querySelector('.cart-drawer-quantity-selector-minus');
         // if (newQuantity === 1) {
@@ -388,7 +398,7 @@
         //   deleteButton.classList.remove('show');
         //   minusButton.style.display = 'flex';
         // }
-
+  
         // Ajax update
         const res = await fetch('/cart/update.js', {
           method: 'post',
@@ -399,7 +409,7 @@
           body: JSON.stringify({ updates: { [key]: newQuantity } }),
         });
         const cart = await res.json();
-
+  
         if (cart.item_count === 0) {
           closeCartDrawer();
         }
@@ -408,11 +418,11 @@
         updateCartDrawer();
       });
     });
-
+  
     document.querySelector('.cart-drawer-box').addEventListener('click', (e) => {
       e.stopPropagation();
     });
-
+  
     document.querySelectorAll('.cart-drawer-header-right-close, .cart-drawer').forEach((el) => {
       el.addEventListener('click', () => {
         console.log('closing drawer');
@@ -420,16 +430,16 @@
       });
     });
   }
-
+  
   addCartDrawerListeners();
-
-  document.querySelectorAll('form[action="/cart"]').forEach((form) => {
+  
+  document.querySelectorAll('.form_f_var').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       let variantId = form.querySelector('input[name="ids"]').value;
       let quantityInput = form.querySelector('input[name="quantity"]');
       let quantity = quantityInput ? parseInt(quantityInput.value) : 1;
-
+  
       await fetch('/cart/add', {
         method: 'post',
         body: JSON.stringify({
@@ -444,7 +454,7 @@
           'Content-Type': 'application/json',
         },
       });
-
+  
       (async () => {
         const res = await fetch('/cart.js');
         const cart = await res.json();
@@ -454,7 +464,7 @@
       })();
     });
   });
-
+  
   document.querySelectorAll('a[href="/cart"]').forEach((a) => {
     a.addEventListener('click', (e) => {
       e.preventDefault();

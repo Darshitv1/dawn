@@ -1,37 +1,36 @@
-{% comment %}
-  <style>
-    .image-with-focal-point {
-      object-position: calc(var(--object-position-x, window.imageFocalPoint.x) * 100%)
-        calc(var(--object-position-y, window.imageFocalPoint.y) * 100%);
-    }
-    </style>
-    <img
-    class="image-with-focal-point"
-    src="{{ section.settings.focalImage | image_url }}"
-    width="{{ section.settings.image_width }}"
-    height="{{ section.settings.image_height }}"
-    alt="{{ section.settings.image.alt }}"
-    loading="lazy"
+{% comment %} 
+    <style> 
+    .image-with-focal-point { 
+    object-position: calc(var(--object-position-x, window.imageFocalPoint.x) * 100%) 
+    calc(var(--object-position-y, window.imageFocalPoint.y) * 100%); 
+    } 
+    </style> 
+    <img 
+    class="image-with-focal-point" 
+    src="{{ section.settings.focalImage | image_url }}" 
+    width="{{ section.settings.image_width }}" 
+    height="{{ section.settings.image_height }}" 
+    alt="{{ section.settings.image.alt }}" 
+    loading="lazy" 
     style="--object-position-x: 0.75; --object-position-y: 0.25;"
-  >
-
-   <script>
-    'window.imageFocalPoint = {
-      x: {{ section.settings.image_focal_point | split: ',' | first | default: 0.5 }},
-      y: {{ section.settings.image_focal_point | split: ',' | last | default: 0.5 }}
+    >
+   
+    <script> 
+    'window.imageFocalPoint = { 
+    x: {{ section.settings.image_focal_point | split: ',' | first | default: 0.5 }}, 
+    y: {{ section.settings.image_focal_point | split: ',' | last | default: 0.5 }} 
     };
-  </script>
+    </script> 
 {% endcomment %}
 {{ 'my-focal-image.css' | asset_url | stylesheet_tag }}
 
-<div class="focal-image-wrapper">
+<div class="page-width focal-image-wrapper">
   <img
     src="{{ section.settings.focalImage | image_url }}"
     width="{{ section.settings.image_width }}"
     height="{{ section.settings.image_height }}"
     alt="{{ section.settings.focalImage.alt }}"
-    loading="lazy"
-  >
+    loading="lazy">
 
   {% for block in section.blocks %}
     {% case block.type %}
@@ -61,10 +60,11 @@
                         width="150px"
                         height="auto"
                         alt="{{  block.settings.image.alt | default:  block.settings.product.title }}"
-                        loading="lazy"
-                      >
+                        loading="lazy">
                     </div>
-                    <a href="{{  block.settings.product.url }}"> <button class="button">View Product</button></a>
+                    <a href="{{  block.settings.product.url }}">
+                      <button class="button">View Product</button>
+                    </a>
                   </p>
                 </div>
               </div>
@@ -77,72 +77,72 @@
 {% comment %} <script src="{{ 'my-focal-point.js' | asset_url }}" defer="defer"></script> {% endcomment %}
 
 {% schema %}
-{
-  "name": "Image with Focal Point",
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "focalImage",
-      "label": "Image"
-    },
-    {
-      "type": "range",
-      "id": "image_width",
-      "min": 100,
-      "max": 1000,
-      "step": 50,
-      "unit": "px",
-      "label": "Image Width",
-      "default": 500
-    },
-    {
-      "type": "range",
-      "id": "image_height",
-      "min": 100,
-      "max": 1000,
-      "step": 50,
-      "unit": "px",
-      "label": "Image Height",
-      "default": 500
-    }
-  ],
-  "blocks": [
-    {
-      "type": "focal_point_with_product",
-      "name": "Focal Point with Product",
-      "settings": [
-        {
-          "type": "range",
-          "id": "vertical",
-          "min": 1,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "label": "Vertical Alignment",
-          "default": 50
-        },
-        {
-          "type": "range",
-          "id": "horizontal",
-          "min": 1,
-          "max": 100,
-          "step": 1,
-          "unit": "%",
-          "label": "Horizontal Alignment",
-          "default": 50
-        },
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Product"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Image with Focal Point"
-    }
-  ]
-}
+  {
+    "name": "Image with Focal Point",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "focalImage",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "image_width",
+        "min": 100,
+        "max": 1000,
+        "step": 50,
+        "unit": "px",
+        "label": "Image Width",
+        "default": 500
+      },
+      {
+        "type": "range",
+        "id": "image_height",
+        "min": 100,
+        "max": 1000,
+        "step": 50,
+        "unit": "px",
+        "label": "Image Height",
+        "default": 500
+      }
+    ],
+    "blocks": [
+      {
+        "type": "focal_point_with_product",
+        "name": "Focal Point with Product",
+        "settings": [
+          {
+            "type": "range",
+            "id": "vertical",
+            "min": 1,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Vertical Alignment",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "horizontal",
+            "min": 1,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "label": "Horizontal Alignment",
+            "default": 50
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with Focal Point"
+      }
+    ]
+  }
 {% endschema %}

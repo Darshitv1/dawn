@@ -5,6 +5,7 @@
 .focal-image-wrapper > img {
   width: 100%;
   height: auto;
+  border-radius: 10px;
 }
 .focal-image-wrapper .focal-point-block {
   position: absolute;

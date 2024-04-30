@@ -1,12 +1,12 @@
 {% comment %}
   {% for product in product.media %}
-    <div class="swiper-slide">
-      {{
-        product.preview_image
-        | image_url: width: 246
-        | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
-      }}
-    </div>
+  <div class="swiper-slide">
+  {{
+  product.preview_image
+  | image_url: width: 246
+  | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+  }}
+  </div>
   {% endfor -%}
 {% endcomment %}
 {{ 'my-product.css' | asset_url | stylesheet_tag }}
@@ -19,20 +19,19 @@
         <div class="swiper-wrapper">
           {% for product in product.media %}
             <div class="swiper-slide image-container">
-              {% comment %}
-                {{
+                {% comment %}
+                  {{
                   product.preview_image
                   | image_url: width: 246
                   | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
-                }}
-              {% endcomment %}
+                  }}
+                {% endcomment %}
               <img
                 class="product-image"
                 src="{{ product.preview_image | image_url }}"
                 width="246"
                 height="246"
-                alt="image"
-              >
+                alt="image">
             </div>
           {% endfor -%}
         </div>
@@ -46,8 +45,7 @@
                 src="{{ product.preview_image | image_url }}"
                 width="246"
                 height="246"
-                alt="image"
-              >
+                alt="image">
             </div>
           {% endfor -%}
         </div>
@@ -78,12 +76,16 @@
           {{ 'products.product.include_taxes' | t }}
         {%- endif -%}
       </div>
-      <form action="/cart" method="post" class="form_f_var" enctype="multipart/form-data" data-product-form>
+      <form
+        action="/cart/add"
+        method="post"
+        class="form_f_var"
+        enctype="multipart/form-data"
+        data-product-form>
         <input
           type="hidden"
           name="ids"
-          value="{{ product.selected_or_first_available_variant.id }}"
-        >
+          value="{{ product.selected_or_first_available_variant.id }}">
         <div class="var">
           <script id="variants" type="application/json">
             {{ product.variants | json }}
@@ -101,12 +103,9 @@
                     name="{{ product_option.name }}"
                     value="{{ value }}"
                     {% if product_option.selected_value == value %}
-                      checked="True"
-                    {% endif %}
-                  >
-                  <label
-                    for="{{ value }}"
-                  >
+                    checked="True"
+                    {% endif %}>
+                  <label for="{{ value }}">
                     {{- value -}}
                   </label>
                 {% endfor %}
@@ -120,29 +119,38 @@
           </div>
 
           {% comment %} {% assign selectedVariant = product.first_or_selected_variant %} {% endcomment %}
-          <label style="display: none;" for="dropdown_variants" class="product-option">Options</label>
-          <select style="display: none;" id="dropdown_variants" class="product-select" name="id">
+          <label
+            style="display: none;"
+            for="dropdown_variants"
+            class="product-option">Options</label>
+          <select
+            style="display: none;"
+            id="dropdown_variants"
+            class="product-select"
+            name="id">
             {% for variant in product.variants %}
               <option
                 style="display: none;"
                 id="variant-select"
                 class="options_cls"
                 {% if variant == product.selected_or_first_available_variant %}
-                  selected
+                selected
                 {% endif %}
-                value="{{ variant.id }}"
-              >
+                value="{{ variant.id }}">
                 {{ variant.title }}
               </option>
             {% endfor %}
           </select>
-          <select style="display: none;" id="kuch_bhi_dede" class="jarurat_nahi" name="naah">
+          <select
+            style="display: none;"
+            id="kuch_bhi_dede"
+            class="jarurat_nahi"
+            name="naah">
             {% for variant in product.variants %}
               <option
                 style="display: none;"
                 id="inventory_ke_liye_bhai"
-                data-inventory-quantity="{{ variant.inventory_quantity }}"
-              >
+                data-inventory-quantity="{{ variant.inventory_quantity }}">
                 {{ variant.title }}
               </option>
             {% endfor %}
@@ -150,7 +158,9 @@
         </div>
         <div class="quantity_button">
           <div class="product-quantity">
-            <label for="quantity" class="quantity-selector"><h3 class="quantity_name">Quantity</h3></label>
+            <label for="quantity" class="quantity-selector">
+              <h3 class="quantity_name">Quantity</h3>
+            </label>
             <div class="qtybox">
               <button type="button" class="btnqty qtyminus icon icon-minus">-</button>
               <input
@@ -158,8 +168,7 @@
                 type="number"
                 name="quantity"
                 id="quantity"
-                value="1"
-              >
+                value="1">
               <button type="button" class="btnqty qtyplus icon icon-plus">+</button>
             </div>
           </div>
@@ -167,11 +176,18 @@
         <div class="line_item_properties">
           <!-- Add a text input field for engraving -->
           <label style="display: block;" for="engraving">Engraving</label>
-          <input class="engraving_cls" type="text" id="engraving" name="properties[Engraving]">
+          <input
+            class="engraving_cls"
+            type="text"
+            id="engraving"
+            name="properties[Engraving]">
 
           <!-- Add a dropdown for size -->
           <label style="display: block;" for="size">Size</label>
-          <select class="property_cls" id="size" name="properties[Size]">
+          <select
+            class="property_cls"
+            id="size"
+            name="properties[Size]">
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
@@ -179,7 +195,12 @@
         </div>
         {% if product.available %}
           <div class="add_to_cart">
-            <input type="submit" name="add" id="add" value="Add to Cart" class="add_to_cart_input button">
+            <input
+              type="submit"
+              name="add"
+              id="add"
+              value="Add to Cart"
+              class="add_to_cart_input button">
             {% render 'my-cart-drawer' %}
           </div>
         {% else %}
@@ -190,8 +211,7 @@
               id="add"
               value="Sold Out"
               class="add_to_cart_input button"
-              disabled="disabled"
-            >
+              disabled="disabled">
           </div>
         {% endif %}
         <button class="discount-code" value="xyz">
@@ -200,7 +220,7 @@
               <div>
                 <h2>10% OFF</h2>
                 <h3>COUPON</h3>
-                {% comment %} <small>Click to Apply</small> {% endcomment %}
+              {% comment %} <small>Click to Apply</small> {% endcomment %}
               </div>
             </div>
 
@@ -209,17 +229,17 @@
               <div>Apply</div>
             </div>
           </div>
-          {% comment %}  {% render 'my-discount' %} {% endcomment %}
-          {% comment %}
-            <h4 style="display: inline;">DISCOUNT CODE:</h4>
-            <button style="display: inline;" id="discountCode" value="xyz">xyz</button>
-          {% endcomment %}
-        </button>
+        {% comment %}  {% render 'my-discount' %} {% endcomment %}
         {% comment %}
-          <div class="buy_now">
-            <input type="button" name="buy" id="buy" value="Buy Now" class="button">
-          </div>
+          <h4 style="display: inline;">DISCOUNT CODE:</h4>
+          <button style="display: inline;" id="discountCode" value="xyz">xyz</button>
         {% endcomment %}
+        </button>
+      {% comment %}
+        <div class="buy_now">
+        <input type="button" name="buy" id="buy" value="Buy Now" class="button">
+        </div>
+      {% endcomment %}
       </form>
     </div>
   </div>
@@ -227,19 +247,19 @@
 <script src="{{ 'my-product.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
-{
-  "name": "my-product",
-  "settings": [
-    {
-      "type": "product",
-      "id": "my_product",
-      "label": "My Product"
-    }
-  ],
-  "presets": [
-    {
-      "name": "my-product"
-    }
-  ]
-}
+  {
+    "name": "my-product",
+    "settings": [
+      {
+        "type": "product",
+        "id": "my_product",
+        "label": "My Product"
+      }
+    ],
+    "presets": [
+      {
+        "name": "my-product"
+      }
+    ]
+  }
 {% endschema %}

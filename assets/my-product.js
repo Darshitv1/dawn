@@ -7,7 +7,7 @@ class Product {
     this.priceElement = document.querySelector('.unit-price');
     this.plusButton = document.querySelector('.icon-plus');
     this.minusButton = document.querySelector('.icon-minus');
-    this.addToCartForms = document.querySelectorAll('[data-product-form]');
+    // this.addToCartForms = document.querySelectorAll('[data-product-form]');
     this.galleryThumbs = new Swiper('.gallery-thumbs', {
       spaceBetween: 10,
       slidesPerView: 4,
@@ -108,42 +108,42 @@ class Product {
       this.updateQuantity(-1);
     });
 
-    this.addToCartForms.forEach((form) => {
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        let c = 0;
-        const variants_dd = document.querySelector('#dropdown_variants');
-        const v_dd = document.querySelectorAll('.options_cls');
-        const v_arr = [];
-        v_dd.forEach((v) => {
-          v_arr.push(v.innerHTML);
-          const variantOptions = v.innerHTML.split('/').map((option) => option.trim());
-          const isMatch = variantOptions.every((option, index) => option === this.checkedArray[index]);
-          if (isMatch) {
-            variants_dd.selectedIndex = c;
-            c = 0;
-          } else {
-            c++;
-          }
-        });
-        await fetch('/cart/add', {
-          method: 'post',
-          body: new FormData(form),
-        });
+    // this.addToCartForms.forEach((form) => {
+    //   form.addEventListener('submit', async (event) => {
+    //     event.preventDefault();
+    //     let c = 0;
+    //     const variants_dd = document.querySelector('#dropdown_variants');
+    //     const v_dd = document.querySelectorAll('.options_cls');
+    //     const v_arr = [];
+    //     v_dd.forEach((v) => {
+    //       v_arr.push(v.innerHTML);
+    //       const variantOptions = v.innerHTML.split('/').map((option) => option.trim());
+    //       const isMatch = variantOptions.every((option, index) => option === this.checkedArray[index]);
+    //       if (isMatch) {
+    //         variants_dd.selectedIndex = c;
+    //         c = 0;
+    //       } else {
+    //         c++;
+    //       }
+    //     });
+    //     await fetch('/cart/add', {
+    //       method: 'post',
+    //       body: new FormData(form),
+    //     });
 
-        const message = document.createElement('p');
-        message.classList.add('added-to-cart');
-        message.textContent = 'Added to cart! Redirecting...';
-        form.appendChild(message);
-        setTimeout(() => {
-          message.remove();
-        }, 3000);
+    //     const message = document.createElement('p');
+    //     message.classList.add('added-to-cart');
+    //     message.textContent = 'Added to cart! Redirecting...';
+    //     form.appendChild(message);
+    //     setTimeout(() => {
+    //       message.remove();
+    //     }, 3000);
 
-        const res = await fetch('/cart.js');
-        const cart = await res.json();
-        console.log('cart:', cart);
-      });
-    });
+    //     const res = await fetch('/cart.js');
+    //     const cart = await res.json();
+    //     console.log('cart:', cart);
+    //   });
+    // });
   }
 
   initEventListeners() {

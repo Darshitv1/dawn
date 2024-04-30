@@ -436,9 +436,10 @@
   document.querySelectorAll('.form_f_var').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      let variantId = form.querySelector('input[name="ids"]').value;
-      let quantityInput = form.querySelector('input[name="quantity"]');
-      let quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+      const variantId = form.querySelector('input[name="ids"]').value;
+      console.log('variantId', variantId);
+      const quantityInput = form.querySelector('input[name="quantity"]');
+      const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
   
       await fetch('/cart/add', {
         method: 'post',

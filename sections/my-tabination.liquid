@@ -1,0 +1,140 @@
+{% comment %} 
+            This is a simple tabination section that allows you to create up to 3 tabs. 
+{% endcomment %}
+<style>
+  .tabination {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .tabination__tabs {
+    display: flex;
+    justify-content: space-around;
+    /* margin-bottom: 20px; */
+  }
+
+  .tabination__tab {
+    cursor: pointer;
+    padding: 10px 20px;
+    /* border: 1px solid #ccc; */
+    background-color: #fff;
+  }
+
+  .tabination__tab--active {
+    background-color: #ffead1bd;
+    border-bottom: none;
+    border-radius: 50% 50% 0 0;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .tabination__content {
+    height: auto;
+    position: relative;
+  }
+
+  .tabination__content__tab {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    /* border: 1px solid #ccc; */
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out;
+    box-sizing: border-box;
+  }
+
+  .tabination__content__tab--active {
+    background-color: #ffead1bd;
+    transform: translateX(0);
+  }
+</style>
+<div class="tabination">
+  <div class="tabination__tabs">
+    <div class="tabination__tab tabination__tab--active" data-tab="1">{{ section.settings.tab1_title }}</div>
+    <div class="tabination__tab" data-tab="2">{{ section.settings.tab2_title }}</div>
+    <div class="tabination__tab" data-tab="3">{{ section.settings.tab3_title }}</div>
+  </div>
+  <div class="tabination__content">
+    <div class="tabination__content__tab tabination__content__tab--active" data-tab="1">{{ section.settings.tab1_content }}</div>
+    <div class="tabination__content__tab" data-tab="2">{{ section.settings.tab2_content }}</div>
+    <div class="tabination__content__tab" data-tab="3">{{ section.settings.tab3_content }}</div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tabination__tab');
+    const tabContents = document.querySelectorAll('.tabination__content__tab');
+  
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabNumber = this.getAttribute('data-tab');
+  
+            tabs.forEach(tab => {
+                tab.classList.remove('tabination__tab--active');
+            });
+  
+            tabContents.forEach(tabContent => {
+                tabContent.classList.remove('tabination__content__tab--active');
+            });
+  
+            this.classList.add('tabination__tab--active');
+            const currentTabContent = document.querySelector(`.tabination__content__tab[data-tab="${tabNumber}"]`);
+            currentTabContent.classList.add('tabination__content__tab--active');
+        });
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "My Tabination",
+    "settings": [
+      {
+        "type": "text",
+        "id": "tab1_title",
+        "label": "Tab 1 Title",
+        "default": "Tab 1"
+      },
+      {
+        "type": "richtext",
+        "id": "tab1_content",
+        "label": "Tab 1 Content",
+        "default": "<p>Tab 1 content</p>"
+      },
+      {
+        "type": "text",
+        "id": "tab2_title",
+        "label": "Tab 2 Title",
+        "default": "Tab 2"
+      },
+      {
+        "type": "richtext",
+        "id": "tab2_content",
+        "label": "Tab 2 Content",
+        "default": "<p>Tab 2 content</p>"
+      },
+      {
+        "type": "text",
+        "id": "tab3_title",
+        "label": "Tab 3 Title",
+        "default": "Tab 3"
+      },
+      {
+        "type": "richtext",
+        "id": "tab3_content",
+        "label": "Tab 3 Content",
+        "default": "<p>Tab 3 content</p>"
+      }
+    ],
+    "presets": [
+      {
+        "name": "My Tabination",
+        "category": "Tabs"
+      }
+    ]
+  }
+{% endschema %}

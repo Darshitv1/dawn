@@ -406,6 +406,17 @@
         "image_width": 500,
         "image_height": 500
       }
+    },
+    "my_tabination_cxAjWc": {
+      "type": "my-tabination",
+      "settings": {
+        "tab1_title": "Tab 1",
+        "tab1_content": "<p>Tab 1 content<\/p>",
+        "tab2_title": "Tab 2",
+        "tab2_content": "<p>Tab 2 content<\/p>",
+        "tab3_title": "Tab 3",
+        "tab3_content": "<p>Tab 3 content<\/p>"
+      }
     }
   },
   "order": [
@@ -424,6 +435,7 @@
     "my_multi_images_gkAdcf",
     "my_video_button_PgcRMJ",
     "my_product_tzQUQp",
-    "my_focal_point_mDUnJ6"
+    "my_focal_point_mDUnJ6",
+    "my_tabination_cxAjWc"
   ]
 }

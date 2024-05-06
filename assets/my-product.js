@@ -7,6 +7,7 @@ class Product {
     this.priceElement = document.querySelector('.unit-price');
     this.plusButton = document.querySelector('.icon-plus');
     this.minusButton = document.querySelector('.icon-minus');
+
     // this.addToCartForms = document.querySelectorAll('[data-product-form]');
     this.galleryThumbs = new Swiper('.gallery-thumbs', {
       spaceBetween: 10,
@@ -149,6 +150,7 @@ class Product {
   initEventListeners() {
     const variantsArray = JSON.parse(this.variantsElement.text);
     const product = new Product(variantsArray);
+    let previouslySelectedVariantImageIndex = 0;
 
     // Event listener for the discount code input
     const discountCodeInput = document.querySelector('.discount-code');
@@ -190,10 +192,35 @@ class Product {
         if (variant.featured_media) {
           const variantImage = variant.featured_media.position;
           product.galleryTop.slideTo(variantImage - 1);
+          previouslySelectedVariantImageIndex = variantImage - 1;
         }
         product.updateInventoryQuantity();
       }
     };
+    const handleRadioHover = (event) => {
+      const hoveredLabel = event.target;
+      const hoveredLabelIndex = colorLabel.indexOf(hoveredLabel);
+
+      if (hoveredLabelIndex !== -1) {
+        // console.log('Hovered label index:', hoveredLabelIndex);
+        product.galleryTop.slideTo(hoveredLabelIndex);
+        // const hoveredRadio = colors[hoveredLabelIndex];
+      }
+    };
+
+    let colors = document.querySelectorAll("input[name='Color']");
+    let colorLabel = [];
+    console.log(colors);
+    colors.forEach((color) => {
+      colorLabel.push(color.nextElementSibling);
+    });
+
+    colorLabel.forEach((label) => {
+      label.addEventListener('mouseover', handleRadioHover);
+      label.addEventListener('mouseout', () => {
+        product.galleryTop.slideTo(previouslySelectedVariantImageIndex);
+      });
+    });
 
     // Set up event listener for radio button changes using event delegation
     document.addEventListener('change', handleRadioChange);

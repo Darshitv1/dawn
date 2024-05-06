@@ -1,14 +1,28 @@
-{% comment %}
-  {% for product in product.media %}
-  <div class="swiper-slide">
-  {{
-  product.preview_image
-  | image_url: width: 246
-  | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
-  }}
-  </div>
-  {% endfor -%}
+{% comment %} 
+      {% for product in product.media %}
+      <div class="swiper-slide">
+      {{
+      product.preview_image
+      | image_url: width: 246
+      | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+      }}
+      </div>
+      {% endfor -%} 
 {% endcomment %}
+
+{{ 'my-quickview.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .quick-view-modal__content {
+    text-align: center;
+  }
+  .quick-view-modal__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+{% endstyle %}
 {{ 'my-product.css' | asset_url | stylesheet_tag }}
 
 <div class="page-width">
@@ -19,13 +33,13 @@
         <div class="swiper-wrapper">
           {% for product in product.media %}
             <div class="swiper-slide image-container">
-                {% comment %}
-                  {{
-                  product.preview_image
-                  | image_url: width: 246
-                  | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
-                  }}
-                {% endcomment %}
+                {% comment %} 
+                                                      {{
+                                                      product.preview_image
+                                                      | image_url: width: 246
+                                                      | image_tag: widths: '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946'
+                                                      }} 
+                                                {% endcomment %}
               <img
                 class="product-image"
                 src="{{ product.preview_image | image_url }}"
@@ -102,6 +116,7 @@
                     id="{{ value }}"
                     name="{{ product_option.name }}"
                     value="{{ value }}"
+                    data-option="{{ product_option.name }}:{{ value }}"
                     {% if product_option.selected_value == value %}
                     checked="True"
                     {% endif %}>
@@ -230,20 +245,105 @@
             </div>
           </div>
         {% comment %}  {% render 'my-discount' %} {% endcomment %}
-        {% comment %}
-          <h4 style="display: inline;">DISCOUNT CODE:</h4>
-          <button style="display: inline;" id="discountCode" value="xyz">xyz</button>
-        {% endcomment %}
+        {% comment %} 
+                              <h4 style="display: inline;">DISCOUNT CODE:</h4>
+                              <button style="display: inline;" id="discountCode" value="xyz">xyz</button> 
+                        {% endcomment %}
         </button>
-      {% comment %}
-        <div class="buy_now">
-        <input type="button" name="buy" id="buy" value="Buy Now" class="button">
-        </div>
-      {% endcomment %}
+      {% comment %} 
+                        <div class="buy_now">
+                        <input type="button" name="buy" id="buy" value="Buy Now" class="button">
+                        </div> 
+                  {% endcomment %}
       </form>
     </div>
   </div>
 </div>
+<div class="checkitout page-width">
+  {%- if product.metafields.custom.product != blank -%}
+    {% comment %} {% assign re_pro = product.metafields.custom.product %} {% endcomment %}
+    <div class="pro_metafield">
+      {% assign productItem = product.metafields.custom.product.value %}
+      {% comment %} {% assign collection_handles = productItem.collections | map: 'handle' %} {% endcomment %}
+      <a
+        href="#"
+        class="quick_view quick-view-btn"
+        data-product-id="{{ productItem.id }}">
+        <button class="quick_hide button">Show Other Product</button>
+      </a>
+      <div
+        class="quick-view-modal"
+        id="quick-view-modal-{{ productItem.id }}"
+        aria-hidden="true">
+        <div class="quick-view-modal__content">
+          <button class="quick-view-modal__close" aria-label="Close modal">
+            {% render 'my-close-button' %}
+          </button>
+          <div class="quick-view-modal__header">
+            <img
+              src="{{ productItem.featured_media.preview_image | image_url }}"
+              width="200px"
+              height="200px"
+              alt="{{ section.settings.image.alt | default: product.title }}"
+              loading="lazy">
+          </div>
+          <div class="quick-view-modal__body">
+            <h2>{{ productItem.title }}</h2>
+            <p>{{ productItem.description }}</p>
+            <p>{{ productItem.price | money }}</p>
+            {% if productItem.available %}
+              {% form 'product'
+                , product
+                , id: 'quick-view-form'
+                , class: "form_f_var" %}
+                <input
+                  type="hidden"
+                  class="isme_bhi_changes_hai"
+                  name="ids"
+                  value="{{ productItem.selected_or_first_available_variant.id }}">
+                  {% comment %} <button type="submit" name="add" class="quick-view-modal__add-to-cart button">Add to Cart</button> {% endcomment %}
+                <input
+                  type="submit"
+                  name="add"
+                  id="addToCart"
+                  value="Add to Cart"
+                  class="button">
+                {% render 'my-cart-drawer' %}
+              {% endform %}
+              <a
+                href="{{ productItem.url }}"
+                class="button"
+                style="margin: 10px;">View Product</a>
+            {% else %}
+              <p>This product is currently unavailable.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+<script>
+    const quickViewBtns = document.querySelectorAll('.quick-view-btn');
+    const closeButtons = document.querySelectorAll('.quick-view-modal__close');
+  
+    quickViewBtns.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const productId = btn.dataset.productId;
+        const modal = document.getElementById(`quick-view-modal-${productId}`);
+        modal.setAttribute('aria-hidden', 'false');
+      });
+    });
+  
+    closeButtons.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const modal = btn.closest('.quick-view-modal');
+        modal.setAttribute('aria-hidden', 'true');
+      });
+    });
+</script>
 <script src="{{ 'my-product.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}

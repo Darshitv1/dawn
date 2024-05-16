@@ -110,6 +110,36 @@
               <h4 class="options-title">{{ product_option.name }}</h4>
               <div class="options-values variants">
                 {% for value in product_option.values %}
+                   {% if product_option.name == "Color" %}
+                    <input
+                      type="radio"
+                      class="{{ product_option.name }} selection "
+                      id="{{ value }}"
+                      name="{{ product_option.name }}"
+                      value="{{ value }}"
+                      data-option="{{ product_option.name }}:{{ value }}"
+                      {% if product_option.selected_value == value %}
+                      checked="True"
+                      {% endif %}>
+                    <label for="{{ value }}">
+                      <div class="imagehover">
+                        <input
+                          class="single-option-selector-{{ section.id }}"
+                          id="color-{{forloop.index}}"
+                          type="hidden"
+                          name="color"
+                          value="{{ value | escape }}"
+                          {% if product_option.selected_value==value %}
+                          checked{% endif %} />
+                        <img
+                          class="color-image"
+                          src="//darshitx.myshopify.com/cdn/shop/{{ product.variants[forloop.index0].featured_media  | image_url: " small" }}"
+                          alt="{{ product.title | escape  }}"
+                          width="30"
+                          height="30" />
+                      </div>
+                    </label>
+                  {% else %} 
                   <input
                     type="radio"
                     class="{{ product_option.name }} selection"
@@ -123,6 +153,7 @@
                   <label for="{{ value }}">
                     {{- value -}}
                   </label>
+                  {% endif %}
                 {% endfor %}
               </div>
               <div class="line"></div>

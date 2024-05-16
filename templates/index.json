@@ -375,7 +375,7 @@
           "type": "focal_point_with_product",
           "settings": {
             "vertical": 47,
-            "horizontal": 74,
+            "horizontal": 72,
             "product": "black-t-shirt"
           }
         },
@@ -383,7 +383,7 @@
           "type": "focal_point_with_product",
           "settings": {
             "vertical": 60,
-            "horizontal": 12,
+            "horizontal": 15,
             "product": "black-hoodie"
           }
         },
@@ -391,7 +391,7 @@
           "type": "focal_point_with_product",
           "settings": {
             "vertical": 50,
-            "horizontal": 35,
+            "horizontal": 37,
             "product": "copy-3-of-shirt"
           }
         }
@@ -409,13 +409,35 @@
     },
     "my_tabination_cxAjWc": {
       "type": "my-tabination",
+      "blocks": {
+        "tabination_CWMLjX": {
+          "type": "tabination",
+          "settings": {
+            "tab_title": "Tab 1",
+            "tab_content": "<p>Tab 1 content<\/p>"
+          }
+        },
+        "tabination_qaRHDg": {
+          "type": "tabination",
+          "settings": {
+            "tab_title": "Tab 2",
+            "tab_content": "<p>Tab 2 content<\/p>"
+          }
+        },
+        "tabination_yCVCYx": {
+          "type": "tabination",
+          "settings": {
+            "tab_title": "Tab 3",
+            "tab_content": "<p>Tab 3 content<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "tabination_CWMLjX",
+        "tabination_qaRHDg",
+        "tabination_yCVCYx"
+      ],
       "settings": {
-        "tab1_title": "Tab 1",
-        "tab1_content": "<p>Tab 1 content<\/p>",
-        "tab2_title": "Tab 2",
-        "tab2_content": "<p>Tab 2 content<\/p>",
-        "tab3_title": "Tab 3",
-        "tab3_content": "<p>Tab 3 content<\/p>"
       }
     }
   },

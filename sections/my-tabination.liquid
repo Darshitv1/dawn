@@ -1,5 +1,5 @@
 {% comment %} 
-            This is a simple tabination section that allows you to create up to 3 tabs. 
+                This is a simple tabination section that allows you to create up to 3 tabs. 
 {% endcomment %}
 <style>
   .tabination {
@@ -29,38 +29,46 @@
   }
 
   .tabination__content {
+    display: flex;
+    flex: 1;
     height: auto;
-    position: relative;
+    width: 100%;
   }
 
   .tabination__content__tab {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     padding: 20px;
     background-color: #fff;
     /* border: 1px solid #ccc; */
-    transform: translateX(-100%);
-    transition: transform 0.5s ease-in-out;
+    /* transform: translateX(-100%); */
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
     box-sizing: border-box;
   }
 
   .tabination__content__tab--active {
     background-color: #ffead1bd;
-    transform: translateX(0);
+    /* transform: translateX(0); */
+    display: block;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
   }
 </style>
 <div class="tabination">
   <div class="tabination__tabs">
-    <div class="tabination__tab tabination__tab--active" data-tab="1">{{ section.settings.tab1_title }}</div>
-    <div class="tabination__tab" data-tab="2">{{ section.settings.tab2_title }}</div>
-    <div class="tabination__tab" data-tab="3">{{ section.settings.tab3_title }}</div>
+    {% for tab in section.blocks %}
+      <div class="tabination__tab{% if forloop.index == 1 %} tabination__tab--active{% endif %}" data-tab="{{ forloop.index }}">
+        {{ tab.settings.tab_title }}
+      </div>
+    {% endfor %}
   </div>
   <div class="tabination__content">
-    <div class="tabination__content__tab tabination__content__tab--active" data-tab="1">{{ section.settings.tab1_content }}</div>
-    <div class="tabination__content__tab" data-tab="2">{{ section.settings.tab2_content }}</div>
-    <div class="tabination__content__tab" data-tab="3">{{ section.settings.tab3_content }}</div>
+    {% for tab in section.blocks %}
+      <div class="tabination__content__tab{% if forloop.index == 1 %} tabination__content__tab--active{% endif %}" data-tab="{{ forloop.index }}">
+        {{ tab.settings.tab_content }}
+      </div>
+    {% endfor %}
   </div>
 </div>
 
@@ -92,42 +100,26 @@
 {% schema %}
   {
     "name": "My Tabination",
-    "settings": [
+    "settings": [],
+    "blocks": [
       {
-        "type": "text",
-        "id": "tab1_title",
-        "label": "Tab 1 Title",
-        "default": "Tab 1"
-      },
-      {
-        "type": "richtext",
-        "id": "tab1_content",
-        "label": "Tab 1 Content",
-        "default": "<p>Tab 1 content</p>"
-      },
-      {
-        "type": "text",
-        "id": "tab2_title",
-        "label": "Tab 2 Title",
-        "default": "Tab 2"
-      },
-      {
-        "type": "richtext",
-        "id": "tab2_content",
-        "label": "Tab 2 Content",
-        "default": "<p>Tab 2 content</p>"
-      },
-      {
-        "type": "text",
-        "id": "tab3_title",
-        "label": "Tab 3 Title",
-        "default": "Tab 3"
-      },
-      {
-        "type": "richtext",
-        "id": "tab3_content",
-        "label": "Tab 3 Content",
-        "default": "<p>Tab 3 content</p>"
+        "name": "Tabs",
+        "type": "tabination",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "text",
+            "id": "tab_title",
+            "label": "Tab Title",
+            "default": "Tab"
+          },
+          {
+            "type": "richtext",
+            "id": "tab_content",
+            "label": "Tab Content",
+            "default": "<p>Tab content</p>"
+          }
+        ]
       }
     ],
     "presets": [
